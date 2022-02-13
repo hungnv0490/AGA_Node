@@ -1,9 +1,12 @@
 var mysql      = require('mysql2');
+var config = require('./config.json');
+
 var connection = mysql.createConnection({
-  host     : '159.223.62.35',
-  user     : 'admin',
-  password : '88qL8f_Tams!G_RX',
-  database : 'aga'
+  // host     : '159.223.62.35',
+  host:config.mysqlHot,
+  user     : config.mysqlUser,
+  password : config.mysqlPass,
+  database : config.mysqlDb
 });
 var log4js = require("log4js");
 var logger = log4js.getLogger();
