@@ -14,7 +14,7 @@ connection.connect(function(err) {
     return;
   }
  
-  logger.infog('mysqldb connected as id ' + connection.threadId);
+  logger.info('mysqldb connected as id ' + connection.threadId);
 });
 
 const mySqlDB = {}

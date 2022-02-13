@@ -13,6 +13,7 @@ client.connect();
 const JACKPOT_CONFIG = "jackpot-config";
 const JACKPOT_PAUSE = "JackpotPause";
 const JACKPOT_START_NEW= "JackpotStartSeason";
+
 const  JACKPOT_UNIQUE = "jackpot-unique";
 const  JACKPOT_SECRET = "jackpot-secret";
 const  JACKPOT_SEASON = "jackpot-season";
@@ -89,13 +90,33 @@ myredis.startNewSeason = async function(){
     var season = nanoidSS();
     var jackpotTk = nanoTk();
     var secret = nanoidNumber();
-    await client.set(JACKPOT_SEASON, season);
-    await client.set(JACKPOT_TICKET, jackpotTk);
-    await client.set(JACKPOT_SECRET, secret);
-    await client.del(JACKPOT_NEAREST);
-    await client.del(JACKPOT_USER_TICKET);
+    await client.SET(JACKPOT_SEASON, season);
+    await client.SET(JACKPOT_TICKET, jackpotTk);
+    await client.SET(JACKPOT_SECRET, secret);
+    await client.SET(JACKPOT_START_TIME, startTimeStr);
+    await client.SET(JACKPOT_END_TIME, endTimeStr);
+
+    await client.DEL(JACKPOT_NEAREST);
+    await client.DEL(JACKPOT_USER_TICKET);
     var start = `${startTimeStr}|${endTimeStr}|${season}|${jackpotTk}|${secret}`;
     await client.publish(JACKPOT_START_NEW, start);
+}
+
+myredis.endSeason = async function(diamond){  
+    await client.publish(JACKPOT_PAUSE);
+    var season = await client.get(JACKPOT_SEASON);
+    var tk = await client.get(JACKPOT_TICKET);
+    await client.SET(JACKPOT_PREV_SEASON, season);
+    await client.SET(JACKPOT_PREV_TICKET, tk);
+    await client.SET(JACKPOT_PREV_DIAMOND, diamond);
+
+    await client.DEL(JACKPOT_SEASON);
+    await client.DEL(JACKPOT_TICKET);
+    await client.DEL(JACKPOT_SECRET);
+    await client.DEL(JACKPOT_START_TIME);
+    await client.DEL(JACKPOT_END_TIME);    
+    await client.DEL(JACKPOT_NEAREST);
+    await client.DEL(JACKPOT_USER_TICKET);
 }
 
 module.exports = myredis;
