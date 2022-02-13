@@ -1,5 +1,8 @@
+const nanoId = require("nanoid")
+const nanoTk = nanoId.customAlphabet("ABCDEFGHIJKLMNOPQRSTUVXYZ123456789", 9);
+const nanoidNumber = nanoId.customAlphabet("123456789", 10);
+const nanoidSS = nanoId.customAlphabet("ABCDEFGHIJKLMNOPQRSTUVXYZ123456789", 5);
 const redis = require('redis');
-const jacpot = require('./jacpot.js');
 const client = redis.createClient({
     host: '127.0.0.1',
     port: 6379,
@@ -8,7 +11,6 @@ const client = redis.createClient({
 client.connect();
 
 const JACKPOT_CONFIG = "jackpot-config";
-
 const JACKPOT_PAUSE = "JackpotPause";
 const JACKPOT_START_NEW= "JackpotStartSeason";
 const  JACKPOT_UNIQUE = "jackpot-unique";
@@ -22,10 +24,6 @@ const  JACKPOT_PREV_DIAMOND = "jackpot-prev-diamond";
 const  JACKPOT_PREV_TICKET = "jackpot-prev-ticket";
 const  JACKPOT_START_TIME = "jackpot-start-time";
 const  JACKPOT_END_TIME = "jackpot-end-time";
-const nanoId = require("nanoid")
-const nanoid = nanoId.customAlphabet("ABCDEFGHIJKLMNOPQRSTUVXYZ123456789", 9);
-const nanoidNumber = nanoId.customAlphabet("123456789", 10);
-const nanoidSS = nanoId.customAlphabet("ABCDEFGHIJKLMNOPQRSTUVXYZ123456789", 5);
 
 var myredis = {}
 myredis.jackpotConfig ={
@@ -33,6 +31,7 @@ myredis.jackpotConfig ={
     "startTime":"2022-01-01 01:01:01",
     "endTime":"2022-01-01 01:01:01"
 }
+myredis.test = "haha";
 
 myredis.loadJacpotConfig = async function()
 {
@@ -50,7 +49,7 @@ myredis.loadJacpotConfig = async function()
     return value;
 }
 
-myredis.setJacpotConfig = async function()
+myredis.setJackpotConfig = async function()
 {
     await client.set(JACKPOT_CONFIG, JSON.stringify(myredis.jackpotConfig));
 }
@@ -82,13 +81,13 @@ myredis.getJackpotUserTickets = async function()
 }
 
 myredis.startNewSeason = async function(){  
-    await client.publish(JACKPOT_START_NEW, start);
+    await client.publish(JACKPOT_PAUSE);
     var endTime = new Date(myredis.jackpotConfig.endTime);
     var endTimeStr = endTime.toISOString().replace(/T/, ' ').replace(/\..+/, '');
     var startTime = new Date(myredis.jackpotConfig.startTime);
     var startTimeStr = startTime.toISOString().replace(/T/, ' ').replace(/\..+/, '');
     var season = nanoidSS();
-    var jackpotTk = nanoid();
+    var jackpotTk = nanoTk();
     var secret = nanoidNumber();
     await client.set(JACKPOT_SEASON, season);
     await client.set(JACKPOT_TICKET, jackpotTk);
@@ -98,4 +97,5 @@ myredis.startNewSeason = async function(){
     var start = `${startTimeStr}|${endTimeStr}|${season}|${jackpotTk}|${secret}`;
     await client.publish(JACKPOT_START_NEW, start);
 }
+
 module.exports = myredis;

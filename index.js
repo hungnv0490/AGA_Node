@@ -1,44 +1,55 @@
 const express = require('express')
-const jacpot = require('./jacpot.js')
 const app = express()
 const port = 2707
 const myRedis = require('./myredis.js')
 const mySqlDB = require('./mysqldb.js')
+const jacpot = require('./jackpot.js')
+var log4js = require("log4js");
+var logger = log4js.getLogger();
+
+log4js.configure({
+    replaceConsole: false,
+    appenders: {
+        cheese: {
+            //  set the type as dateFile
+            type: 'dateFile',
+            //  configuration file name myLog.log
+            filename: 'logs/myLog.log',
+            //  specifies the encoding format as utf-8
+            encoding: 'utf-8',
+            //  configuration layout， custom patterns are used here pattern
+            layout: {
+                type: "pattern",
+                //  configuration patterns are described below 
+                pattern: '%d %m'
+            },
+            //  log files by date （ day ） cutting 
+            pattern: "yyyy-MM-dd",
+            //  when rolling back old log files, make sure to  .log  at the end （ only in the alwaysIncludePattern  for false  to take effect ）
+            keepFileExt: true,
+            //  the output log file name is always included pattern  end date 
+            alwaysIncludePattern: true,
+        },
+        test: {
+            type: 'console',
+        },
+    },
+    categories: {
+        //  set default categories
+        default: {appenders: ['cheese', 'test'], level: 'debug'},
+    }
+});
 
 app.use(express.json());
+app.use('/jackpot', jacpot);
+
+app.get("/test", function(req,res){
+    res.send("haha");
+});
 
 myRedis.loadJacpotConfig();
-
-app.get('/jackpot/get', async (req, res) => {
-    res.send(myRedis.jackpotConfig);
-});
-
-app.post('/jackpot/set', async (req, res) => {
-    console.log(req.body);
-    var diamond = req.body.diamond;
-    var startTime = req.body.startTime;
-    var endTime = req.body.endTime;
-    var st = new Date(startTime);
-    var et = new Date(endTime);
-    if (st < et && new Date() < et) {
-        if (myRedis.jackpotConfig.startTime != startTime || myRedis.jackpotConfig.endTime != endTime) {
-            myRedis.jackpotConfig.diamond = diamond;
-            myRedis.jackpotConfig.startTime = startTime;
-            myRedis.jackpotConfig.endTime = endTime;
-            await myRedis.setJacpotConfig();
-            await jacpot.startNewSeason();
-            res.send(JSON.stringify({ "code": 200 }));
-            return;
-        }
-        res.send(JSON.stringify({ "code": 100 }));
-        return;
-    }
-    res.send(JSON.stringify({ "code": 101 }));
-    return;
-});
-
 setTimeout(jacpot.init, 2000);
 
 app.listen(port, async () => {
-    console.log(`Example app listening on port ${port}`)
+    logger.info("start server");
 })
