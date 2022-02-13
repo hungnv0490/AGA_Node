@@ -61,7 +61,7 @@ jackpot.startNewSeason = async function () {
             jackpot.task.stop();
             jackpot.task = null;
         }
-        await myRedis.startNewSeason();
+        await myRedis.jackpotStartNewSeason();
         jackpot.init();
     }
 }
@@ -83,7 +83,7 @@ jackpot.rewards = async function () {
         jackpot.task.stop();
         jackpot.task = null;
     }
-    await myRedis.endSeason(myRedis.jackpotConfig.diamond);
+    await myRedis.jackpotEndSeason(myRedis.jackpotConfig.diamond);
 }
 
 module.exports = jackpot;
