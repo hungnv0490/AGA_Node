@@ -3,7 +3,7 @@ const app = express()
 const port = 2707
 const myRedis = require('./myredis.js')
 const mySqlDB = require('./mysqldb.js')
-const jacpot = require('./jackpot.js')
+const jackpot = require('./jackpot.js')
 var log4js = require("log4js");
 var logger = log4js.getLogger();
 const ranking = require('./ranking.js')
@@ -44,7 +44,7 @@ log4js.configure({
 });
 
 app.use(express.json());
-app.use('/jackpot', jacpot);
+app.use('/jackpot', jackpot);
 app.use('/ranking', ranking);
 
 app.get("/test", function(req,res){
@@ -53,7 +53,7 @@ app.get("/test", function(req,res){
 
 myRedis.loadJackpotConfig();
 myRedis.loadRankingConfig();
-setTimeout(jacpot.init, 2000);
+setTimeout(jackpot.init, 2000);
 setTimeout(ranking.init, 2000);
 
 app.listen(port, async () => {

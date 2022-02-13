@@ -190,6 +190,7 @@ myredis.boards = async function (isPro, top) {
 }
 
 myredis.rankingStartNewSeason = async function () {
+    logger.info("myredis rankingStartNewSeason RANKING_PAUSE:" + RANKING_PAUSE);
     await client.publish(RANKING_PAUSE);
     var endTime = new Date(myredis.rankingTimeConfig.endTime);
     var endTimeStr = util.dateFormat(endTime, "%Y-%m-%d %H:%M:%S", false);//endTime.toISOString().replace(/T/, ' ').replace(/\..+/, '');
@@ -205,6 +206,7 @@ myredis.rankingStartNewSeason = async function () {
     await client.DEL(RankingBoard);
 
     var start = `${startTimeStr}|${endTimeStr}|${season}`;
+    logger.info("myredis rankingStartNewSeason RANKING_START_NEW:" + start);
     await client.publish(RANKING_START_NEW, start);
 }
 
