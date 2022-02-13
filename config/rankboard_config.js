@@ -2,8 +2,8 @@
 var RankBoard = require('../rankboard.js');
 
 rankboard_config = {}
-rankboard_config.proDiamond = 4000;
-rankboard_config.casualDiamond = 1000;
+rankboard_config.proDiamond = 40000;
+rankboard_config.casualDiamond = 10000;
 
 rankboard_config.pro=[
     new RankBoard(RankBoard.RankingType.Bronze, 1100, 1999, 50, 10, 4000 ),

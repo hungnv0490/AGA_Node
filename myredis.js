@@ -42,6 +42,7 @@ const RANKING_CONFIG_BOARD = "ranking-config-board";
 const RankingBoardPro = "ranking-board-pro";
 const RankingBoardCasual = "ranking-board-casual";
 const RankingBoard = "ranking-board";
+const RankingLoadNewData = "ranking-load-new-data";
 
 var myredis = {}
 myredis.jackpotConfig = {
@@ -164,6 +165,7 @@ myredis.setRankingTimeConfig = async function () {
 
 myredis.setBoardConfig = async function(){
     await client.set(RANKING_CONFIG_BOARD, JSON.stringify(rankBoardConfig));
+    await client.publish(RankingLoadNewData);
 }
 
 myredis.boards = async function (isPro, top) {
