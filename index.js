@@ -11,6 +11,7 @@ const ranking = require('./ranking.js')
 var util = require('./util.js');
 var chestConfig = require('./config/chest_config.js');
 var chestService = require('./service/chest_service.js');
+var missionService = require('./service/mission_service.js');
 
 log4js.configure({
     replaceConsole: false,
@@ -41,7 +42,7 @@ log4js.configure({
     },
     categories: {
         //  set default categories
-        default: {appenders: ['cheese', 'test'], level: 'debug'},
+        default: { appenders: ['cheese', 'test'], level: 'debug' },
     }
 });
 
@@ -49,26 +50,28 @@ app.use(express.json());
 app.use('/jackpot', jackpot);
 app.use('/ranking', ranking);
 app.use('/chest', chestService);
+app.use('/mission', missionService);
 
-app.get("/test", function(req,res){
+app.get("/test", function (req, res) {
     res.send("haha");
 });
 
 setTimeout(initConfig, 1000);
 setTimeout(init, 2000);
 
-async function initConfig(){
+async function initConfig() {
     await myRedis.loadJackpotConfig();
     await myRedis.loadRankingConfig();
     await chestConfig.init();
 }
 
-async function init(){
+async function init() {
     jackpot.init();
     ranking.init();
 }
 
 app.listen(port, async () => {
     // logger.info("index boards:"+await myRedis.boards(true, 10));
+
     logger.info("start server:" + util.dateFormat(new Date(), "%Y-%m-%d %H:%M:%S", false));
 })
