@@ -7,12 +7,12 @@ const nanoidSS = nanoId.customAlphabet("ABCDEFGHIJKLMNOPQRSTUVXYZ123456789", 5);
 const rankBoardConfig = require('./config/rankboard_config.js')
 const redis = require('redis');
 var config = require('./config.json');
-const client = redis.createClient({
+const myredis = redis.createClient({
     host: config.redisHost,
     port: 6379,
     password: config.redisPass
 });
-client.connect();
+myredis.connect();
 var util = require('./util.js');
 
 const JACKPOT_CONFIG = "jackpot-config";
@@ -44,7 +44,9 @@ const RankingBoardCasual = "ranking-board-casual";
 const RankingBoard = "ranking-board";
 const RankingLoadNewData = "ranking-load-new-data";
 
-var myredis = {}
+// var myredis = {}
+// myredis.client = client;
+
 myredis.jackpotConfig = {
     "diamond": 1000000,
     "startTime": "2022-01-01 01:01:01",
@@ -56,7 +58,7 @@ myredis.rankingTimeConfig = {
 }
 
 myredis.loadJackpotConfig = async function () {
-    var value = await client.get(JACKPOT_CONFIG);
+    var value = await myredis.get(JACKPOT_CONFIG);
     logger.info("myredis loadJacpotConfig:" + value);
     if (value !== null) {
         var json = JSON.parse(value);
@@ -65,26 +67,26 @@ myredis.loadJackpotConfig = async function () {
         myredis.jackpotConfig.endTime = json.endTime;
     }
     else {
-        await client.set(JACKPOT_CONFIG, JSON.stringify(myredis.jackpotConfig));
+        await myredis.set(JACKPOT_CONFIG, JSON.stringify(myredis.jackpotConfig));
     }
     return value;
 }
 
 myredis.setJackpotConfig = async function () {
-    await client.set(JACKPOT_CONFIG, JSON.stringify(myredis.jackpotConfig));
+    await myredis.set(JACKPOT_CONFIG, JSON.stringify(myredis.jackpotConfig));
 }
 
 myredis.getJackpotUserTickets = async function () {
-    var maxScore = await client.sendCommand(["zrevrange", JACKPOT_NEAREST, 0, 0, "withscores"]);
+    var maxScore = await myredis.sendCommand(["zrevrange", JACKPOT_NEAREST, 0, 0, "withscores"]);
     console.log(maxScore);
     if (maxScore.length >= 2) {
         var score = maxScore[1];
         console.log(score);
-        var tickets = await client.sendCommand(["zrevrangebyscore", JACKPOT_NEAREST, score, score]);
+        var tickets = await myredis.sendCommand(["zrevrangebyscore", JACKPOT_NEAREST, score, score]);
         if (tickets.length > 0) {
             var res = [];
             for (var ticket of tickets) {
-                var userId = await client.hGet(JACKPOT_USER_TICKET, ticket);
+                var userId = await myredis.hGet(JACKPOT_USER_TICKET, ticket);
                 console.log(userId);
                 res.push({ "userId": userId, "ticket": ticket });
             }
@@ -98,7 +100,7 @@ myredis.getJackpotUserTickets = async function () {
 }
 
 myredis.jackpotStartNewSeason = async function () {
-    await client.publish(JACKPOT_PAUSE);
+    await myredis.publish(JACKPOT_PAUSE);
     var endTime = new Date(myredis.jackpotConfig.endTime);
     var endTimeStr = util.dateFormat(endTime, "%Y-%m-%d %H:%M:%S", false);//endTime.toISOString().replace(/T/, ' ').replace(/\..+/, '');
     var startTime = new Date(myredis.jackpotConfig.startTime);
@@ -106,37 +108,37 @@ myredis.jackpotStartNewSeason = async function () {
     var season = nanoidSS();
     var jackpotTk = nanoTk();
     var secret = nanoidNumber();
-    await client.SET(JACKPOT_SEASON, season);
-    await client.SET(JACKPOT_TICKET, jackpotTk);
-    await client.SET(JACKPOT_SECRET, secret);
-    await client.SET(JACKPOT_START_TIME, startTimeStr);
-    await client.SET(JACKPOT_END_TIME, endTimeStr);
+    await myredis.SET(JACKPOT_SEASON, season);
+    await myredis.SET(JACKPOT_TICKET, jackpotTk);
+    await myredis.SET(JACKPOT_SECRET, secret);
+    await myredis.SET(JACKPOT_START_TIME, startTimeStr);
+    await myredis.SET(JACKPOT_END_TIME, endTimeStr);
 
-    await client.DEL(JACKPOT_NEAREST);
-    await client.DEL(JACKPOT_USER_TICKET);
+    await myredis.DEL(JACKPOT_NEAREST);
+    await myredis.DEL(JACKPOT_USER_TICKET);
     var start = `${startTimeStr}|${endTimeStr}|${season}|${jackpotTk}|${secret}`;
-    await client.publish(JACKPOT_START_NEW, start);
+    await myredis.publish(JACKPOT_START_NEW, start);
 }
 
 myredis.jackpotEndSeason = async function (diamond) {
-    await client.publish(JACKPOT_PAUSE);
-    var season = await client.get(JACKPOT_SEASON);
-    var tk = await client.get(JACKPOT_TICKET);
-    await client.SET(JACKPOT_PREV_SEASON, season);
-    await client.SET(JACKPOT_PREV_TICKET, tk);
-    await client.SET(JACKPOT_PREV_DIAMOND, diamond);
+    await myredis.publish(JACKPOT_PAUSE);
+    var season = await myredis.get(JACKPOT_SEASON);
+    var tk = await myredis.get(JACKPOT_TICKET);
+    await myredis.SET(JACKPOT_PREV_SEASON, season);
+    await myredis.SET(JACKPOT_PREV_TICKET, tk);
+    await myredis.SET(JACKPOT_PREV_DIAMOND, diamond);
 
-    await client.DEL(JACKPOT_SEASON);
-    await client.DEL(JACKPOT_TICKET);
-    await client.DEL(JACKPOT_SECRET);
-    await client.DEL(JACKPOT_START_TIME);
-    await client.DEL(JACKPOT_END_TIME);
-    await client.DEL(JACKPOT_NEAREST);
-    await client.DEL(JACKPOT_USER_TICKET);
+    await myredis.DEL(JACKPOT_SEASON);
+    await myredis.DEL(JACKPOT_TICKET);
+    await myredis.DEL(JACKPOT_SECRET);
+    await myredis.DEL(JACKPOT_START_TIME);
+    await myredis.DEL(JACKPOT_END_TIME);
+    await myredis.DEL(JACKPOT_NEAREST);
+    await myredis.DEL(JACKPOT_USER_TICKET);
 }
 
 myredis.loadRankingConfig = async function () {
-    var value = await client.get(RANKING_CONFIG_SEASON);
+    var value = await myredis.get(RANKING_CONFIG_SEASON);
     logger.info("myredis RANKING_CONFIG_SEASON:" + value);
     if (value !== null) {
         var json = JSON.parse(value);
@@ -144,9 +146,9 @@ myredis.loadRankingConfig = async function () {
         myredis.rankingTimeConfig.endTime = json.endTime;
     }
     else {
-        await client.set(RANKING_CONFIG_SEASON, JSON.stringify(myredis.rankingTimeConfig));
+        await myredis.set(RANKING_CONFIG_SEASON, JSON.stringify(myredis.rankingTimeConfig));
     }
-    var board = await client.get(RANKING_CONFIG_BOARD);
+    var board = await myredis.get(RANKING_CONFIG_BOARD);
     logger.info("myredis RANKING_CONFIG_BOARD:" + board);
     if (board !== null) {
         var json = JSON.parse(board);
@@ -156,22 +158,22 @@ myredis.loadRankingConfig = async function () {
         rankBoardConfig.casual = json.casual;
         // logger.info("myredis loadRankingConfig :" + rankBoardConfig.pro);
     }
-    else await client.set(RANKING_CONFIG_BOARD, rankBoardConfig.toJson());
+    else await myredis.set(RANKING_CONFIG_BOARD, rankBoardConfig.toJson());
 }
 
 myredis.setRankingTimeConfig = async function () {
-    await client.set(RANKING_CONFIG_SEASON, JSON.stringify(myredis.rankingTimeConfig));
+    await myredis.set(RANKING_CONFIG_SEASON, JSON.stringify(myredis.rankingTimeConfig));
 }
 
 myredis.setBoardConfig = async function(){
-    await client.set(RANKING_CONFIG_BOARD, JSON.stringify(rankBoardConfig));
-    await client.publish(RankingLoadNewData);
+    await myredis.set(RANKING_CONFIG_BOARD, JSON.stringify(rankBoardConfig));
+    await myredis.publish(RankingLoadNewData);
 }
 
 myredis.boards = async function (isPro, top) {
     var key = RankingBoardPro;
     if (!isPro) key = RankingBoardCasual;
-    var maxScore = await client.sendCommand(["zrevrange", key, 0, top, "withscores"]);
+    var maxScore = await myredis.sendCommand(["zrevrange", key, 0, top, "withscores"]);
     // logger.info("myredis boards:" + maxScore);
     var res = [];
     if (maxScore.length > 0) {
@@ -179,7 +181,7 @@ myredis.boards = async function (isPro, top) {
         for (var value of maxScore) {
             if (i % 2 == 0) {
                 // logger.info("value:" + value)
-                var ranking = await client.hGet(RankingBoard, value);
+                var ranking = await myredis.hGet(RankingBoard, value);
                 // logger.info("ranking:" + ranking)
                 if (ranking != null) res.push(JSON.parse(ranking));
             }
@@ -191,38 +193,38 @@ myredis.boards = async function (isPro, top) {
 
 myredis.rankingStartNewSeason = async function () {
     logger.info("myredis rankingStartNewSeason RANKING_PAUSE:" + RANKING_PAUSE);
-    await client.publish(RANKING_PAUSE);
+    await myredis.publish(RANKING_PAUSE);
     var endTime = new Date(myredis.rankingTimeConfig.endTime);
     var endTimeStr = util.dateFormat(endTime, "%Y-%m-%d %H:%M:%S", false);//endTime.toISOString().replace(/T/, ' ').replace(/\..+/, '');
     var startTime = new Date(myredis.rankingTimeConfig.startTime);
     var startTimeStr = util.dateFormat(startTime, "%Y-%m-%d %H:%M:%S", false);;//startTime.toISOString().replace(/T/, ' ').replace(/\..+/, '');
     var season = nanoidSS();
-    await client.SET(RANKING_SEASON, season);
-    await client.SET(RANKING_START_TIME, startTimeStr);
-    await client.SET(RANKING_END_TIME, endTimeStr);
+    await myredis.SET(RANKING_SEASON, season);
+    await myredis.SET(RANKING_START_TIME, startTimeStr);
+    await myredis.SET(RANKING_END_TIME, endTimeStr);
 
-    await client.DEL(RankingBoardPro);
-    await client.DEL(RankingBoardCasual);
-    await client.DEL(RankingBoard);
+    await myredis.DEL(RankingBoardPro);
+    await myredis.DEL(RankingBoardCasual);
+    await myredis.DEL(RankingBoard);
 
     var start = `${startTimeStr}|${endTimeStr}|${season}`;
     logger.info("myredis rankingStartNewSeason RANKING_START_NEW:" + start);
-    await client.publish(RANKING_START_NEW, start);
+    await myredis.publish(RANKING_START_NEW, start);
 }
 
 myredis.rankingEndSeason = async function () {
-    await client.publish(RANKING_PAUSE);
-    // var season = await client.get(JACKPOT_SEASON);
-    // var tk = await client.get(JACKPOT_TICKET);
-    // await client.SET(JACKPOT_PREV_SEASON, season);
-    // await client.SET(JACKPOT_PREV_TICKET, tk);
-    // await client.SET(JACKPOT_PREV_DIAMOND, diamond);
+    await myredis.publish(RANKING_PAUSE);
+    // var season = await myredis.get(JACKPOT_SEASON);
+    // var tk = await myredis.get(JACKPOT_TICKET);
+    // await myredis.SET(JACKPOT_PREV_SEASON, season);
+    // await myredis.SET(JACKPOT_PREV_TICKET, tk);
+    // await myredis.SET(JACKPOT_PREV_DIAMOND, diamond);
 
-    await client.DEL(RANKING_SEASON);
-    await client.DEL(RANKING_START_TIME);
-    await client.DEL(RANKING_END_TIME);
-    await client.DEL(RankingBoardPro);
-    await client.DEL(RankingBoardCasual);
-    await client.DEL(RankingBoard);
+    await myredis.DEL(RANKING_SEASON);
+    await myredis.DEL(RANKING_START_TIME);
+    await myredis.DEL(RANKING_END_TIME);
+    await myredis.DEL(RankingBoardPro);
+    await myredis.DEL(RankingBoardCasual);
+    await myredis.DEL(RankingBoard);
 }
 module.exports = myredis;

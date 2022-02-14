@@ -9,6 +9,8 @@ var logger = log4js.getLogger();
 const ranking = require('./ranking.js')
 // const rankBoardConfig = require('./config/rankboard_config.js')
 var util = require('./util.js');
+var chestConfig = require('./config/chest_config.js');
+var chestService = require('./service/chest_service.js');
 
 log4js.configure({
     replaceConsole: false,
@@ -46,15 +48,25 @@ log4js.configure({
 app.use(express.json());
 app.use('/jackpot', jackpot);
 app.use('/ranking', ranking);
+app.use('/chest', chestService);
 
 app.get("/test", function(req,res){
     res.send("haha");
 });
 
-myRedis.loadJackpotConfig();
-myRedis.loadRankingConfig();
-setTimeout(jackpot.init, 2000);
-setTimeout(ranking.init, 2000);
+setTimeout(initConfig, 1000);
+setTimeout(init, 2000);
+
+async function initConfig(){
+    await myRedis.loadJackpotConfig();
+    await myRedis.loadRankingConfig();
+    await chestConfig.init();
+}
+
+async function init(){
+    jackpot.init();
+    ranking.init();
+}
 
 app.listen(port, async () => {
     // logger.info("index boards:"+await myRedis.boards(true, 10));
