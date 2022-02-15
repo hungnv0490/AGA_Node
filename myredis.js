@@ -44,6 +44,9 @@ const RankingBoardCasual = "ranking-board-casual";
 const RankingBoard = "ranking-board";
 const RankingLoadNewData = "ranking-load-new-data";
 
+const PUBLIC_CARD_ADD = "card-add";
+const PUBLIC_MISSION_ADD = "mission-add";
+
 // var myredis = {}
 // myredis.client = client;
 
@@ -226,5 +229,17 @@ myredis.rankingEndSeason = async function () {
     await myredis.DEL(RankingBoardPro);
     await myredis.DEL(RankingBoardCasual);
     await myredis.DEL(RankingBoard);
+}
+
+myredis.addNewCard = async function(userId, charId, level, cardId)
+{
+    var start = `${userId}|${charId}|${level}|${cardId}`;
+    await myredis.publish(PUBLIC_CARD_ADD, start);
+}
+
+myredis.updateMission = async function(userId, missionType, amount)
+{
+    var start = `${userId}|${missionType}|${amount}`;
+    await myredis.publish(PUBLIC_MISSION_ADD, start);
 }
 module.exports = myredis;

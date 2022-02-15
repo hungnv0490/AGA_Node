@@ -12,6 +12,7 @@ var util = require('./util.js');
 var chestConfig = require('./config/chest_config.js');
 var chestService = require('./service/chest_service.js');
 var missionService = require('./service/mission_service.js');
+var cardService = require('./service/card_service.js');
 
 log4js.configure({
     replaceConsole: false,
@@ -51,6 +52,7 @@ app.use('/jackpot', jackpot);
 app.use('/ranking', ranking);
 app.use('/chest', chestService);
 app.use('/mission', missionService);
+app.use('/card', cardService);
 
 app.get("/test", function (req, res) {
     res.send("haha");
@@ -63,11 +65,15 @@ async function initConfig() {
     await myRedis.loadJackpotConfig();
     await myRedis.loadRankingConfig();
     await chestConfig.init();
+    cardService.init();
 }
 
 async function init() {
     jackpot.init();
     ranking.init();
+    mySqlDB.insertOrUpdateUserMission(1, 1, 1, function(a){
+
+    });
 }
 
 app.listen(port, async () => {

@@ -94,5 +94,39 @@ mySqlDB.updateMission = function (id, name, des, char_id, char_level, mission_ty
   });
 }
 
+mySqlDB.addUserCard = function (userId, charId, levelFusion, inTeam, cb) {
+  var sql = `INSERT INTO user_card (user_id, char_id, level_fusion, in_team)` +
+    ` VALUES (${userId},${charId},${levelFusion},${inTeam})`;
+  logger.info("mysqldb addUserCard sql:" + sql);
+  mySqlDB.execute(sql, function (err, result, fields) {
+    // var json = JSON.stringify(result);
+    logger.error("mysqldb addUserCard err:" + err + " id:" + result.insertId);
+    if (err == null) cb(result.insertId);
+    else cb(0);
+  });
+}
+
+mySqlDB.insertOrUpdateUserMission = function (userId, missionType, amount, cb) {
+  var sql = `Select count(*) count From mission where mission_type=${missionType} And active = 1`;
+  logger.info("mysqldb insertOrUpdateUserMission sql:" + sql);
+  mySqlDB.execute(sql, function (err, result, fields) {
+    // var json = JSON.stringify(result);
+    var createTime = util.dateFormat(new Date(), "%Y-%m-%d %H:%M:%S", false);
+    logger.error("mysqldb insertOrUpdateUserMission err 1:" + err + " result 1:" + JSON.stringify(result));
+    if (result.length > 0 && result[0].count > 0) {
+      sql = `INSERT INTO user_mission (mission_id, user_id, count, received, pushed, create_time)
+      select id, ${userId}, ${amount}, 0, 0, '${createTime}' from mission where mission_type = ${missionType}
+      ON DUPLICATE KEY UPDATE count = count + ${amount}`;
+      logger.info("mysqldb insertOrUpdateUserMission sql 2:" + sql);
+      mySqlDB.execute(sql, function (err, result, fields) {
+        // var json = JSON.stringify(result);
+        logger.error("mysqldb insertOrUpdateUserMission err 2:" + err + " result 2:" + JSON.stringify(result));
+        if (err == null) cb(200);
+        else cb(101);
+      });
+    }
+  });
+}
+
 module.exports = mySqlDB;
 

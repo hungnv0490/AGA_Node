@@ -1,0 +1,1082 @@
+{
+    "RATOH": [
+        {
+            "Id": "1",
+            "Name": "RATOH",
+            "Planet": "Kald",
+            "Describe": "Intelligent, brave and always curious. Ratoh explores any place that is considered a dead place.",
+            "Rarity": "Rare",
+            "Race": "Sciencast",
+            "Army": "Ground Force",
+            "Ability": "While playing: Gets +50%  ATK for each allies die in battle",
+            "Role": "Fighter",
+            "Level": "1",
+            "Atk": "2",
+            "Hp": "12"
+        },
+        {
+            "Level": "2",
+            "Atk": "3",
+            "Hp": "23"
+        },
+        {
+            "Level": "3",
+            "Atk": "5",
+            "Hp": "34"
+        },
+        {
+            "Level": "4",
+            "Atk": "6",
+            "Hp": "45"
+        },
+        {
+            "Level": "5",
+            "Atk": "8",
+            "Hp": "56"
+        }
+    ],
+    "DESIUS": [
+        {
+            "Id": "2",
+            "Name": "DESIUS",
+            "Planet": "Kald",
+            "Describe": "Deadly, unrepentant monster hunter who has spent her life searching for all traces and destroying the entire empire of Xeke who murdered her family.",
+            "Rarity": "Epic",
+            "Race": "Mercenary",
+            "Army": "Navy Force",
+            "Ability": "When destroyed: Do 200% damage to all enemies in battle.",
+            "Role": "Fighter",
+            "Level": "1",
+            "Atk": "3",
+            "Hp": "12"
+        },
+        {
+            "Level": "2",
+            "Atk": "4",
+            "Hp": "23"
+        },
+        {
+            "Level": "3",
+            "Atk": "6",
+            "Hp": "35"
+        },
+        {
+            "Level": "4",
+            "Atk": "7",
+            "Hp": "46"
+        },
+        {
+            "Level": "5",
+            "Atk": "9",
+            "Hp": "58"
+        }
+    ],
+    "ARC": [
+        {
+            "Id": "3",
+            "Name": "ARC",
+            "Planet": "Bleynt",
+            "Describe": "A ferocious hunter who lives for the thrill of tracking down and slaying anyone claiming to be the strongest. ",
+            "Rarity": "Uncommon",
+            "Race": "Demihuman",
+            "Army": "Ground Force",
+            "Ability": "When destroyed:   -50% ATK to the enemy in same line",
+            "Role": "Fighter",
+            "Level": "1",
+            "Atk": "1",
+            "Hp": "10"
+        },
+        {
+            "Level": "2",
+            "Atk": "2",
+            "Hp": "22"
+        },
+        {
+            "Level": "3",
+            "Atk": "3",
+            "Hp": "35"
+        },
+        {
+            "Level": "4",
+            "Atk": "4",
+            "Hp": "47"
+        },
+        {
+            "Level": "5",
+            "Atk": "5",
+            "Hp": "60"
+        }
+    ],
+    "SEANNUM": [
+        {
+            "Id": "4",
+            "Name": "SEANNUM",
+            "Planet": "Hyetra",
+            "Describe": "An aggressive and belligerent Warrior which inherited from his parents's genes. He has dreamed of dominating planet Bleynt since he was a child and now he had actualized it.",
+            "Rarity": "Common",
+            "Race": "Antiquity",
+            "Army": "Ground Force",
+            "Ability": "While playing: Gets +30% HP for each allies die in battle",
+            "Role": "Fighter",
+            "Level": "1",
+            "Atk": "3",
+            "Hp": "9"
+        },
+        {
+            "Level": "2",
+            "Atk": "4",
+            "Hp": "22"
+        },
+        {
+            "Level": "3",
+            "Atk": "5",
+            "Hp": "35"
+        },
+        {
+            "Level": "4",
+            "Atk": "7",
+            "Hp": "49"
+        },
+        {
+            "Level": "5",
+            "Atk": "8",
+            "Hp": "62"
+        }
+    ],
+    "MUNCH": [
+        {
+            "Id": "5",
+            "Name": "MUNCH",
+            "Planet": "Gehg",
+            "Describe": "A true warrior with golden armor and a big mace. Man of honor!",
+            "Rarity": "Common",
+            "Race": "Mosteras",
+            "Army": "Ground Force",
+            "Ability": "While playing: This gets +20% ATK for each enemie die in battle",
+            "Role": "Protector",
+            "Level": "1",
+            "Atk": "3",
+            "Hp": "11"
+        },
+        {
+            "Level": "2",
+            "Atk": "4",
+            "Hp": "23"
+        },
+        {
+            "Level": "3",
+            "Atk": "5",
+            "Hp": "36"
+        },
+        {
+            "Level": "4",
+            "Atk": "7",
+            "Hp": "49"
+        },
+        {
+            "Level": "5",
+            "Atk": "8",
+            "Hp": "62"
+        }
+    ],
+    "GIME": [
+        {
+            "Id": "6",
+            "Name": "GIME",
+            "Planet": "Strael",
+            "Describe": "Sexy, sexy and... deadly",
+            "Rarity": "Common",
+            "Race": "Human",
+            "Army": "Ground Force",
+            "Ability": "When this card destroy a card, deal 200% damage on all eneies in battle",
+            "Role": "Protector",
+            "Level": "1",
+            "Atk": "2",
+            "Hp": "12"
+        },
+        {
+            "Level": "2",
+            "Atk": "3",
+            "Hp": "24"
+        },
+        {
+            "Level": "3",
+            "Atk": "5",
+            "Hp": "37"
+        },
+        {
+            "Level": "4",
+            "Atk": "6",
+            "Hp": "49"
+        },
+        {
+            "Level": "5",
+            "Atk": "8",
+            "Hp": "62"
+        }
+    ],
+    "FILU": [
+        {
+            "Id": "7",
+            "Name": "FILU",
+            "Planet": "Cyarz",
+            "Describe": "Two bloods are running through his veins: Human and Dragon. He is the center of all wars",
+            "Rarity": "Uncommon",
+            "Race": "???",
+            "Army": "Ground Force",
+            "Ability": "Do deal 100% damage for all enimes after 4 basic attacks",
+            "Role": "Protector",
+            "Level": "1",
+            "Atk": "3",
+            "Hp": "13"
+        },
+        {
+            "Level": "2",
+            "Atk": "5",
+            "Hp": "26"
+        },
+        {
+            "Level": "3",
+            "Atk": "7",
+            "Hp": "40"
+        },
+        {
+            "Level": "4",
+            "Atk": "8",
+            "Hp": "54"
+        },
+        {
+            "Level": "5",
+            "Atk": "9",
+            "Hp": "65"
+        }
+    ],
+    "DRAKUL": [
+        {
+            "Id": "8",
+            "Name": "DRAKUL",
+            "Planet": "Gegh",
+            "Describe": "A loyal sentry of planet Gegh, armed with great armor and a big laser gun.",
+            "Rarity": "Common",
+            "Race": "Dager",
+            "Army": "Ground Force",
+            "Ability": "Do heal 10% as hitself HP for all allies next-door after 4 basic attacks",
+            "Role": "Caster",
+            "Level": "1",
+            "Atk": "3",
+            "Hp": "13"
+        },
+        {
+            "Level": "2",
+            "Atk": "4",
+            "Hp": "26"
+        },
+        {
+            "Level": "3",
+            "Atk": "5",
+            "Hp": "40"
+        },
+        {
+            "Level": "4",
+            "Atk": "7",
+            "Hp": "53"
+        },
+        {
+            "Level": "5",
+            "Atk": "8",
+            "Hp": "67"
+        }
+    ],
+    "DENYRIS": [
+        {
+            "Id": "9",
+            "Name": "DENYRIS",
+            "Planet": "Bleynt",
+            "Describe": "A little elf with big wings and a deadly archery. Don't mess with her, or her arrows will stuck on your body.",
+            "Rarity": "Rare",
+            "Race": "Dema",
+            "Army": "Ground Force",
+            "Ability": "Do 300% damage to random enemy at battle after kill an enemy",
+            "Role": "Caster",
+            "Level": "1",
+            "Atk": "1",
+            "Hp": "10"
+        },
+        {
+            "Level": "2",
+            "Atk": "2",
+            "Hp": "22"
+        },
+        {
+            "Level": "3",
+            "Atk": "3",
+            "Hp": "35"
+        },
+        {
+            "Level": "4",
+            "Atk": "4",
+            "Hp": "48"
+        },
+        {
+            "Level": "5",
+            "Atk": "5",
+            "Hp": "61"
+        }
+    ],
+    "GOLEM": [
+        {
+            "Id": "10",
+            "Name": "GOLEM",
+            "Planet": "Bryani",
+            "Describe": "He is a true definition of a monster. Challenge him and you all will know. ",
+            "Rarity": "Epic",
+            "Race": "Witch",
+            "Army": "Ground Force",
+            "Ability": "When this card lost HP, +30% damage on each HP lost in battle to ATK",
+            "Role": "Protector",
+            "Level": "1",
+            "Atk": "3",
+            "Hp": "13"
+        },
+        {
+            "Level": "2",
+            "Atk": "4",
+            "Hp": "27"
+        },
+        {
+            "Level": "3",
+            "Atk": "6",
+            "Hp": "41"
+        },
+        {
+            "Level": "4",
+            "Atk": "8",
+            "Hp": "56"
+        },
+        {
+            "Level": "5",
+            "Atk": "10",
+            "Hp": "70"
+        }
+    ],
+    "TIAYOS": [
+        {
+            "Id": "11",
+            "Name": "TIAYOS",
+            "Planet": "STRAEL",
+            "Describe": "A tiny girl but carry a Big Gun as her weapon. A General who likes to use violence to overwhelm others' spirits. Actions speak louder than words!",
+            "Rarity": "Epic",
+            "Race": "Human",
+            "Army": "Ground Force",
+            "Ability": "While Playing: Cards at nextdoor in battle get +30%ATK  + 30%HP",
+            "Role": "Caster",
+            "Level": "1",
+            "Atk": "3",
+            "Hp": "13"
+        },
+        {
+            "Level": "2",
+            "Atk": "4",
+            "Hp": "24"
+        },
+        {
+            "Level": "3",
+            "Atk": "5",
+            "Hp": "35"
+        },
+        {
+            "Level": "4",
+            "Atk": "6",
+            "Hp": "46"
+        },
+        {
+            "Level": "5",
+            "Atk": "7",
+            "Hp": "59"
+        }
+    ],
+    "ZUKAZINA": [
+        {
+            "Id": "12",
+            "Name": "ZUKAZINA",
+            "Planet": "Hyetra",
+            "Describe": "Reborn and cursed with a demonic crown, Zukazina hunts down all creatures that threat his empire.",
+            "Rarity": "Epic",
+            "Race": "Galom",
+            "Army": "Navy force",
+            "Ability": "While Playing: After 3 basic attack Move/change/swap to random lines. 2 cards on swap get +30%ATK  + 30%HP",
+            "Role": "Protector",
+            "Level": "1",
+            "Atk": "3",
+            "Hp": "13"
+        },
+        {
+            "Level": "2",
+            "Atk": "4",
+            "Hp": "26"
+        },
+        {
+            "Level": "3",
+            "Atk": "6",
+            "Hp": "39"
+        },
+        {
+            "Level": "4",
+            "Atk": "7",
+            "Hp": "52"
+        },
+        {
+            "Level": "5",
+            "Atk": "9",
+            "Hp": "68"
+        }
+    ],
+    "Azrael": [
+        {
+            "Id": "13",
+            "Name": "Azrael",
+            "Planet": "Kald",
+            "Describe": "A cunning woman, but is very straightforward when it comes to her path, gentle and very considerate to her subordinates, always listening to traitors.",
+            "Rarity": "Epic",
+            "Race": "Sciencast",
+            "Army": "Navy force",
+            "Ability": "While Playing: After 3 basic attack do 100% to all enemies on battle, +30%ATK",
+            "Role": "Fighter",
+            "Level": "1",
+            "Atk": "2",
+            "Hp": "10"
+        },
+        {
+            "Level": "2",
+            "Atk": "3",
+            "Hp": "21"
+        },
+        {
+            "Level": "3",
+            "Atk": "5",
+            "Hp": "33"
+        },
+        {
+            "Level": "4",
+            "Atk": "6",
+            "Hp": "45"
+        },
+        {
+            "Level": "5",
+            "Atk": "8",
+            "Hp": "59"
+        }
+    ],
+    "Azula": [
+        {
+            "Id": "14",
+            "Name": "Azula",
+            "Planet": "Myq - Strael",
+            "Describe": "Quiet, Actions speak louder than words, As a Hero who likes to use violence to overwhelm others' spirits. Always put his own interests first",
+            "Rarity": "Rare",
+            "Race": "Crox",
+            "Army": "Ground Force",
+            "Ability": "While Playing: After 3 basic attack do 300% to enemy on same line, self heal up +15% HP",
+            "Role": "Protector",
+            "Level": "1",
+            "Atk": "3",
+            "Hp": "13"
+        },
+        {
+            "Level": "2",
+            "Atk": "4",
+            "Hp": "26"
+        },
+        {
+            "Level": "3",
+            "Atk": "6",
+            "Hp": "39"
+        },
+        {
+            "Level": "4",
+            "Atk": "8",
+            "Hp": "53"
+        },
+        {
+            "Level": "5",
+            "Atk": "10",
+            "Hp": "69"
+        }
+    ],
+    "Zush": [
+        {
+            "Id": "15",
+            "Name": "Zush",
+            "Planet": "Cyarz - Bleynt",
+            "Describe": "Is a cheerful person who sometimes goes crazy because he wants to manipulate Hela",
+            "Rarity": "Rare",
+            "Race": "Lance",
+            "Army": "Ground Force",
+            "Ability": "While Playing: After 3 basic attack do 150% damage to random a enemy at battle, heal 100% as basic damage on random an ally at battle",
+            "Role": "Caster",
+            "Level": "1",
+            "Atk": "3",
+            "Hp": "13"
+        },
+        {
+            "Level": "2",
+            "Atk": "4",
+            "Hp": "26"
+        },
+        {
+            "Level": "3",
+            "Atk": "5",
+            "Hp": "39"
+        },
+        {
+            "Level": "4",
+            "Atk": "7",
+            "Hp": "52"
+        },
+        {
+            "Level": "5",
+            "Atk": "9",
+            "Hp": "68"
+        }
+    ],
+    "Calatar": [
+        {
+            "Id": "16",
+            "Name": "Calatar",
+            "Planet": "Soiq",
+            "Describe": "Sometimes I fall in love with her cuteness. Look at that cute cat ear!",
+            "Rarity": "Common",
+            "Race": "Spiritual",
+            "Army": "Navy force",
+            "Ability": "While Playing: After 2 basic attack, Buff 50% damage to random an ally at battle",
+            "Role": "Fighter",
+            "Level": "1",
+            "Atk": "1",
+            "Hp": "10"
+        },
+        {
+            "Level": "2",
+            "Atk": "2",
+            "Hp": "22"
+        },
+        {
+            "Level": "3",
+            "Atk": "4",
+            "Hp": "35"
+        },
+        {
+            "Level": "4",
+            "Atk": "6",
+            "Hp": "48"
+        },
+        {
+            "Level": "5",
+            "Atk": "8",
+            "Hp": "63"
+        }
+    ],
+    "Verid": [
+        {
+            "Id": "17",
+            "Name": "Verid",
+            "Planet": "Myq",
+            "Describe": "He loves math and academic tv shows, every time he gets the right answer, he's quite arrogant, and when i get the wrong answer, i see him pretending to be silent as if he doesn't know anything",
+            "Rarity": "Epic",
+            "Race": "???",
+            "Army": "Navy force",
+            "Ability": "While Playing: After 2 basic attack Debuff 50% damage to random random an enemy at battle",
+            "Role": "Fighter",
+            "Level": "1",
+            "Atk": "2",
+            "Hp": "12"
+        },
+        {
+            "Level": "2",
+            "Atk": "3",
+            "Hp": "24"
+        },
+        {
+            "Level": "3",
+            "Atk": "4",
+            "Hp": "36"
+        },
+        {
+            "Level": "4",
+            "Atk": "6",
+            "Hp": "48"
+        },
+        {
+            "Level": "5",
+            "Atk": "8",
+            "Hp": "62"
+        }
+    ],
+    "Etzak": [
+        {
+            "Id": "18",
+            "Name": "Etzak",
+            "Planet": "Gegh",
+            "Describe": "She loves banana, she's very stylish and hot tempered",
+            "Rarity": "Legendary",
+            "Race": "Yerkin Masel",
+            "Army": "Ground Force",
+            "Ability": "When deploy: do 100% damage on all enemies on battle field",
+            "Role": "Fighter",
+            "Level": "1",
+            "Atk": "3",
+            "Hp": "10"
+        },
+        {
+            "Level": "2",
+            "Atk": "4",
+            "Hp": "21"
+        },
+        {
+            "Level": "3",
+            "Atk": "5",
+            "Hp": "33"
+        },
+        {
+            "Level": "4",
+            "Atk": "6",
+            "Hp": "44"
+        },
+        {
+            "Level": "5",
+            "Atk": "8",
+            "Hp": "58"
+        }
+    ],
+    "Neast": [
+        {
+            "Id": "19",
+            "Name": "Neast",
+            "Planet": "Gegh",
+            "Describe": "As a sailor I am always ready to sacrifice and obey all orders",
+            "Rarity": "Common",
+            "Race": "Human",
+            "Army": "Navy force",
+            "Ability": "While at battle: + 50% ATK on each card replace ",
+            "Role": "Caster",
+            "Level": "1",
+            "Atk": "1",
+            "Hp": "8"
+        },
+        {
+            "Level": "2",
+            "Atk": "2",
+            "Hp": "19"
+        },
+        {
+            "Level": "3",
+            "Atk": "3",
+            "Hp": "31"
+        },
+        {
+            "Level": "4",
+            "Atk": "4",
+            "Hp": "43"
+        },
+        {
+            "Level": "5",
+            "Atk": "5",
+            "Hp": "57"
+        }
+    ],
+    "Eldechen": [
+        {
+            "Id": "20",
+            "Name": "Eldechen",
+            "Planet": "Strael",
+            "Describe": "His hair is curly red. he rides a trampoline. He's quite childish and playful. he likes to play with everyone especially outdoor activities.",
+            "Rarity": "Common",
+            "Race": "Human Spell",
+            "Army": "Spell",
+            "Ability": "While Playing: After 3 basic attack, swap position of 2 random enemies at battle",
+            "Role": "Caster",
+            "Level": "1",
+            "Atk": "1",
+            "Hp": "8"
+        },
+        {
+            "Level": "2",
+            "Atk": "2",
+            "Hp": "19"
+        },
+        {
+            "Level": "3",
+            "Atk": "3",
+            "Hp": "31"
+        },
+        {
+            "Level": "4",
+            "Atk": "4",
+            "Hp": "42"
+        },
+        {
+            "Level": "5",
+            "Atk": "5",
+            "Hp": "56"
+        }
+    ],
+    "Elmon": [
+        {
+            "Id": "21",
+            "Name": "Elmon",
+            "Planet": "Myq",
+            "Describe": "Elmon used to be a tea house singer, he was a saxophone player. He plays so well that there were enemies in disguise to hear him perform.",
+            "Rarity": "Uncommon",
+            "Race": "Garroth",
+            "Army": "Ground Force",
+            "Ability": "At bend, when battle start: Do 100% damage to all enemies at battle",
+            "Role": "Caster",
+            "Level": "1",
+            "Atk": "3",
+            "Hp": "13"
+        },
+        {
+            "Level": "2",
+            "Atk": "4",
+            "Hp": "24"
+        },
+        {
+            "Level": "3",
+            "Atk": "5",
+            "Hp": "35"
+        },
+        {
+            "Level": "4",
+            "Atk": "6",
+            "Hp": "47"
+        },
+        {
+            "Level": "5",
+            "Atk": "7",
+            "Hp": "60"
+        }
+    ],
+    "GoofwNinjaz": [
+        {
+            "Id": "22",
+            "Name": "GoofwNinjaz",
+            "Planet": "Kald",
+            "Describe": "three boy triplets with red, yellow and green clothes, naughty and adventurous, stubborn",
+            "Rarity": "Epic",
+            "Race": "Garroth",
+            "Army": "Ground Force",
+            "Ability": "When destroyed: Do 200% damage to all enemies at battles, heal 100% as damage for all allies at battle",
+            "Role": "Caster",
+            "Level": "1",
+            "Atk": "2",
+            "Hp": "10"
+        },
+        {
+            "Level": "2",
+            "Atk": "3",
+            "Hp": "22"
+        },
+        {
+            "Level": "3",
+            "Atk": "4",
+            "Hp": "35"
+        },
+        {
+            "Level": "4",
+            "Atk": "5",
+            "Hp": "48"
+        },
+        {
+            "Level": "5",
+            "Atk": "6",
+            "Hp": "63"
+        }
+    ],
+    "Shisaia": [
+        {
+            "Id": "23",
+            "Name": "Shisaia",
+            "Planet": "Soiq",
+            "Describe": "he is a prime example of \"cold on the outside but spongy on the inside\"",
+            "Rarity": "Common",
+            "Race": "Darxath",
+            "Army": "Ground Force",
+            "Ability": "While Playing: After get hit by 3 attack ( inclue skill attack ), heal 100% as damage to 2 allies at battle",
+            "Role": "Protector",
+            "Level": "1",
+            "Atk": "3",
+            "Hp": "13"
+        },
+        {
+            "Level": "2",
+            "Atk": "4",
+            "Hp": "24"
+        },
+        {
+            "Level": "3",
+            "Atk": "5",
+            "Hp": "36"
+        },
+        {
+            "Level": "4",
+            "Atk": "6",
+            "Hp": "48"
+        },
+        {
+            "Level": "5",
+            "Atk": "7",
+            "Hp": "62"
+        }
+    ],
+    "Asher": [
+        {
+            "Id": "24",
+            "Name": "Asher",
+            "Planet": "Gegh",
+            "Describe": "She's a weapons company, she always carries a Guitarrón Mexicano. she wears big round earrings and red nails, she wears red lipstick and flashy makeup",
+            "Rarity": "Rare",
+            "Race": "Darxath Onyq ",
+            "Army": "Ground Force",
+            "Ability": "While Playing: After get hit by 3 attack ( inclue skill attack ), do 100% attack to all enemies at battle",
+            "Role": "Protector",
+            "Level": "1",
+            "Atk": "3",
+            "Hp": "10"
+        },
+        {
+            "Level": "2",
+            "Atk": "4",
+            "Hp": "22"
+        },
+        {
+            "Level": "3",
+            "Atk": "5",
+            "Hp": "35"
+        },
+        {
+            "Level": "4",
+            "Atk": "6",
+            "Hp": "48"
+        },
+        {
+            "Level": "5",
+            "Atk": "7",
+            "Hp": "63"
+        }
+    ],
+    "Malie": [
+        {
+            "Id": "25",
+            "Name": "Malie",
+            "Planet": "Gegh",
+            "Describe": "He used to be a sailor. He wears a sailor suit and holds a large compass in his hand",
+            "Rarity": "Rare",
+            "Race": "Human",
+            "Army": "Navy force",
+            "Ability": "Naval force. Team-Up: You can fit two Character here. When played: All naval force get +1 strenth/+1 health",
+            "Role": "Fighter",
+            "Level": "1",
+            "Atk": "3",
+            "Hp": "10"
+        },
+        {
+            "Level": "2",
+            "Atk": "4",
+            "Hp": "21"
+        },
+        {
+            "Level": "3",
+            "Atk": "5",
+            "Hp": "33"
+        },
+        {
+            "Level": "4",
+            "Atk": "6",
+            "Hp": "44"
+        },
+        {
+            "Level": "5",
+            "Atk": "8",
+            "Hp": "58"
+        }
+    ],
+    "Hisuco": [
+        {
+            "Id": "26",
+            "Name": "Hisuco",
+            "Planet": "Gegh",
+            "Describe": "He has no special powers. But he is a very good fighter pilot. he always wears a white flight suit and a helmet with eye protection",
+            "Rarity": "Uncommon",
+            "Race": "Mustag Ninjaz",
+            "Army": "Ground force",
+            "Ability": "While Playing: After get hit by 3 attack, do 150% damage to all enemies at battle",
+            "Role": "Caster",
+            "Level": "1",
+            "Atk": "1",
+            "Hp": "8"
+        },
+        {
+            "Level": "2",
+            "Atk": "2",
+            "Hp": "19"
+        },
+        {
+            "Level": "3",
+            "Atk": "3",
+            "Hp": "31"
+        },
+        {
+            "Level": "4",
+            "Atk": "4",
+            "Hp": "42"
+        },
+        {
+            "Level": "5",
+            "Atk": "5",
+            "Hp": "56"
+        }
+    ],
+    "Sherisse": [
+        {
+            "Id": "27",
+            "Name": "Sherisse",
+            "Planet": "Gegh",
+            "Describe": "As a wealthy businessman in the land of Omityp on planet Protector, using every trick to make a profit",
+            "Rarity": "Uncommon",
+            "Race": "Witch Galom ",
+            "Army": "Ground force",
+            "Ability": "While at battle: + 50% ATK on each card replace ",
+            "Role": "Caster",
+            "Level": "1",
+            "Atk": "3",
+            "Hp": "13"
+        },
+        {
+            "Level": "2",
+            "Atk": "4",
+            "Hp": "24"
+        },
+        {
+            "Level": "3",
+            "Atk": "5",
+            "Hp": "35"
+        },
+        {
+            "Level": "4",
+            "Atk": "6",
+            "Hp": "47"
+        },
+        {
+            "Level": "5",
+            "Atk": "7",
+            "Hp": "60"
+        }
+    ],
+    "Samus": [
+        {
+            "Id": "28",
+            "Name": "Samus",
+            "Planet": "Gegh",
+            "Describe": "A big guy, wearing a cape, armor and helmet, weapon is a sDarianr with two pointed ends and a hexagonal shield",
+            "Rarity": "Legendary",
+            "Race": "Genta Antiquity ",
+            "Army": "Ground force",
+            "Ability": "While Playing: After get hit by 3 attack ( inclue skill attack ), do 100% attack to all enemies at battle. Buff all allies get +50% ATK, 20% HP",
+            "Role": "Protector",
+            "Level": "1",
+            "Atk": "3",
+            "Hp": "10"
+        },
+        {
+            "Level": "2",
+            "Atk": "4",
+            "Hp": "22"
+        },
+        {
+            "Level": "3",
+            "Atk": "5",
+            "Hp": "35"
+        },
+        {
+            "Level": "4",
+            "Atk": "6",
+            "Hp": "48"
+        },
+        {
+            "Level": "5",
+            "Atk": "7",
+            "Hp": "63"
+        }
+    ],
+    "Ceraw": [
+        {
+            "Id": "29",
+            "Name": "Ceraw",
+            "Planet": "Gegh",
+            "Describe": "He is a maker of robotic microphones that can assemble many different shapes and functions. Wearing an orange worker's shirt, a pair of mechanical shoes with lights and other functions that make it compatible with the robots",
+            "Rarity": "Rare",
+            "Race": "Terror Sustainer ",
+            "Army": "Ground force",
+            "Ability": "While Playing: After 3 basic attack, swap position of 2 random enemies at battle",
+            "Role": "Fighter",
+            "Level": "1",
+            "Atk": "2",
+            "Hp": "12"
+        },
+        {
+            "Level": "2",
+            "Atk": "3",
+            "Hp": "23"
+        },
+        {
+            "Level": "3",
+            "Atk": "5",
+            "Hp": "34"
+        },
+        {
+            "Level": "4",
+            "Atk": "6",
+            "Hp": "45"
+        },
+        {
+            "Level": "5",
+            "Atk": "8",
+            "Hp": "56"
+        }
+    ],
+    "Ernestine": [
+        {
+            "Id": "30",
+            "Name": "Ernestine",
+            "Planet": "Gegh",
+            "Describe": "He is a madman who always carries small explosives and wants to destroy all enemies",
+            "Rarity": "Rare",
+            "Race": "Raider Lance ",
+            "Army": "Naval Force",
+            "Ability": "While Playing: After 2 basic attack, Buff 50% damage to random an ally at battle",
+            "Role": "Protector",
+            "Level": "1",
+            "Atk": "3",
+            "Hp": "13"
+        },
+        {
+            "Level": "2",
+            "Atk": "4",
+            "Hp": "26"
+        },
+        {
+            "Level": "3",
+            "Atk": "6",
+            "Hp": "39"
+        },
+        {
+            "Level": "4",
+            "Atk": "7",
+            "Hp": "52"
+        },
+        {
+            "Level": "5",
+            "Atk": "9",
+            "Hp": "68"
+        }
+    ]
+}
