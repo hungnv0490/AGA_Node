@@ -67,14 +67,18 @@ jackpot.startNewSeason = async function () {
 }
 
 jackpot.rewards = async function () {
+    const JACKPOT_SEASON = "jackpot-season";
     var userTickets = await myRedis.getJackpotUserTickets();
-
+    var season = await myredis.get(JACKPOT_SEASON);
     logger.info("jackpot rewards:" + userTickets);
     if (userTickets.length > 0) {
         var diamond = myRedis.jackpotConfig.diamond / userTickets.length;
         var rewards = `1-0-${diamond}`;
         userTickets.forEach(element => {
             mySqlDB.addMailBox("Jackpot reward", `You received reward from jackpot with ticket ${element["ticket"]}`, -1, element["userId"], rewards, 0, 0);
+            mySqlDB.addJackpotHis(element["userId"], diamond, season, function(a){
+
+            });
         });
         jackpot.task.stop();
         jackpot.task = null;

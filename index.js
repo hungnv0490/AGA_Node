@@ -71,9 +71,6 @@ async function initConfig() {
 async function init() {
     jackpot.init();
     ranking.init();
-    mySqlDB.insertOrUpdateUserMission(1, 1, 1, function(a){
-
-    });
 }
 
 app.listen(port, async () => {

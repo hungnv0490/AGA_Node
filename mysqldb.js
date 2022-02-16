@@ -128,5 +128,18 @@ mySqlDB.insertOrUpdateUserMission = function (userId, missionType, amount, cb) {
   });
 }
 
+mySqlDB.addJackpotHis = function (userId, diamond, season, cb) {
+  var createTime = util.dateFormat(new Date(), "%Y-%m-%d %H:%M:%S", false);
+  var sql = `INSERT INTO jackpot_his(user_id,diamond,season,create_time)
+            VALUES(${userId},${diamond},'${season}','${createTime}');`;
+  logger.info("mysqldb addJackpotHis sql:" + sql);
+  mySqlDB.execute(sql, function (err, result, fields) {
+    // var json = JSON.stringify(result);
+    logger.error("mysqldb addJackpotHis err 2:" + err + " result 2:" + JSON.stringify(result));
+    if (err == null) cb(200);
+    else cb(101);
+  });
+}
+
 module.exports = mySqlDB;
 
