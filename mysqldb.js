@@ -141,5 +141,16 @@ mySqlDB.addJackpotHis = function (userId, diamond, season, cb) {
   });
 }
 
+mySqlDB.updateUserRankingEndSeason = function (userId, rankingType, rank, season) {
+  var currentTime = util.dateFormat(new Date(), "%Y-%m-%d %H:%M:%S", false);
+  var sql = `Update ranking rk set update_time='${currentTime}', ranking_type=${rankingType}, rk.rank=${rank}
+                                Where user_id=${userId} and season='${season}';`;
+  logger.info("mysqldb updateUserRankingEndSeason sql:" + sql);
+  mySqlDB.execute(sql, function (err, result, fields) {
+    // var json = JSON.stringify(result);
+    logger.error("mysqldb updateUserRankingEndSeason err 2:" + err + " result 2:" + JSON.stringify(result));
+  });
+}
+
 module.exports = mySqlDB;
 

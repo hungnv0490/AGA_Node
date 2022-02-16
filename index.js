@@ -71,6 +71,7 @@ async function initConfig() {
 async function init() {
     jackpot.init();
     ranking.init();
+    mySqlDB.updateUserRankingEndSeason(53, 1, 1, '010222');
 }
 
 app.listen(port, async () => {

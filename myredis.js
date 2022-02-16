@@ -177,16 +177,23 @@ myredis.boards = async function (isPro, top) {
     var key = RankingBoardPro;
     if (!isPro) key = RankingBoardCasual;
     var maxScore = await myredis.sendCommand(["zrevrange", key, 0, top, "withscores"]);
-    // logger.info("myredis boards:" + maxScore);
+    logger.info("myredis boards:" + maxScore);
     var res = [];
     if (maxScore.length > 0) {
         var i = 0;
+        var r= 0;
         for (var value of maxScore) {
             if (i % 2 == 0) {
                 // logger.info("value:" + value)
                 var ranking = await myredis.hGet(RankingBoard, value);
-                // logger.info("ranking:" + ranking)
-                if (ranking != null) res.push(JSON.parse(ranking));
+                r++;
+                if(ranking != null)
+                {
+                    // logger.info("ranking:" + rankingOb.Rank)
+                    var rankingOb = JSON.parse(ranking);
+                    rankingOb.Rank = r;
+                    res.push(rankingOb);
+                }
             }
             i++;
         }

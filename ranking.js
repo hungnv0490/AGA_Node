@@ -6,7 +6,10 @@ const { route } = require('express/lib/application');
 var log4js = require("log4js");
 var logger = log4js.getLogger();
 const ranking = express.Router();
-const rankBoardConfig = require('./config/rankboard_config.js')
+const rankBoardConfig = require('./config/rankboard_config.js');
+const { pro } = require('./config/rankboard_config.js');
+
+const RANKING_SEASON = "ranking-season";
 
 ranking.task = null;
 
@@ -60,6 +63,10 @@ ranking.init = function () {
         logger.info("ranking init schedule:" + job);
         ranking.task = cron.schedule(job, async () => {
             await ranking.rewards(true);
+            await ranking.rewards(false);
+            await myRedis.rankingEndSeason();
+            ranking.task.stop();
+            ranking.task = null;
         });
     }
 }
@@ -78,9 +85,12 @@ ranking.startNewSeason = async function () {
 }
 
 ranking.rewards = async function (isPro) {
+    logger.info("pro:" + isPro);
     var amount = 4000;
     if (!isPro) amount = 500;
     var topRankings = await myRedis.boards(isPro, amount);
+    if(topRankings.length <=0 ) return;
+    
     var rankBoardCf = rankBoardConfig.pro;
     var rankBoardDiamond = rankBoardConfig.proDiamond;
     if (!isPro) {
@@ -100,9 +110,9 @@ ranking.rewards = async function (isPro) {
         }
     }
     logger.info('ranking rewards dt:' + JSON.stringify(dt));
-
+    var season = await myRedis.get(RANKING_SEASON);
     Object.keys(dt).forEach(function (key) {
-        logger.info('ranking rewards key:' +  key);
+        logger.info('ranking rewards key:' + key);
         for (var board of rankBoardCf) {
             // logger.info("ranking reward board:" + JSON.stringify(board));
             if (board.RankingType == key) {
@@ -112,15 +122,12 @@ ranking.rewards = async function (isPro) {
                 var rewards = `1-0-${diamond}`;
                 rankingUsers.forEach(element => {
                     mySqlDB.addMailBox("Ranking reward", `You received reward from ranking with rank ${element["Rank"]}`, -1, element["UserId"], rewards, 0, 0);
+                    mySqlDB.updateUserRankingEndSeason(element["UserId"], board.RankingType, element["Rank"], season);
                 });
                 break;
             }
         }
     });
-
-    ranking.task.stop();
-    ranking.task = null;
-    await myRedis.rankingEndSeason();
 }
 
 module.exports = ranking;
