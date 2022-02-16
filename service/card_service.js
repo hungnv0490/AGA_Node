@@ -17,6 +17,11 @@ cardService.post('/add', async (req, res) => {
             await myredis.addNewCard(json.userId, json.charId, json.level, cardId);
             for (var char of cardService.characters) {
                 if (char.Id == json.charId) {
+                    
+                    mySqlDb.insertOrUpdateUserMission(json.userId, Mission.missionType.CollectAmountCard, 1, async function () {
+                        await myredis.updateMission(json.userId, Mission.missionType.CollectAmountCard, 1);
+                    });
+
                     var rarity = char.Rarity;
                     var role = char.Role;
                     var missionType = Mission.missionType.None;
