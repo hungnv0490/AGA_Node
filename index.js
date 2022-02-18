@@ -13,6 +13,8 @@ var chestConfig = require('./config/chest_config.js');
 var chestService = require('./service/chest_service.js');
 var missionService = require('./service/mission_service.js');
 var cardService = require('./service/card_service.js');
+var charService = require('./service/char_service.js');
+var rewardService = require('./service/reward_service.js');
 
 log4js.configure({
     replaceConsole: false,
@@ -53,6 +55,8 @@ app.use('/ranking', ranking);
 app.use('/chest', chestService);
 app.use('/mission', missionService);
 app.use('/card', cardService);
+app.use('/char', charService);
+app.use('/battle/reward', rewardService);
 
 app.get("/mysql/test", function (req, res) {
     mySqlDB.test(function(dt){
