@@ -69,7 +69,7 @@ jackpot.startNewSeason = async function () {
 jackpot.rewards = async function () {
     const JACKPOT_SEASON = "jackpot-season";
     var userTickets = await myRedis.getJackpotUserTickets();
-    var season = await myredis.get(JACKPOT_SEASON);
+    var season = await myRedis.get(JACKPOT_SEASON);
     logger.info("jackpot rewards:" + userTickets);
     if (userTickets.length > 0) {
         var diamond = myRedis.jackpotConfig.diamond / userTickets.length;

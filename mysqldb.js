@@ -4,27 +4,37 @@ var util = require('./util.js');
 var log4js = require("log4js");
 var logger = log4js.getLogger();
 
-const mySqlDB = mysql.createConnection({
-  // host     : '159.223.62.35',
+// const mySqlDB = mysql.createConnection({
+//   // host     : '159.223.62.35',
+//   host: config.mysqlHot,
+//   user: config.mysqlUser,
+//   password: config.mysqlPass,
+//   database: config.mysqlDb
+// });
+
+const mySqlDB = mysql.createPool({
   host: config.mysqlHot,
   user: config.mysqlUser,
   password: config.mysqlPass,
-  database: config.mysqlDb
+  database: config.mysqlDb,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
 });
 
+// mySqlDB.connect(function (err) {
+//   if (err) {
+//     console.error('error connecting: ' + err.stack);
+//     return;
+//   }
 
-mySqlDB.connect(function (err) {
-  if (err) {
-    console.error('error connecting: ' + err.stack);
-    return;
-  }
+//   logger.info('mysqldb connected as id ' + mySqlDB.threadId);
+// });
 
-  logger.info('mysqldb connected as id ' + mySqlDB.threadId);
-});
-
-mySqlDB.test = function () {
+mySqlDB.test = function (cb) {
   mySqlDB.query('SELECT * From users Limit 1', function (error, results, fields) {
     console.log('The solution is: ', results[0]);
+    cb(results[0]);
   });
 }
 

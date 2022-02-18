@@ -54,8 +54,10 @@ app.use('/chest', chestService);
 app.use('/mission', missionService);
 app.use('/card', cardService);
 
-app.get("/test", function (req, res) {
-    res.send("haha");
+app.get("/mysql/test", function (req, res) {
+    mySqlDB.test(function(dt){
+        res.send(dt);
+    })
 });
 
 setTimeout(initConfig, 1000);
@@ -75,6 +77,5 @@ async function init() {
 
 app.listen(port, async () => {
     // logger.info("index boards:"+await myRedis.boards(true, 10));
-
     logger.info("start server:" + util.dateFormat(new Date(), "%Y-%m-%d %H:%M:%S", false));
 })
