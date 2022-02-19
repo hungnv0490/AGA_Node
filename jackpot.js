@@ -72,7 +72,7 @@ jackpot.rewards = async function () {
     var season = await myRedis.get(JACKPOT_SEASON);
     logger.info("jackpot rewards:" + userTickets);
     if (userTickets.length > 0) {
-        var diamond = myRedis.jackpotConfig.diamond / userTickets.length;
+        var diamond = Math.round(myRedis.jackpotConfig.diamond / userTickets.length);
         var rewards = `1-0-${diamond}`;
         userTickets.forEach(element => {
             mySqlDB.addMailBox("Jackpot reward", `You received reward from jackpot with ticket ${element["ticket"]}`, -1, element["userId"], rewards, 0, 0);
