@@ -1,5 +1,3 @@
-
-
 class RankBoard {
     constructor(rankingType, pointMin, pointMax, battleMin, perDiamond, inRank) {
       this.RankingType = rankingType;

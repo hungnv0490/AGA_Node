@@ -1,23 +1,21 @@
-const myRedis = require('./myredis.js')
-const mySqlDB = require('./mysqldb.js')
+const myRedis = require('../myredis.js')
+const mySqlDB = require('../mysqldb.js')
 const cron = require('node-cron');
 const express = require('express');
-const { route } = require('express/lib/application');
 var log4js = require("log4js");
 var logger = log4js.getLogger();
-const ranking = express.Router();
-const rankBoardConfig = require('./config/rankboard_config.js');
-const { pro } = require('./config/rankboard_config.js');
+const rankingService = express.Router();
+const rankBoardConfig = require('../config/rankboard_config.js');
 
 const RANKING_SEASON = "ranking-season";
 
-ranking.task = null;
+rankingService.task = null;
 
-ranking.get('/season/get', async (req, res) => {
+rankingService.get('/season/get', async (req, res) => {
     res.send(myRedis.rankingTimeConfig);
 });
 
-ranking.post('/season/set', async (req, res) => {
+rankingService.post('/season/set', async (req, res) => {
     console.log(req.body);
     var startTime = req.body.startTime;
     var endTime = req.body.endTime;
@@ -28,7 +26,7 @@ ranking.post('/season/set', async (req, res) => {
             myRedis.rankingTimeConfig.startTime = startTime;
             myRedis.rankingTimeConfig.endTime = endTime;
             await myRedis.setRankingTimeConfig();
-            await ranking.startNewSeason();
+            await rankingService.startNewSeason();
             res.send(JSON.stringify({ "code": 200 }));
             return;
         }
@@ -39,11 +37,11 @@ ranking.post('/season/set', async (req, res) => {
     return;
 });
 
-ranking.get('/rankboard/get', async (req, res) => {
+rankingService.get('/rankboard/get', async (req, res) => {
     res.send(rankBoardConfig.toJson());
 });
 
-ranking.post('/rankboard/set', async (req, res) => {
+rankingService.post('/rankboard/set', async (req, res) => {
     var json = req.body;
     rankBoardConfig.proDiamond = json.proDiamond;
     rankBoardConfig.casualDiamond = json.casualDiamond;
@@ -53,7 +51,7 @@ ranking.post('/rankboard/set', async (req, res) => {
     res.send(rankBoardConfig.toJson());
 });
 
-ranking.init = function () {
+rankingService.init = function () {
     var endTime = new Date(myRedis.rankingTimeConfig.endTime);
     var curDate = new Date();
     logger.info("ranking init end time:" + endTime + " curDate:" + curDate);
@@ -61,30 +59,30 @@ ranking.init = function () {
         logger.info("ranking init " + endTime.getDate() + " " + (curDate.getMonth() + 1));
         var job = `${endTime.getSeconds()} ${endTime.getMinutes()} ${endTime.getHours()} ${endTime.getDate()} ${endTime.getMonth() + 1} *`;
         logger.info("ranking init schedule:" + job);
-        ranking.task = cron.schedule(job, async () => {
-            await ranking.rewards(true);
-            await ranking.rewards(false);
+        rankingService.task = cron.schedule(job, async () => {
+            await rankingService.rewards(true);
+            await rankingService.rewards(false);
             await myRedis.rankingEndSeason();
-            ranking.task.stop();
-            ranking.task = null;
+            rankingService.task.stop();
+            rankingService.task = null;
         });
     }
 }
 
-ranking.startNewSeason = async function () {
+rankingService.startNewSeason = async function () {
     var endTime = new Date(myRedis.rankingTimeConfig.endTime);
     var curDate = new Date();
     if (endTime > curDate) {
-        if (ranking.task != null) {
-            ranking.task.stop();
-            ranking.task = null;
+        if (rankingService.task != null) {
+            rankingService.task.stop();
+            rankingService.task = null;
         }
         await myRedis.rankingStartNewSeason();
-        ranking.init();
+        rankingService.init();
     }
 }
 
-ranking.rewards = async function (isPro) {
+rankingService.rewards = async function (isPro) {
     logger.info("pro:" + isPro);
     var amount = 4000;
     if (!isPro) amount = 500;
@@ -130,4 +128,4 @@ ranking.rewards = async function (isPro) {
     });
 }
 
-module.exports = ranking;
+module.exports = rankingService;

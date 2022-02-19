@@ -1,20 +1,19 @@
-const myRedis = require('./myredis.js')
-const mySqlDB = require('./mysqldb.js')
+const myRedis = require('../myredis.js')
+const mySqlDB = require('../mysqldb.js')
 const cron = require('node-cron');
 const express = require('express');
-const { route } = require('express/lib/application');
-const jackpot = express.Router();
+const jackpotService = express.Router();
 var log4js = require("log4js");
 var logger = log4js.getLogger();
 
 // const jacpot = {}
-jackpot.task = null;
+jackpotService.task = null;
 
-jackpot.get('/get', async (req, res) => {
+jackpotService.get('/get', async (req, res) => {
     res.send(myRedis.jackpotConfig);
 });
 
-jackpot.post('/set', async (req, res) => {
+jackpotService.post('/set', async (req, res) => {
     console.log(req.body);
     var diamond = req.body.diamond;
     var startTime = req.body.startTime;
@@ -27,7 +26,7 @@ jackpot.post('/set', async (req, res) => {
             myRedis.jackpotConfig.startTime = startTime;
             myRedis.jackpotConfig.endTime = endTime;
             await myRedis.setJackpotConfig();
-            await jackpot.startNewSeason();
+            await jackpotService.startNewSeason();
             res.send(JSON.stringify({ "code": 200 }));
             return;
         }
@@ -39,7 +38,7 @@ jackpot.post('/set', async (req, res) => {
 });
 
 
-jackpot.init = function () {
+jackpotService.init = function () {
     var endTime = new Date(myRedis.jackpotConfig.endTime);
     var curDate = new Date();
     logger.info("jackpot init end time:" + endTime + " curDate:" + curDate);
@@ -47,26 +46,26 @@ jackpot.init = function () {
         logger.info(endTime.getDate() + " " + (curDate.getMonth() + 1));
         var job = `${endTime.getSeconds()} ${endTime.getMinutes()} ${endTime.getHours()} ${endTime.getDate()} ${endTime.getMonth() + 1} *`;
         logger.info("jackpot schedule:" + job);
-        jackpot.task = cron.schedule(job, async () => {
-            await jackpot.rewards();
+        jackpotService.task = cron.schedule(job, async () => {
+            await jackpotService.rewards();
         });
     }
 }
 
-jackpot.startNewSeason = async function () {
+jackpotService.startNewSeason = async function () {
     var endTime = new Date(myRedis.jackpotConfig.endTime);
     var curDate = new Date();
     if (endTime > curDate) {
-        if (jackpot.task != null) {
-            jackpot.task.stop();
-            jackpot.task = null;
+        if (jackpotService.task != null) {
+            jackpotService.task.stop();
+            jackpotService.task = null;
         }
         await myRedis.jackpotStartNewSeason();
-        jackpot.init();
+        jackpotService.init();
     }
 }
 
-jackpot.rewards = async function () {
+jackpotService.rewards = async function () {
     const JACKPOT_SEASON = "jackpot-season";
     var userTickets = await myRedis.getJackpotUserTickets();
     var season = await myRedis.get(JACKPOT_SEASON);
@@ -80,14 +79,14 @@ jackpot.rewards = async function () {
 
             });
         });
-        jackpot.task.stop();
-        jackpot.task = null;
+        jackpotService.task.stop();
+        jackpotService.task = null;
     }
     else {
-        jackpot.task.stop();
-        jackpot.task = null;
+        jackpotService.task.stop();
+        jackpotService.task = null;
     }
     await myRedis.jackpotEndSeason(myRedis.jackpotConfig.diamond);
 }
 
-module.exports = jackpot;
+module.exports = jackpotService;

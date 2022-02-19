@@ -3,19 +3,18 @@ const app = express()
 const port = 2707
 const myRedis = require('./myredis.js')
 const mySqlDB = require('./mysqldb.js')
-const jackpot = require('./jackpot.js')
 var log4js = require("log4js");
 var logger = log4js.getLogger();
-const ranking = require('./ranking.js')
-// const rankBoardConfig = require('./config/rankboard_config.js')
 var util = require('./util.js');
-var chestConfig = require('./config/chest_config.js');
+const jackpotService = require('./service/jackpot_service.js')
+const rankingService = require('./service/ranking_service.js')
 var chestService = require('./service/chest_service.js');
 var missionService = require('./service/mission_service.js');
 var cardService = require('./service/card_service.js');
 var charService = require('./service/char_service.js');
 var rewardService = require('./service/battle_service.js');
 var battleConfig = require('./config/battle_config.js');
+var chestConfig = require('./config/chest_config.js');
 
 log4js.configure({
     replaceConsole: false,
@@ -51,8 +50,8 @@ log4js.configure({
 });
 
 app.use(express.json());
-app.use('/jackpot', jackpot);
-app.use('/ranking', ranking);
+app.use('/jackpot', jackpotService);
+app.use('/ranking', rankingService);
 app.use('/chest', chestService);
 app.use('/mission', missionService);
 app.use('/card', cardService);
@@ -73,12 +72,12 @@ async function initConfig() {
     await myRedis.loadRankingConfig();
     await battleConfig.init();
     await chestConfig.init();
-    cardService.init();
 }
 
 async function init() {
-    jackpot.init();
-    ranking.init();
+    jackpotService.init();
+    rankingService.init();
+    cardService.init();
 }
 
 app.listen(port, async () => {

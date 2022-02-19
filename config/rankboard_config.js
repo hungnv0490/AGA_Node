@@ -1,5 +1,4 @@
-
-var RankBoard = require('../rankboard.js');
+var RankBoard = require('../entities/rankboard.js');
 
 rankboard_config = {}
 rankboard_config.proDiamond = 40000;
