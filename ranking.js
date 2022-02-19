@@ -118,7 +118,7 @@ ranking.rewards = async function (isPro) {
             if (board.RankingType == key) {
                 logger.info('ranking rewards board.rankingType:' + board.RankingType);
                 var rankingUsers = dt[key];
-                var diamond = Math.round(rankBoardDiamond * board.PerDiamond / 100 / rankingUsers.length);
+                var diamond = Math.floor(rankBoardDiamond * board.PerDiamond / 100 / rankingUsers.length);
                 var rewards = `1-0-${diamond}`;
                 rankingUsers.forEach(element => {
                     mySqlDB.addMailBox("Ranking reward", `You received reward from ranking with rank ${element["Rank"]}`, -1, element["UserId"], rewards, 0, 0);

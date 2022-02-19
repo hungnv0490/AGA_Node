@@ -14,7 +14,8 @@ var chestService = require('./service/chest_service.js');
 var missionService = require('./service/mission_service.js');
 var cardService = require('./service/card_service.js');
 var charService = require('./service/char_service.js');
-var rewardService = require('./service/reward_service.js');
+var rewardService = require('./service/battle_service.js');
+var battleConfig = require('./config/battle_config.js');
 
 log4js.configure({
     replaceConsole: false,
@@ -56,7 +57,7 @@ app.use('/chest', chestService);
 app.use('/mission', missionService);
 app.use('/card', cardService);
 app.use('/char', charService);
-app.use('/battle/reward', rewardService);
+app.use('/battle', rewardService);
 
 app.get("/mysql/test", function (req, res) {
     mySqlDB.test(function(dt){
@@ -70,6 +71,7 @@ setTimeout(init, 2000);
 async function initConfig() {
     await myRedis.loadJackpotConfig();
     await myRedis.loadRankingConfig();
+    await battleConfig.init();
     await chestConfig.init();
     cardService.init();
 }
@@ -81,5 +83,6 @@ async function init() {
 
 app.listen(port, async () => {
     // logger.info("index boards:"+await myRedis.boards(true, 10));
+    logger.info(Math.floor(2.7));
     logger.info("start server:" + util.dateFormat(new Date(), "%Y-%m-%d %H:%M:%S", false));
 })
