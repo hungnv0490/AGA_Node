@@ -10,7 +10,7 @@ charService.get("/get", async (req, res)=>{
     var data = await myredis.get("char-config");
     var dataRes = {}
     dataRes.code = 200;
-    dataRes.data = data;
+    dataRes.data = JSON.parse(data);
     res.send(dataRes);
 });
 
@@ -22,7 +22,7 @@ charService.post("/set", async (req, res)=>{
     await myredis.publish(CharConfigNewData);
     var dataRes = {}
     dataRes.code = 200;
-    dataRes.data = data;
+    dataRes.data = req.body;
     res.send(dataRes);
 });
 

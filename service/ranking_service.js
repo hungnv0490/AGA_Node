@@ -30,13 +30,13 @@ rankingService.post('/season/set', async (req, res) => {
             myRedis.rankingTimeConfig.endTime = endTime;
             await myRedis.setRankingTimeConfig();
             await rankingService.startNewSeason();
-            res.send(JSON.stringify({ "code": 200 }));
+            res.send({ "code": 200 });
             return;
         }
-        res.send(JSON.stringify({ "code": 100 }));
+        res.send({ "code": 100 });
         return;
     }
-    res.send(JSON.stringify({ "code": 101 }));
+    res.send({ "code": 101 });
     return;
 });
 
