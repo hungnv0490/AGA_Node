@@ -18,6 +18,8 @@ charService.post("/set", async (req, res)=>{
     var data = req.body;
     // logger.info(req.body);
     var data = await myredis.set("char-config", JSON.stringify(req.body));
+    var CharConfigNewData = "char-config-newdata";
+    await myredis.publish(CharConfigNewData);
     var dataRes = {}
     dataRes.code = 200;
     dataRes.data = data;
