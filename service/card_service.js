@@ -62,7 +62,7 @@ cardService.post('/add', async (req, res) => {
         var response = {};
         response.code = 200;
         response.cardId = cardId;
-        res.send(JSON.stringify(response));
+        res.send(response);
     });
 });
 
