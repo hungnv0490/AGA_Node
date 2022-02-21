@@ -12,7 +12,8 @@ var Pack = require('../entities/pack.js')
 rewardService.get("/reward/get", async (req, res)=>{
     var data = await myredis.get("reward-endgame-config");
     var dataRes = {}
-    dataRes.code = JSON.parse(data);
+    dataRes.code = 200;
+    dataRes.data =  data != null ? JSON.parse(data) : null;
     res.send(dataRes);
 });
 
@@ -24,6 +25,7 @@ rewardService.post("/reward/set", async (req, res)=>{
     await myredis.publish(RewardEndGameLoadNewData);
     var dataRes = {}
     dataRes.code = 200;
+    dataRes.data = req.body;
     res.send(dataRes);
 });
 

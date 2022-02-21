@@ -6,15 +6,15 @@ const mySqlDb = require('../mysqldb.js');
 const newChars = require('../config/new_chars.json')
 const charService = express.Router();
 
-charService.get("/get", async (req, res)=>{
+charService.get("/get", async (req, res) => {
     var data = await myredis.get("char-config");
     var dataRes = {}
     dataRes.code = 200;
-    dataRes.data = JSON.parse(data);
+    dataRes.data =  data != null ? JSON.parse(data) : null;
     res.send(dataRes);
 });
 
-charService.post("/set", async (req, res)=>{
+charService.post("/set", async (req, res) => {
     var data = req.body;
     // logger.info(req.body);
     var data = await myredis.set("char-config", JSON.stringify(req.body));
@@ -25,6 +25,28 @@ charService.post("/set", async (req, res)=>{
     dataRes.data = req.body;
     res.send(dataRes);
 });
+// private static string ServerConfigKey = "char-fusion-fee-config";
+
+charService.get("/fusion-fee/get", async (req, res) => {
+    var data = await myredis.get("char-fusion-fee-config");
+    var dataRes = {}
+    dataRes.code = 200;
+    dataRes.data = data != null ? JSON.parse(data) : null;
+    res.send(dataRes);
+});
+
+charService.post("/fusion-fee/set", async (req, res) => {
+    var data = req.body;
+    // logger.info(req.body);
+    var data = await myredis.set("char-fusion-fee-config", JSON.stringify(req.body));
+    var CharConfigNewData = "char-fusion-fee-newdata";
+    await myredis.publish(CharConfigNewData);
+    var dataRes = {}
+    dataRes.code = 200;
+    dataRes.data = req.body;
+    res.send(dataRes);
+});
+
 
 
 module.exports = charService;
