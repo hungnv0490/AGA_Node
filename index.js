@@ -13,6 +13,7 @@ var missionService = require('./service/mission_service.js');
 var cardService = require('./service/card_service.js');
 var charService = require('./service/char_service.js');
 var rewardService = require('./service/battle_service.js');
+var gameConfigService = require('./service/game_config_service.js');
 var battleConfig = require('./config/battle_config.js');
 var chestConfig = require('./config/chest_config.js');
 
@@ -57,6 +58,7 @@ app.use('/mission', missionService);
 app.use('/card', cardService);
 app.use('/char', charService);
 app.use('/battle', rewardService);
+app.use('/server-game-config', gameConfigService);
 
 app.get("/mysql/test", function (req, res) {
     mySqlDB.test(function(dt){

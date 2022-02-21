@@ -19,6 +19,7 @@ chestConfig.chests = [
     new Chest([PackCard.Default()]),
     new Chest([PackCard.Default()]),
 ];
+const CHEST_CONFIG_NEW_DATA = "chest-config-new-data";
 
 chestConfig.init = async function () {
     var fromRedis = await myRedis.get(CHEST_CONFIG);
@@ -53,6 +54,8 @@ chestConfig.init = async function () {
             }
             chestConfig.packIds = ids;
             await myRedis.set(CHEST_CONFIG, chestConfig.toRedis());
+            await myRedis.publish(CHEST_CONFIG_NEW_DATA);
+            CHEST_CONFIG_NEW_DATA
         }
         else {
             var createTime = util.dateFormat(new Date(), "%Y-%m-%d %H:%M:%S", false);
@@ -85,6 +88,7 @@ chestConfig.init = async function () {
                         }
                         chestConfig.packIds = ids;
                         await myRedis.set(CHEST_CONFIG, chestConfig.toRedis());
+                        await myRedis.publish(CHEST_CONFIG_NEW_DATA);
                     }
                 });
             });
@@ -146,8 +150,9 @@ chestConfig.setConfig = async function () {
                     else ids += result.id;
                     i++;
                 }
-                chestConfig.packIds = ids;
+                chestConfig.packIds = ids;                
                 await myRedis.set(CHEST_CONFIG, chestConfig.toRedis());
+                await myRedis.publish(CHEST_CONFIG_NEW_DATA);
                 var sql = `Delete From pack Where id in (${oldChestConfig.packIds.replaceAll('|', ',')});`
                 logger.info("chest_config setConfig sql 3:" + sql);
                 mysqlDb.execute(sql, function (err, results, fields) {
