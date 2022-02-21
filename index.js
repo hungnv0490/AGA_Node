@@ -16,6 +16,7 @@ var rewardService = require('./service/battle_service.js');
 var gameConfigService = require('./service/game_config_service.js');
 var battleConfig = require('./config/battle_config.js');
 var chestConfig = require('./config/chest_config.js');
+var mailService = require('./service/mail_service.js');
 
 log4js.configure({
     replaceConsole: false,
@@ -59,6 +60,7 @@ app.use('/card', cardService);
 app.use('/char', charService);
 app.use('/battle', rewardService);
 app.use('/server-game-config', gameConfigService);
+app.use('/mail', mailService);
 
 app.get("/mysql/test", function (req, res) {
     mySqlDB.test(function(dt){

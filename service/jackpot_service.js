@@ -77,7 +77,9 @@ jackpotService.rewards = async function () {
         var diamond = Math.floor(myRedis.jackpotConfig.diamond / userTickets.length);
         var rewards = `1-0-${diamond}`;
         userTickets.forEach(element => {
-            mySqlDB.addMailBox("Jackpot reward", `You received reward from jackpot with ticket ${element["ticket"]}`, -1, element["userId"], rewards, 0, 0);
+            mySqlDB.addMailBox("Jackpot reward", `You received reward from jackpot with ticket ${element["ticket"]}`, -1, element["userId"], rewards, 0, 0,function(code){
+                
+            });
             mySqlDB.addJackpotHis(element["userId"], diamond, season, function(a){
 
             });

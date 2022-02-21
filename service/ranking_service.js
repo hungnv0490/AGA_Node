@@ -128,7 +128,9 @@ rankingService.rewards = async function (isPro) {
                 var diamond = Math.floor(rankBoardDiamond * board.PerDiamond / 100 / rankingUsers.length);
                 var rewards = `1-0-${diamond}`;
                 rankingUsers.forEach(element => {
-                    mySqlDB.addMailBox("Ranking reward", `You received reward from ranking with rank ${element["Rank"]}`, -1, element["UserId"], rewards, 0, 0);
+                    mySqlDB.addMailBox("Ranking reward", `You received reward from ranking with rank ${element["Rank"]}`, -1, element["UserId"], rewards, 0, 0,function(code){
+                        
+                    });
                     mySqlDB.updateUserRankingEndSeason(element["UserId"], board.RankingType, element["Rank"], season);
                 });
                 break;
