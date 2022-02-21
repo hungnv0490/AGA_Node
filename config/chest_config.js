@@ -36,7 +36,7 @@ chestConfig.init = async function () {
         if (results != null && results.length > 0) {
             var ids = "";
             var i = 0;
-            logger.info("chest_config init results:" + results);
+            logger.info("chest_config init results:" + JSON.stringify(results));
             chestConfig.chests = []
             for (var result of results) {
                 if (i < results.length - 1)

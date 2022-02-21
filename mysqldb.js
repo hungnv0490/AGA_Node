@@ -116,6 +116,17 @@ mySqlDB.addUserCard = function (userId, charId, levelFusion, inTeam, cb) {
   });
 }
 
+mySqlDB.removeUserCard = function (userId, cardId, cb) {
+  var sql = `DELETE FROM user_card Where id=${cardId} And user_id=${userId}`;
+  logger.info("mysqldb removeUserCard sql:" + sql);
+  mySqlDB.execute(sql, function (err, result, fields) {
+    // var json = JSON.stringify(result);
+    logger.error("mysqldb removeUserCard err:" + err + " id:" + JSON.stringify(result));
+    if (err == null) cb(200);
+    else cb(601);
+  });
+}
+
 mySqlDB.insertOrUpdateUserMission = function (userId, missionType, amount, cb) {
   var sql = `Select count(*) count From mission where mission_type=${missionType} And active = 1`;
   logger.info("mysqldb insertOrUpdateUserMission sql:" + sql);

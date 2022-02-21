@@ -66,6 +66,20 @@ cardService.post('/add', async (req, res) => {
     });
 });
 
+cardService.post('/remove', async (req, res) => {
+    logger.log(req.body);
+    var json = req.body;
+    mySqlDb.removeUserCard(json.userId, json.cardId, async function (code) {
+        if (code == 200) {
+            await myredis.removeCard(json.userId, json.cardId);           
+        }
+        var response = {};
+        response.code = code;
+        response.cardId = json.cardId;
+        res.send(response);
+    });
+});
+
 cardService.init = function () {
     Object.keys(newChars).forEach(function (a) {
         var char = newChars[a][0];

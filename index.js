@@ -78,10 +78,12 @@ async function init() {
     jackpotService.init();
     rankingService.init();
     cardService.init();
+    mySqlDB.removeUserCard(1, 7, function(res){
+
+    });
 }
 
 app.listen(port, async () => {
     // logger.info("index boards:"+await myRedis.boards(true, 10));
-    logger.info(Math.floor(2.7));
     logger.info("start server:" + util.dateFormat(new Date(), "%Y-%m-%d %H:%M:%S", false));
 })

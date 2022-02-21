@@ -44,8 +44,8 @@ const RankingBoardCasual = "ranking-board-casual";
 const RankingBoard = "ranking-board";
 const RankingLoadNewData = "ranking-load-new-data";
 
-const PUBLIC_CARD_ADD = "card-add";
-const PUBLIC_MISSION_ADD = "mission-add";
+const PUBLIC_CARD_ADD = "card-process";
+const CARD_PROCESS = "card-process";
 
 // var myredis = {}
 // myredis.client = client;
@@ -240,8 +240,14 @@ myredis.rankingEndSeason = async function () {
 
 myredis.addNewCard = async function(userId, charId, level, cardId)
 {
-    var start = `${userId}|${charId}|${level}|${cardId}`;
-    await myredis.publish(PUBLIC_CARD_ADD, start);
+    var start = `add|${userId}|${charId}|${level}|${cardId}`;
+    await myredis.publish(CARD_PROCESS, start);
+}
+
+myredis.removeCard = async function(userId, cardId)
+{
+    var start = `remove-${userId}|${cardId}`;
+    await myredis.publish(CARD_PROCESS, start);
 }
 
 myredis.updateMission = async function(userId, missionType, amount)
