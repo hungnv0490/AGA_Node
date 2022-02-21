@@ -12,7 +12,7 @@ var Pack = require('../entities/pack.js')
 rewardService.get("/reward/get", async (req, res)=>{
     var data = await myredis.get("reward-endgame-config");
     var dataRes = {}
-    dataRes.code = 200;
+    dataRes.code = JSON.parse(data);
     res.send(dataRes);
 });
 

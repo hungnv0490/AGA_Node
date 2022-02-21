@@ -72,7 +72,7 @@ battleConfig.init = async function () {
 }
 
 battleConfig.toJson = function () {
-    return JSON.stringify(battleConfig);
+    return battleConfig;
 }
 
 battleConfig.setConfig = async function () {
