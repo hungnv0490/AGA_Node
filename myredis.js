@@ -246,7 +246,7 @@ myredis.addNewCard = async function(userId, charId, level, cardId)
 
 myredis.removeCard = async function(userId, cardId)
 {
-    var start = `remove-${userId}|${cardId}`;
+    var start = `remove|${userId}|${cardId}`;
     await myredis.publish(CARD_PROCESS, start);
 }
 

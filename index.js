@@ -78,9 +78,6 @@ async function init() {
     jackpotService.init();
     rankingService.init();
     cardService.init();
-    mySqlDB.removeUserCard(1, 7, function(res){
-
-    });
 }
 
 app.listen(port, async () => {
