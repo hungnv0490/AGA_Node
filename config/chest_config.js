@@ -94,6 +94,16 @@ chestConfig.toJson = function (chests) {
     return JSON.stringify(cf);
 }
 
+chestConfig.getOb = function (chests) {
+    if (chests == null) chests = chestDefault;
+    var cf = {};
+    cf.DailyLoginMaxChestPoint = chestConfig.DailyLoginMaxChestPoint
+    cf.DailyMissionMaxChestPoint = chestConfig.DailyMissionMaxChestPoint;
+    cf.AchievementMaxChestPoint = chestConfig.AchievementMaxChestPoint;
+    cf.chests = chests;
+    return cf;
+}
+
 chestConfig.setConfig = async function (chests) {
     var oldChestConfigStr = await myRedis.get(CHEST_CONFIG);
     var oldChestConfig = JSON.parse(oldChestConfigStr);

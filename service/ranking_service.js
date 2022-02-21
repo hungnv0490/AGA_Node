@@ -12,7 +12,10 @@ const RANKING_SEASON = "ranking-season";
 rankingService.task = null;
 
 rankingService.get('/season/get', async (req, res) => {
-    res.send(myRedis.rankingTimeConfig);
+    var dataRes = {}
+    dataRes.code = 200;
+    dataRes.data = myRedis.rankingTimeConfig;
+    res.send(dataRes);
 });
 
 rankingService.post('/season/set', async (req, res) => {
@@ -38,7 +41,10 @@ rankingService.post('/season/set', async (req, res) => {
 });
 
 rankingService.get('/rankboard/get', async (req, res) => {
-    res.send(rankBoardConfig.toJson());
+    var dataRes = {}
+    dataRes.code = 200;
+    dataRes.data = rankboard_config;
+    res.send(dataRes);
 });
 
 rankingService.post('/rankboard/set', async (req, res) => {
@@ -48,7 +54,10 @@ rankingService.post('/rankboard/set', async (req, res) => {
     rankBoardConfig.pro = json.pro;
     rankBoardConfig.casual = json.casual;
     await myRedis.setBoardConfig();
-    res.send(rankBoardConfig.toJson());
+    var dataRes = {}
+    dataRes.code = 200;
+    dataRes.data = rankboard_config;
+    res.send(dataRes);
 });
 
 rankingService.init = function () {

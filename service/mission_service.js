@@ -7,7 +7,10 @@ const missionService = express.Router();
 missionService.get('/cate/:cateId/type/:missionType', async (req, res) => {
     logger.info("mission_service req:"+JSON.stringify(req.params));
     mySqlDb.getMission(req.params.cateId, req.params.missionType, function (ms) {
-        res.send(JSON.stringify(ms));
+        var dataRes = {}
+        dataRes.code = 200;
+        dataRes.data = ms;
+        res.send(dataRes);
     });
 });
 

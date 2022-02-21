@@ -7,7 +7,11 @@ const Chest = require("../entities/chest.js")
 var PackCard = require('../entities/pack_card.js');
 
 chestService.get('/get', async (req, res) => {
-    res.send(chestConfig.toJson(null));
+    var getOb = chestConfig.getOb(null);
+    var dataRes = {}
+    dataRes.code = 200;
+    dataRes.data = getOb;
+    res.send(dataRes);
 });
 
 chestService.post('/set', async (req, res) => {
@@ -26,7 +30,12 @@ chestService.post('/set', async (req, res) => {
         chestObs.push(new Chest(packCardObs));
     }
     await chestConfig.setConfig(chestObs);
-    res.send(chestConfig.toJson(chestObs));
+    var getOb = chestConfig.getOb(null);
+    var dataRes = {}
+    dataRes.code = 200;
+    dataRes.data = getOb;
+    res.send(dataRes);
+    // res.send(chestConfig.toJson(chestObs));
 });
 
 module.exports = chestService;

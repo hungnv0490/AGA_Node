@@ -8,14 +8,20 @@ const charService = express.Router();
 
 charService.get("/get", async (req, res)=>{
     var data = await myredis.get("char-config");
-    res.send(data);
+    var dataRes = {}
+    dataRes.code = 200;
+    dataRes.data = data;
+    res.send(dataRes);
 });
 
 charService.post("/set", async (req, res)=>{
     var data = req.body;
     // logger.info(req.body);
     var data = await myredis.set("char-config", JSON.stringify(req.body));
-    res.send(data);
+    var dataRes = {}
+    dataRes.code = 200;
+    dataRes.data = data;
+    res.send(dataRes);
 });
 
 

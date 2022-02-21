@@ -11,7 +11,9 @@ var Pack = require('../entities/pack.js')
 
 rewardService.get("/reward/get", async (req, res)=>{
     var data = await myredis.get("reward-endgame-config");
-    res.send(data);
+    var dataRes = {}
+    dataRes.code = 200;
+    res.send(dataRes);
 });
 
 rewardService.post("/reward/set", async (req, res)=>{
@@ -20,11 +22,16 @@ rewardService.post("/reward/set", async (req, res)=>{
     var data = await myredis.set("reward-endgame-config", JSON.stringify(req.body));
     var RewardEndGameLoadNewData = "reward-endgame-newdata";
     await myredis.publish(RewardEndGameLoadNewData);
-    res.send(data);
+    var dataRes = {}
+    dataRes.code = 200;
+    res.send(dataRes);
 });
 
 rewardService.get("/pack/get", async (req, res)=>{
-    res.send(battleConfig.toJson());
+    var dataRes = {}
+    dataRes.code = 200;
+    dataRes.data = battleConfig;
+    res.send(dataRes);
 });
 
 rewardService.post("/pack/set", async (req, res)=>{
@@ -40,7 +47,10 @@ rewardService.post("/pack/set", async (req, res)=>{
     }
     battleConfig.packs = packObs;
     await battleConfig.setConfig();
-    res.send(battleConfig.toJson());
+    var dataRes = {}
+    dataRes.code = 200;
+    dataRes.data = battleConfig;
+    res.send(dataRes);
 });
 
 rewardService.init = function(){

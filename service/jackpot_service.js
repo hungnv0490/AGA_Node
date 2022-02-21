@@ -10,7 +10,10 @@ var logger = log4js.getLogger();
 jackpotService.task = null;
 
 jackpotService.get('/get', async (req, res) => {
-    res.send(myRedis.jackpotConfig);
+    var dataRes = {}
+    dataRes.code = 200;
+    dataRes.data = myRedis.jackpotConfig;
+    res.send(dataRes);
 });
 
 jackpotService.post('/set', async (req, res) => {
@@ -27,13 +30,13 @@ jackpotService.post('/set', async (req, res) => {
             myRedis.jackpotConfig.endTime = endTime;
             await myRedis.setJackpotConfig();
             await jackpotService.startNewSeason();
-            res.send(JSON.stringify({ "code": 200 }));
+            res.send({ "code": 200 });
             return;
         }
-        res.send(JSON.stringify({ "code": 100 }));
+        res.send({"code": 100 });
         return;
     }
-    res.send(JSON.stringify({ "code": 101 }));
+    res.send({ "code": 101 });
     return;
 });
 
