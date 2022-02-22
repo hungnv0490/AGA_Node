@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const port = 2707
 const myRedis = require('./myredis.js')
-const mySqlDB = require('./mysqldb.js')
+const mySqlDb = require('./mysqldb.js')
 var log4js = require("log4js");
 var logger = log4js.getLogger();
 var util = require('./util.js');
@@ -17,6 +17,7 @@ var gameConfigService = require('./service/game_config_service.js');
 var battleConfig = require('./config/battle_config.js');
 var chestConfig = require('./config/chest_config.js');
 var mailService = require('./service/mail_service.js');
+var moneyService = require('./service/money_service.js');
 
 log4js.configure({
     replaceConsole: false,
@@ -61,9 +62,10 @@ app.use('/char', charService);
 app.use('/battle', rewardService);
 app.use('/server-game-config', gameConfigService);
 app.use('/mail', mailService);
+app.use('/diamond', moneyService);
 
 app.get("/mysql/test", function (req, res) {
-    mySqlDB.test(function(dt){
+    mySqlDb.test(function (dt) {
         res.send(dt);
     })
 });
@@ -86,5 +88,7 @@ async function init() {
 
 app.listen(port, async () => {
     // logger.info("index boards:"+await myRedis.boards(true, 10));
+    var test = "1aa";
+    if(isNaN(test)) console.log('wwwwwww');
     logger.info("start server:" + util.dateFormat(new Date(), "%Y-%m-%d %H:%M:%S", false));
 })

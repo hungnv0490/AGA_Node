@@ -19,7 +19,8 @@ const mySqlDB = mysql.createPool({
   database: config.mysqlDb,
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0
+  queueLimit: 0,
+  multipleStatements:true
 });
 
 // mySqlDB.connect(function (err) {
