@@ -67,6 +67,7 @@ app.use('/battle', rewardService);
 app.use('/server-game-config', gameConfigService);
 app.use('/mail', mailService);
 app.use('/diamond', moneyService);
+// app.use('/diamond', moneyService);
 
 app.get("/mysql/test", function (req, res) {
     mySqlDb.test(function (dt) {

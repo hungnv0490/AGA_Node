@@ -3,8 +3,10 @@ var log4js = require("log4js");
 var logger = log4js.getLogger();
 const chestService = express.Router();
 const chestConfig = require('../config/chest_config.js');
-const Chest = require("../entities/chest.js")
 var PackCard = require('../entities/pack_card.js');
+var Pack2 = require('../entities/pack2.js');
+const verifyToken = require('../middlewares/verifyToken.js');
+const mySqlDb = require('../mysqldb.js');
 
 chestService.get('/get', async (req, res) => {
     var dataRes = {}
@@ -35,6 +37,33 @@ chestService.post('/set', async (req, res) => {
     dataRes.data = chestConfig.toApiRes();
     res.send(dataRes);
     // res.send(chestConfig.toJson(chestObs));
+});
+
+chestService.get('/user/:username', verifyToken, async (req, res) => {
+    var dataRes = {};
+    var packs =[];
+    var username = mySqlDb.escape(req.params.username);
+    var sql = `SELECT up.*, p.pack_cards FROM aga.user_pack up
+    left join pack p
+    on up.pack_id = p.id
+    where up.user_id = (select user_id from users where username = ${username});`;
+    mySqlDb.query(sql, function(err, result, fields){
+        if(result != null && result.length > 0){
+            for(var rs of result){
+                var packCards = []
+                var packCardStr_arr = rs.pack_cards.split('|');
+                for (var packCardStr of packCardStr_arr) {
+                    var cards = packCardStr.split('-');
+                    packCards.push(new PackCard(parseFloat(cards[0]), parseFloat(cards[1]), parseFloat(cards[2]), parseFloat(cards[3]), parseFloat(cards[4])));
+                }
+                var pack = new Pack2(packCards, rs.amount, rs.pack_id);
+                packs.push(pack);
+            }
+        }
+        dataRes.packs = packs;
+        dataRes.code = 200;
+        res.send(dataRes);
+    });
 });
 
 module.exports = chestService;

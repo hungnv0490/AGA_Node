@@ -19,13 +19,14 @@ battleConfig.packs =
     ];
 
 battleConfig.init = async function () {
-    var sql = `Select * From pack where name='BattleReward';`
+    var sql = `Select * from pack where name = 'BattleReward' AND create_time in (SELECT max(create_time) FROM aga.pack where name = 'BattleReward');;`
     logger.info("battle_config init sql:" + sql);
     mysqlDb.execute(sql, async function (err, results, fields) {
         if (results != null && results.length > 0) {
             var ids = "";
             var i = 0;
             logger.info("battle_config init results:" + JSON.stringify(results));
+            packTime = results[0].create_time;
             for (var result of results) {
                 if (i < results.length - 1)
                     ids += result.id + "|";
@@ -50,7 +51,7 @@ battleConfig.init = async function () {
             logger.info("battle_config init sql 1:" + sql);
             mysqlDb.execute(sql, async function (err, results, fields) {
                 logger.info("battle_config init results 1:" + JSON.stringify(results));
-                var sql = `Select * From pack where name='BattleReward';`
+                var sql = `Select * from pack where name = 'BattleReward' AND create_time in (SELECT max(create_time) FROM aga.pack where name = 'BattleReward');;`
                 logger.info("battle_config init sql 2:" + sql);
                 mysqlDb.execute(sql, async function (err, results, fields) {
                     if (results != null && results.length > 0) {
@@ -76,7 +77,6 @@ battleConfig.toJson = function () {
 }
 
 battleConfig.setConfig = async function () {
-    var oldIds = await myRedis.get(BattleRewardPackIds);
     var createTime = util.dateFormat(new Date(), "%Y-%m-%d %H:%M:%S", false);
     var i = 0;
     var values = "";
@@ -105,10 +105,10 @@ battleConfig.setConfig = async function () {
                     i++;
                 }
                 await myRedis.set(BattleRewardPackIds, ids);
-                var sql = `Delete From pack Where id in (${oldIds.replaceAll('|',',')});`
-                logger.info("battle_config setConfig sql 3:" + sql);
-                mysqlDb.execute(sql, function(err, results, fields){
-                });
+                // var sql = `Delete From pack Where id in (${oldIds.replaceAll('|',',')});`
+                // logger.info("battle_config setConfig sql 3:" + sql);
+                // mysqlDb.execute(sql, function(err, results, fields){
+                // });
             }
         });
     });

@@ -31,7 +31,7 @@ chestConfig.init = async function () {
         chestConfig.packIds = json.packIds;
     }
 
-    var sql = `Select * From pack where name='ChestReward';`
+    var sql = `Select * from pack where name = 'ChestReward' AND create_time in (SELECT max(create_time) FROM aga.pack where name = 'ChestReward');;`
     logger.info("chest_config init sql:" + sql);
     mysqlDb.execute(sql, async function (err, results, fields) {
         if (results != null && results.length > 0) {
@@ -73,7 +73,7 @@ chestConfig.init = async function () {
             logger.info("chest_config init sql 1:" + sql);
             mysqlDb.execute(sql, async function (err, results, fields) {
                 logger.info("chest_config init results 1:" + JSON.stringify(results));
-                var sql = `Select * From pack where name='ChestReward';`
+                var sql = `Select * From pack where name='ChestReward' And create_time='${createTime}';`
                 logger.info("chest_config init sql 2:" + sql);
                 mysqlDb.execute(sql, async function (err, results, fields) {
                     if (results != null && results.length > 0) {
@@ -153,10 +153,10 @@ chestConfig.setConfig = async function () {
                 chestConfig.packIds = ids;                
                 await myRedis.set(CHEST_CONFIG, chestConfig.toRedis());
                 await myRedis.publish(CHEST_CONFIG_NEW_DATA);
-                var sql = `Delete From pack Where id in (${oldChestConfig.packIds.replaceAll('|', ',')});`
-                logger.info("chest_config setConfig sql 3:" + sql);
-                mysqlDb.execute(sql, function (err, results, fields) {
-                });
+                // var sql = `Delete From pack Where id in (${oldChestConfig.packIds.replaceAll('|', ',')});`
+                // logger.info("chest_config setConfig sql 3:" + sql);
+                // mysqlDb.execute(sql, function (err, results, fields) {
+                // });
             }
         });
     });
