@@ -6,11 +6,11 @@ const nanoidNumber = nanoId.customAlphabet("123456789", 10);
 const nanoidSS = nanoId.customAlphabet("ABCDEFGHIJKLMNOPQRSTUVXYZ123456789", 5);
 const rankBoardConfig = require('./config/rankboard_config.js')
 const redis = require('redis');
-var config = require('./config.json');
+
 const myredis = redis.createClient({
-    host: config.redisHost,
+    host: process.env.redisHost || process.env.redisHost_Product,
     port: 6379,
-    password: config.redisPass
+    password:process.env.redisPass || process.env.redisPass_Product
 });
 myredis.connect();
 var util = require('./util.js');

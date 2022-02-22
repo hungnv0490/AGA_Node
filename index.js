@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express')
 const app = express()
 const port = 2707
@@ -6,6 +7,8 @@ const mySqlDb = require('./mysqldb.js')
 var log4js = require("log4js");
 var logger = log4js.getLogger();
 var util = require('./util.js');
+const jwt = require('jsonwebtoken');
+
 const jackpotService = require('./service/jackpot_service.js')
 const rankingService = require('./service/ranking_service.js')
 var chestService = require('./service/chest_service.js');
@@ -87,8 +90,8 @@ async function init() {
 }
 
 app.listen(port, async () => {
-    // logger.info("index boards:"+await myRedis.boards(true, 10));
-    var test = "1aa";
-    if(isNaN(test)) console.log('wwwwwww');
+    // var sign = jwt.sign({name:'aga',start:2022,type:'game'}, process.env.tokenSecret);
+    // logger.info(sign);
+    console.log(process.env.mysqlHot||process.env.mysqlHot_Product);
     logger.info("start server:" + util.dateFormat(new Date(), "%Y-%m-%d %H:%M:%S", false));
 })

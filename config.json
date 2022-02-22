@@ -1,8 +1,0 @@
-{
-    "mysqlHot": "159.223.62.35",
-    "mysqlUser": "admin",
-    "mysqlPass": "88qL8f_Tams!G_RX",
-    "mysqlDb": "aga",
-    "redisHost": "127.0.0.1",
-    "redisPass": ""
-}

@@ -3,6 +3,7 @@ var log4js = require("log4js");
 var logger = log4js.getLogger();
 const mySqlDb = require('../mysqldb.js');
 const myRedis = require('../myredis.js');
+const verifyToken = require('../middlewares/verifyToken.js');
 
 const moneyService = express.Router();
 const USERNAME_MONEY_LOCK = "username-money-lock";
@@ -37,7 +38,7 @@ moneyService.get('/get/:username', async (req, res) => {
     });
 });
 
-moneyService.post('/withdraw', async (req, res) => {
+moneyService.post('/withdraw', verifyToken, async (req, res) => {
     var username = mySqlDb.escape(req.body.username);
     var usernameStr = username.replaceAll("'","");
     var key = `${USERNAME_MONEY_LOCK}:${usernameStr}`;
@@ -67,7 +68,7 @@ moneyService.post('/withdraw', async (req, res) => {
     call aga.SP_WithDraw(${username}, ${req.body.diamond}, '${date}', '${curDate}', @userId,@err);
     select @userId,@err;
     `;
-    mySqlDb.query(sql, async function (err, result, fields) {
+    mySqlDb.query(sql,  async function (err, result, fields) {
         logger.info("money_service withdraw result:"+JSON.stringify(result));
         if (result.length != 0) {
             var err = result[result.length - 1][0]['@err'];
@@ -90,7 +91,7 @@ moneyService.post('/withdraw', async (req, res) => {
     });
 });
 
-moneyService.post('/deposit', async (req, res) => {
+moneyService.post('/deposit', verifyToken, async (req, res) => {
     var username = mySqlDb.escape(req.body.username);
     var usernameStr = username.replaceAll("'","");
     if (isNaN(req.body.diamond) || req.body.diamond <= 0) {

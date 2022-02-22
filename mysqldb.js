@@ -1,5 +1,4 @@
 var mysql = require('mysql2');
-var config = require('./config.json');
 var util = require('./util.js');
 var log4js = require("log4js");
 var logger = log4js.getLogger();
@@ -13,10 +12,10 @@ var logger = log4js.getLogger();
 // });
 
 const mySqlDB = mysql.createPool({
-  host: config.mysqlHot,
-  user: config.mysqlUser,
-  password: config.mysqlPass,
-  database: config.mysqlDb,
+  host: process.env.mysqlHot || process.env.mysqlHot_Product,
+  user: process.env.mysqlUser || process.env.mysqlUser_Product,
+  password: process.env.mysqlPass || process.env.mysqlPass_Product,
+  database: process.env.mysqlDb || process.env.mysqlDb_Product,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
