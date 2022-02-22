@@ -9,6 +9,9 @@ var logger = log4js.getLogger();
 var util = require('./util.js');
 const jwt = require('jsonwebtoken');
 
+var battleConfig = require('./config/battle_config.js');
+var chestConfig = require('./config/chest_config.js');
+
 const jackpotService = require('./service/jackpot_service.js')
 const rankingService = require('./service/ranking_service.js')
 var chestService = require('./service/chest_service.js');
@@ -17,8 +20,6 @@ var cardService = require('./service/card_service.js');
 var charService = require('./service/char_service.js');
 var rewardService = require('./service/battle_service.js');
 var gameConfigService = require('./service/game_config_service.js');
-var battleConfig = require('./config/battle_config.js');
-var chestConfig = require('./config/chest_config.js');
 var mailService = require('./service/mail_service.js');
 var moneyService = require('./service/money_service.js');
 
