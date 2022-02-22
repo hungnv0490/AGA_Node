@@ -37,8 +37,10 @@ moneyService.get('/get/:username', async (req, res) => {
         }
     });
 });
-
+moneyService.withdawCount = 0;
 moneyService.post('/withdraw', verifyToken, async (req, res) => {
+    moneyService.withdawCount ++;
+    logger.info("withdaw start:" + moneyService.withdawCount );
     var username = mySqlDb.escape(req.body.username);
     var usernameStr = username.replaceAll("'","");
     var key = `${USERNAME_MONEY_LOCK}:${usernameStr}`;
@@ -81,12 +83,14 @@ moneyService.post('/withdraw', verifyToken, async (req, res) => {
                 var UPDATE_MONEY = "update-money";
                 await myRedis.publish(UPDATE_MONEY, `${userId}`);
             }
+            logger.info("withdaw end:" + moneyService.withdawCount );
         }
         else {
             dataRes.code = 600;
             logger.info("money_service withdraw:"+JSON.stringify(dataRes));
             res.send(dataRes);
             await myRedis.hSet(key, false);
+            logger.info("withdaw end 2:" + moneyService.withdawCount );
         }
     });
 });

@@ -56,6 +56,20 @@ log4js.configure({
     }
 });
 
+app.disable('x-powered-by');
+const session = require('express-session')
+let RedisStore = require("connect-redis")(session)
+app.set('trust proxy', 1) // trust first proxy
+app.use(
+    session({
+        store: new RedisStore({ client: myRedis }),
+        saveUninitialized: false,
+        secret: "HL@1&^)#",
+        resave: false,
+        name: "game AGA"
+    })
+)
+
 app.use(express.json());
 app.use('/jackpot', jackpotService);
 app.use('/ranking', rankingService);
@@ -94,6 +108,6 @@ async function init() {
 app.listen(port, async () => {
     // var sign = jwt.sign({name:'aga',start:2022,type:'game'}, process.env.tokenSecret);
     // logger.info(sign);
-    console.log(process.env.mysqlHot||process.env.mysqlHot_Product);
+    console.log(process.env.mysqlHot || process.env.mysqlHot_Product);
     logger.info("start server:" + util.dateFormat(new Date(), "%Y-%m-%d %H:%M:%S", false));
 })
