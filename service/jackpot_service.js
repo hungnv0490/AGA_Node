@@ -1,13 +1,18 @@
 const myRedis = require('../myredis.js')
-const mySqlDB = require('../mysqldb.js')
+const mySqlDb = require('../mysqldb.js')
 const cron = require('node-cron');
 const express = require('express');
-const jackpotService = express.Router();
 var log4js = require("log4js");
 var logger = log4js.getLogger();
+const verifyTokenBlockchain = require('../middlewares/verifyToken.js');
 
+const jackpotService = express.Router();
 // const jacpot = {}
 jackpotService.task = null;
+const JACKPOT_SEASON = "jackpot-season";
+const JACKPOT_REWARD = "jackpot-reward:";
+const UNAME_TO_UID = "uname_to_uid";
+const JACKPOT_PREV_TICKET = "jackpot-prev-ticket";
 
 jackpotService.get('/get', async (req, res) => {
     var dataRes = {}
@@ -33,13 +38,72 @@ jackpotService.post('/set', async (req, res) => {
             res.send({ "code": 200 });
             return;
         }
-        res.send({"code": 100 });
+        res.send({ "code": 100 });
         return;
     }
     res.send({ "code": 101 });
     return;
 });
 
+jackpotService.get('/ticket/user/:username', async (req, res) => {
+    var dataRes = {}
+    dataRes.tickets = [];
+    var username = mySqlDb.escape(req.params.username);
+    var usernameStr = username.replaceAll("'", "");
+    var season = await myRedis.get(JACKPOT_SEASON);
+    var userId = await myRedis.hGet(UNAME_TO_UID, usernameStr);
+    var jackpotReward = JACKPOT_REWARD + userId;
+    var reward = await myRedis.get(jackpotReward);
+    dataRes.reward = (reward == null ? 0 : reward);
+    var sql = `SELECT * FROM aga.user_ticket
+        where user_id = (select user_id from users where username = '${usernameStr}') And season = '${season}';`;
+    logger.info("jackpot_service ticket user sql:" + sql);
+    mySqlDb.query(sql, function (err, result, fields) {
+        if (err == null) {
+            dataRes.code = 200;
+            if (result != null && result.length > 0) {
+                for (var rs of result) {
+                    dataRes.tickets.push(rs.ticket);
+                }
+            }
+            res.send(dataRes);
+            logger.info("jackpot_service ticket user:" + JSON.stringify(dataRes));
+        }
+        else {
+            dataRes.code = 600;
+            res.send(dataRes);
+            logger.info("jackpot_service ticket user:" + JSON.stringify(dataRes));
+        }
+    });
+});
+
+jackpotService.get('/user/:username/claimed', verifyTokenBlockchain, async (req, res) => {
+    var dataRes = {}
+    var username = mySqlDb.escape(req.params.username);
+    var usernameStr = username.replaceAll("'", "");
+    var userId = await myRedis.hGet(UNAME_TO_UID, usernameStr);
+    var jackpotReward = JACKPOT_REWARD + userId;
+    var reward = await myRedis.del(jackpotReward);
+    dataRes.code = 200;
+    dataRes.msg = reward;
+    res.send(dataRes);
+});
+
+jackpotService.get('/season', async (req, res) => {
+    var dataRes = {}
+    var endTime = new Date(myRedis.jackpotConfig.endTime);
+    const diffTime = Math.floor(Math.abs(endTime - new Date()));
+    if (diffTime <= 0) {
+        var ticket = await myRedis.get(JACKPOT_PREV_TICKET);
+        dataRes.timeAppear = 0;
+        dataRes.ticket = ticket == null ? "" : ticket;
+    }
+    else {
+        dataRes.timeAppear = Math.floor(diffTime / 1000);
+        dataRes.ticket = "";
+    }
+    res.send(dataRes);
+});
 
 jackpotService.init = function () {
     var endTime = new Date(myRedis.jackpotConfig.endTime);
@@ -76,14 +140,21 @@ jackpotService.rewards = async function () {
     if (userTickets.length > 0) {
         var diamond = Math.floor(myRedis.jackpotConfig.diamond / userTickets.length);
         var rewards = `1-0-${diamond}`;
-        userTickets.forEach(element => {
-            // mySqlDB.addMailBox("Jackpot reward", `You received reward from jackpot with ticket ${element["ticket"]}`, -1, element["userId"], rewards, 0, 0,function(code){
-                
-            // });
-            mySqlDB.addJackpotHis(element["userId"], diamond, season, function(a){
+        for (var userTicket of userTickets) {
+            var jackpotReward = JACKPOT_REWARD + userTicket["userId"];
+            await myRedis.incrBy(jackpotReward, diamond);
+            mySqlDb.addJackpotHis(userTicket["userId"], diamond, season, function (a) {
 
             });
-        });
+        }
+        // userTickets.forEach(element => {
+        // mySqlDB.addMailBox("Jackpot reward", `You received reward from jackpot with ticket ${element["ticket"]}`, -1, element["userId"], rewards, 0, 0,function(code){
+
+        // });
+        //     mySqlDb.addJackpotHis(element["userId"], diamond, season, function (a) {
+
+        //     });
+        // });
         jackpotService.task.stop();
         jackpotService.task = null;
     }

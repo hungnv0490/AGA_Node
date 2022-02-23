@@ -11,6 +11,7 @@ const verifyTokenBlockchain = require('../middlewares/verifyToken.js');
 
 const rankingService = express.Router();
 const RANKING_SEASON = "ranking-season";
+const UNAME_TO_UID = "uname_to_uid";
 
 rankingService.task = null;
 
@@ -66,7 +67,7 @@ rankingService.post('/rankboard/set', async (req, res) => {
 rankingService.get('/user/:username', verifyTokenBlockchain, async (req, res) => {
     var dataRes = {}
     var RankingBoard = "ranking-board";
-    var userId = await myRedis.hGet("uname_to_uid", req.params.username);
+    var userId = await myRedis.hGet(UNAME_TO_UID, req.params.username);
     if (userId == null) {
         dataRes.code = 101;
         res.send(dataRes);
