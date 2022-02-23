@@ -4,9 +4,12 @@ const cron = require('node-cron');
 const express = require('express');
 var log4js = require("log4js");
 var logger = log4js.getLogger();
-const rankingService = express.Router();
 const rankBoardConfig = require('../config/rankboard_config.js');
+const Ranking = require('../entities/ranking.js')
+const RankBoard = require('../entities/rankboard.js')
+const verifyTokenBlockchain = require('../middlewares/verifyToken.js');
 
+const rankingService = express.Router();
 const RANKING_SEASON = "ranking-season";
 
 rankingService.task = null;
@@ -60,6 +63,60 @@ rankingService.post('/rankboard/set', async (req, res) => {
     res.send(dataRes);
 });
 
+rankingService.get('/user/:username', verifyTokenBlockchain, async (req, res) => {
+    var dataRes = {}
+    var RankingBoard = "ranking-board";
+    var userId = await myRedis.hGet("uname_to_uid", req.params.username);
+    if (userId == null) {
+        dataRes.code = 101;
+        res.send(dataRes);
+        return;
+    }
+    var rankingReward = "ranking-reward:" + req.params.username;
+    var data = await myRedis.hGet(RankingBoard, userId);
+    var reward = await myRedis.get(rankingReward);
+    if (data == null) {
+        var ranking = new Ranking(req.params.username, req.params.username, "", 0, 0, 0, RankBoard.RankingType.None);
+        dataRes.code = 200;
+        dataRes.data = ranking;
+        dataRes.reward = (reward == null ? 0 : reward);
+        res.send(dataRes);
+    }
+    else {
+        dataRes.code = 200;
+        dataRes.data = JSON.parse(data);
+        dataRes.reward = (reward == null ? 0 : reward);
+        res.send(dataRes);
+    }
+});
+
+rankingService.get('/user/:username/claimed', verifyTokenBlockchain, async (req, res) => {
+    var dataRes = {}
+    var rankingReward = "ranking-reward:" + req.params.username;
+    var reward = await myRedis.del(rankingReward);
+    dataRes.code = 200;
+    dataRes.msg = reward;
+    res.send(dataRes);
+});
+
+rankingService.get('/rankboard/:isPro', async (req, res) => {
+    var dataRes = {}
+    dataRes.code = 200;
+    dataRes.data = req.params.isPro == 1 ? rankboard_config.pro : rankboard_config.casual;
+    res.send(dataRes);
+});
+
+rankingService.get('/:isPro', async (req, res) => {
+    var dataRes = {}
+    var isPro = req.params.isPro == 1;
+    var amount = 4000;
+    if (!isPro) amount = 500;
+    var topRankings = await myRedis.boards(isPro, amount);
+    dataRes.code = 200;
+    dataRes.data = topRankings;
+    res.send(dataRes);
+});
+
 rankingService.init = function () {
     var endTime = new Date(myRedis.rankingTimeConfig.endTime);
     var curDate = new Date();
@@ -96,8 +153,8 @@ rankingService.rewards = async function (isPro) {
     var amount = 4000;
     if (!isPro) amount = 500;
     var topRankings = await myRedis.boards(isPro, amount);
-    if(topRankings.length <=0 ) return;
-    
+    if (topRankings.length <= 0) return;
+
     var rankBoardCf = rankBoardConfig.pro;
     var rankBoardDiamond = rankBoardConfig.proDiamond;
     if (!isPro) {
@@ -118,7 +175,7 @@ rankingService.rewards = async function (isPro) {
     }
     logger.info('ranking rewards dt:' + JSON.stringify(dt));
     var season = await myRedis.get(RANKING_SEASON);
-    Object.keys(dt).forEach(function (key) {
+    Object.keys(dt).forEach(async function (key) {
         logger.info('ranking rewards key:' + key);
         for (var board of rankBoardCf) {
             // logger.info("ranking reward board:" + JSON.stringify(board));
@@ -127,12 +184,19 @@ rankingService.rewards = async function (isPro) {
                 var rankingUsers = dt[key];
                 var diamond = Math.floor(rankBoardDiamond * board.PerDiamond / 100 / rankingUsers.length);
                 var rewards = `1-0-${diamond}`;
-                rankingUsers.forEach(element => {
-                    mySqlDB.addMailBox("Ranking reward", `You received reward from ranking with rank ${element["Rank"]}`, -1, element["UserId"], rewards, 0, 0,function(code){
-                        
-                    });
-                    mySqlDB.updateUserRankingEndSeason(element["UserId"], board.RankingType, element["Rank"], season);
-                });
+                for (var rankingUser of rankingUsers) {
+                    var rankingReward = "ranking-reward:" + rankingUser["Username"];
+                    await myRedis.incrBy(rankingReward, diamond);
+                    mySqlDB.updateUserRankingEndSeason(rankingUser["UserId"], board.RankingType, rankingUser["Rank"], season);
+                }
+                // rankingUsers.forEach(element => {
+                // mySqlDB.addMailBox("Ranking reward", `You received reward from ranking with rank ${element["Rank"]}`, -1, element["UserId"], rewards, 0, 0,function(code){
+
+                // });
+                //     var rankingReward = "ranking-reward:" + element["Username"];
+                //     await myRedis.incrBy(rankingReward, diamond);
+                //     mySqlDB.updateUserRankingEndSeason(element["UserId"], board.RankingType, element["Rank"], season);
+                // });
                 break;
             }
         }

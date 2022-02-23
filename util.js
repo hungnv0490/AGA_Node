@@ -15,4 +15,9 @@ util.dateFormat = function (date, fstr, utc) {
         return ('0' + m).slice(-2);
     });
 }
+
+util.dateFormat2 = function () {
+    var date = new Date();
+    return date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + ":" + date.getMilliseconds();
+}
 module.exports = util;

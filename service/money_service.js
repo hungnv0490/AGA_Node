@@ -3,7 +3,7 @@ var log4js = require("log4js");
 var logger = log4js.getLogger();
 const mySqlDb = require('../mysqldb.js');
 const myRedis = require('../myredis.js');
-const verifyToken = require('../middlewares/verifyToken.js');
+const verifyTokenBlockchain = require('../middlewares/verifyToken.js');
 
 const moneyService = express.Router();
 const USERNAME_MONEY_LOCK = "username-money-lock";
@@ -38,9 +38,9 @@ moneyService.get('/get/:username', async (req, res) => {
     });
 });
 moneyService.withdawCount = 0;
-moneyService.post('/withdraw', verifyToken, async (req, res) => {
+moneyService.post('/withdraw', verifyTokenBlockchain, async (req, res) => {
     moneyService.withdawCount ++;
-    logger.info("withdaw start:" + moneyService.withdawCount );
+    logger.info("withdaw start:" + moneyService.withdawCount + " time:" + util.dateFormat2() );
     var username = mySqlDb.escape(req.body.username);
     var usernameStr = username.replaceAll("'","");
     var key = `${USERNAME_MONEY_LOCK}:${usernameStr}`;
@@ -83,7 +83,7 @@ moneyService.post('/withdraw', verifyToken, async (req, res) => {
                 var UPDATE_MONEY = "update-money";
                 await myRedis.publish(UPDATE_MONEY, `${userId}`);
             }
-            logger.info("withdaw end:" + moneyService.withdawCount );
+            logger.info("withdaw end:" + moneyService.withdawCount + " time:" + util.dateFormat2());
         }
         else {
             dataRes.code = 600;
@@ -95,7 +95,7 @@ moneyService.post('/withdraw', verifyToken, async (req, res) => {
     });
 });
 
-moneyService.post('/deposit', verifyToken, async (req, res) => {
+moneyService.post('/deposit', verifyTokenBlockchain, async (req, res) => {
     var username = mySqlDb.escape(req.body.username);
     var usernameStr = username.replaceAll("'","");
     if (isNaN(req.body.diamond) || req.body.diamond <= 0) {

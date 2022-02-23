@@ -19,15 +19,15 @@ rankboard_config.pro=[
 ]
 
 rankboard_config.casual=[
-    new RankBoard(RankBoard.RankingType.Top1, 1100, 1999, 0, 5, 1 ),
-    new RankBoard(RankBoard.RankingType.Top2, 2000, 2999, 0, 3, 2 ),
-    new RankBoard(RankBoard.RankingType.Top3, 3000, 3999, 0, 2, 3 ),
-    new RankBoard(RankBoard.RankingType.Top4, 4000, 4999, 0, 10, 10 ),
-    new RankBoard(RankBoard.RankingType.Top11, 5000, 5999, 0, 30, 100 ),
-    new RankBoard(RankBoard.RankingType.Top101, 6000, 6999, 0, 5, 200 ),
-    new RankBoard(RankBoard.RankingType.Top201, 7000, 10000000, 0, 10, 300 ),
-    new RankBoard(RankBoard.RankingType.Top301, 7000, 10000000, 0, 15, 400 ),
-    new RankBoard(RankBoard.RankingType.Top401, 7000, 10000000, 0, 20, 500),
+    new RankBoard(RankBoard.RankingType.Top1, 0, 1000, 0, 5, 1 ),
+    new RankBoard(RankBoard.RankingType.Top2, 0, 1000, 0, 3, 2 ),
+    new RankBoard(RankBoard.RankingType.Top3, 0, 1000, 0, 2, 3 ),
+    new RankBoard(RankBoard.RankingType.Top4, 0, 1000, 0, 10, 10 ),
+    new RankBoard(RankBoard.RankingType.Top11, 0, 1000, 0, 30, 100 ),
+    new RankBoard(RankBoard.RankingType.Top101, 0, 1000, 0, 5, 200 ),
+    new RankBoard(RankBoard.RankingType.Top201, 0, 1000, 0, 10, 300 ),
+    new RankBoard(RankBoard.RankingType.Top301, 0, 1000, 0, 15, 400 ),
+    new RankBoard(RankBoard.RankingType.Top401, 0, 1000, 0, 20, 500),
 ]
 
 rankboard_config.toJson = function()
