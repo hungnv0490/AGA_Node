@@ -111,7 +111,7 @@ rankingService.get('/:isPro', async (req, res) => {
     var isPro = req.params.isPro == 1;
     var amount = 4000;
     if (!isPro) amount = 500;
-    var topRankings = await myRedis.boards(isPro, amount);
+    var topRankings = await myRedis.boards(isPro, 100);
     dataRes.code = 200;
     dataRes.data = topRankings;
     res.send(dataRes);
