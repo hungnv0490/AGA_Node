@@ -64,7 +64,7 @@ rankingService.post('/rankboard/set', async (req, res) => {
     res.send(dataRes);
 });
 
-rankingService.get('/user/:username', verifyTokenBlockchain, async (req, res) => {
+rankingService.get('/user/:username', async (req, res) => {
     var dataRes = {}
     var RankingBoard = "ranking-board";
     var userId = await myRedis.hGet(UNAME_TO_UID, req.params.username);
