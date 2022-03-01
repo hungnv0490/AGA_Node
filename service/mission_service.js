@@ -15,7 +15,7 @@ missionService.get('/cate/:cateId/type/:missionType', async (req, res) => {
 });
 
 missionService.post('/update', async (req, res) => {
-    logger.log(req.body);
+    logger.info(req.body);
     var json = req.body;
     mySqlDb.updateMission(json.id,json.name, json.des, json.char_id, json.char_level, json.mission_type, json.mission_cate, json.count_unlock, json.rewards,
         json.active, function(err){
@@ -24,7 +24,7 @@ missionService.post('/update', async (req, res) => {
 });
 
 missionService.post('/add', async (req, res) => {
-    // logger.log(req.body);
+    // logger.info(req.body);
     var json = req.body;
     mySqlDb.addMission(json.name, json.des, json.char_id, json.char_level, json.mission_type, json.mission_cate, json.count_unlock, json.rewards,
         json.active, function(err){

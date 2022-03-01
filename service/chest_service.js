@@ -16,7 +16,7 @@ chestService.get('/get', async (req, res) => {
 });
 
 chestService.post('/set', async (req, res) => {
-    logger.log(req.body);
+    logger.info(req.body);
     var json = req.body;
     chestConfig.DailyLoginMaxChestPoint = json.DailyLoginMaxChestPoint;
     chestConfig.DailyMissionMaxChestPoint = json.DailyMissionMaxChestPoint;

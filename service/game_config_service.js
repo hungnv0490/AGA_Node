@@ -13,7 +13,7 @@ gameConfigService.get('/get', async (req, res) => {
 });
 
 gameConfigService.post('/set', async (req, res) => {
-    logger.log(req.body);
+    logger.info(req.body);
     var data = await myRedis.set("server-game-config", JSON.stringify(req.body));
     var CharConfigNewData = "server-game-config-newdata";
     await myRedis.publish(CharConfigNewData);

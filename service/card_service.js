@@ -87,7 +87,7 @@ cardService.post('/add', verifyTokenBlockchain, async (req, res) => {
 });
 
 cardService.post('/remove', verifyTokenBlockchain, async (req, res) => {
-    logger.log(req.body);
+    logger.info(req.body);
     var response = {};
     var json = req.body;
     var userId = await myredis.hGet(UNAME_TO_UID, json.username);
