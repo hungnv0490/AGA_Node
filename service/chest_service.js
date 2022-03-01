@@ -66,4 +66,20 @@ chestService.get('/user/:username', verifyToken, async (req, res) => {
     });
 });
 
+chestService.post('/user/claim', verifyToken, async (req, res) => {
+    var dataRes = {};    
+    var username = mySqlDb.escape(req.body.username);
+    var sql = `Delete FROM aga.user_pack up  
+    where up.user_id = (select user_id from users where username = ${username}) And pack_id in (${req.body.packIds});`;
+    mySqlDb.query(sql, function(err, result, fields){
+        if(err){
+            dataRes.code = 101;
+        }
+        else{
+            dataRes.code = 200;
+        }
+        res.send(dataRes);
+    });
+});
+
 module.exports = chestService;
