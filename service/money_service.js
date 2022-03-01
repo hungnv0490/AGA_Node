@@ -21,6 +21,7 @@ moneyService.get('/get/:username', async (req, res) => {
     select @err, @userId, @diamond;
     `;
     mySqlDb.query(sql, function (err, result, fields) {
+        logger.info("money_service err:"+err + " result:" + result);
         if (result.length != 0) {
             var diamond = result[result.length - 1][0]['@diamond'];
             var err = result[result.length - 1][0]['@err'];
