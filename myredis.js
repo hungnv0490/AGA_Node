@@ -46,6 +46,7 @@ const RankingLoadNewData = "ranking-load-new-data";
 
 const PUBLIC_CARD_ADD = "card-process";
 const CARD_PROCESS = "card-process";
+const PUBLIC_MISSION_ADD = "mission-add";
 
 // var myredis = {}
 // myredis.client = client;

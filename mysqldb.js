@@ -106,9 +106,9 @@ mySqlDB.updateMission = function (id, name, des, char_id, char_level, mission_ty
   });
 }
 
-mySqlDB.addUserCard = function (userId, charId, levelFusion, inTeam, cb) {
-  var sql = `INSERT INTO user_card (user_id, char_id, level_fusion, in_team)` +
-    ` VALUES (${userId},${charId},${levelFusion},${inTeam})`;
+mySqlDB.addUserCard = function (userId, cardId, charId, levelFusion, lifeTime, inTeam, cb) {
+  var sql = `INSERT INTO user_card (user_id, card_id, char_id, level_fusion, life_time, in_team, is_new)` +
+    ` VALUES (${userId},${cardId},${charId},${levelFusion},${lifeTime},${inTeam},1)`;
   logger.info("mysqldb addUserCard sql:" + sql);
   mySqlDB.execute(sql, function (err, result, fields) {
     // var json = JSON.stringify(result);
@@ -119,7 +119,7 @@ mySqlDB.addUserCard = function (userId, charId, levelFusion, inTeam, cb) {
 }
 
 mySqlDB.removeUserCard = function (userId, cardId, cb) {
-  var sql = `DELETE FROM user_card Where id=${cardId} And user_id=${userId}`;
+  var sql = `DELETE FROM user_card Where user_id=${userId} AND card_id=${cardId}`;
   logger.info("mysqldb removeUserCard sql:" + sql);
   mySqlDB.execute(sql, function (err, result, fields) {
     // var json = JSON.stringify(result);
