@@ -41,9 +41,9 @@ mySqlDB.test = function (cb) {
 mySqlDB.addMailBox = function (title, content, sender, receiver, rewards, isRead, isReceive, cb) {
   var createTime = util.dateFormat(new Date(), "%Y-%m-%d %H:%M:%S", false);
   logger.info("mysqldb addMailBox createTime:" + createTime);
-  var sql = 'INSERT INTO `aga`.`mail_box`(`title`,`content`,`sender`,`receiver`,`rewards`,`is_read`,`is_receive`,`create_time`,`update_time`)' +
-    'VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)';
-  mySqlDB.execute(sql, [title, content, sender, receiver, rewards, isRead, isReceive, createTime, createTime], function (err, result, fields) {
+  var sql = 'INSERT INTO `aga`.`mail_box`(`title`,`content`,`sender`,`receiver`,`rewards`,`is_read`,`is_receive`,is_new,`create_time`,`update_time`)' +
+    'VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+  mySqlDB.execute(sql, [title, content, sender, receiver, rewards, isRead, isReceive,1, createTime, createTime], function (err, result, fields) {
     logger.error("mysqldb addMailBox err:" + err);
     if(err == null) cb(200);
     else cb(600);
