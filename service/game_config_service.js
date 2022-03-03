@@ -14,10 +14,16 @@ gameConfigService.get('/get', async (req, res) => {
 
 gameConfigService.post('/set', async (req, res) => {
     logger.info(req.body);
+    var dataRes = {}
+    if(!req.body["FirstRankingPoint"] || !req.body["FirstEnergy"] || !req.body["MinuteToIncrEnergy"] ||!req.body["EnergyPerBattle"]){         
+        dataRes.code = 101;
+        dataRes.data = req.body;
+        res.send(dataRes);
+        return;
+    }
     var data = await myRedis.set("server-game-config", JSON.stringify(req.body));
     var CharConfigNewData = "server-game-config-newdata";
     await myRedis.publish(CharConfigNewData);
-    var dataRes = {}
     dataRes.code = 200;
     dataRes.data = req.body;
     res.send(dataRes);

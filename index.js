@@ -114,27 +114,27 @@ async function initConfig() {
     await myRedis.loadRankingConfig();
     await battleConfig.init();
     await chestConfig.init();
-    var dataRes = {}
-    dataRes.tickets = [];
-    var sql = `SELECT * FROM aga.user_ticket
-        where user_id = (select user_id from users where username = '2f4b1bb82ad4ed48c3e008d2b8b9c3fe') And season = '9FCMR';`;
-    mySqlDb.query(sql, function(err, result, fields){
-        logger.info(err);
-        if(err == null){
-            dataRes.code = 200;
-            if(result && result.length > 0){
-                for(var rs of result){
-                    dataRes.tickets.push(rs.ticket);
-                }
-            }
-            // res.send(dataRes);
-            logger.info(dataRes);
-        }
-        else{
-            dataRes.code = 600;
-            logger.info(dataRes);
-        }
-    });
+    // var dataRes = {}
+    // dataRes.tickets = [];
+    // var sql = `SELECT * FROM aga.user_ticket
+    //     where user_id = (select user_id from users where username = '2f4b1bb82ad4ed48c3e008d2b8b9c3fe') And season = '9FCMR';`;
+    // mySqlDb.query(sql, function(err, result, fields){
+    //     logger.info(err);
+    //     if(err == null){
+    //         dataRes.code = 200;
+    //         if(result && result.length > 0){
+    //             for(var rs of result){
+    //                 dataRes.tickets.push(rs.ticket);
+    //             }
+    //         }
+    //         // res.send(dataRes);
+    //         logger.info(dataRes);
+    //     }
+    //     else{
+    //         dataRes.code = 600;
+    //         logger.info(dataRes);
+    //     }
+    // });
 }
 
 async function init() {

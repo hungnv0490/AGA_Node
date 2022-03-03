@@ -21,88 +21,103 @@ jackpotService.get('/get', async (req, res) => {
     res.send(dataRes);
 });
 
-jackpotService.post('/set', async (req, res) => {
+jackpotService.post('/set', async (req, res, next) => {
     console.log(req.body);
-    var diamond = req.body.diamond;
-    var startTime = req.body.startTime;
-    var endTime = req.body.endTime;
-    var st = new Date(startTime);
-    var et = new Date(endTime);
-    if (st < et && new Date() < et) {
-        if (myRedis.jackpotConfig.startTime != startTime || myRedis.jackpotConfig.endTime != endTime) {
-            myRedis.jackpotConfig.diamond = diamond;
-            myRedis.jackpotConfig.startTime = startTime;
-            myRedis.jackpotConfig.endTime = endTime;
-            await myRedis.setJackpotConfig();
-            await jackpotService.startNewSeason();
-            res.send({ "code": 200 });
+    try {
+        var diamond = req.body.diamond;
+        var startTime = req.body.startTime;
+        var endTime = req.body.endTime;
+        var st = new Date(startTime);
+        var et = new Date(endTime);
+        if (st < et && new Date() < et) {
+            if (myRedis.jackpotConfig.startTime != startTime || myRedis.jackpotConfig.endTime != endTime) {
+                myRedis.jackpotConfig.diamond = diamond;
+                myRedis.jackpotConfig.startTime = startTime;
+                myRedis.jackpotConfig.endTime = endTime;
+                await myRedis.setJackpotConfig();
+                await jackpotService.startNewSeason();
+                res.send({ "code": 200 });
+                return;
+            }
+            res.send({ "code": 100 });
             return;
         }
-        res.send({ "code": 100 });
-        return;
+        res.send({ "code": 101 });
+    } catch (error) {
+        next(error);
     }
-    res.send({ "code": 101 });
-    return;
 });
 
-jackpotService.get('/ticket/user/:username', async (req, res) => {
-    var dataRes = {}
-    dataRes.tickets = [];
-    var username = mySqlDb.escape(req.params.username);
-    var usernameStr = username.replaceAll("'", "");
-    var season = await myRedis.get(JACKPOT_SEASON);
-    var userId = await myRedis.hGet(UNAME_TO_UID, usernameStr);
-    var jackpotReward = JACKPOT_REWARD + userId;
-    var reward = await myRedis.get(jackpotReward);
-    dataRes.reward = (reward == null ? 0 : reward);
-    var sql = `SELECT * FROM aga.user_ticket
+jackpotService.get('/ticket/user/:username', async (req, res, next) => {
+    try {
+        var dataRes = {}
+        dataRes.tickets = [];
+        var username = mySqlDb.escape(req.params.username);
+        var usernameStr = username.replaceAll("'", "");
+        var season = await myRedis.get(JACKPOT_SEASON);
+        var userId = await myRedis.hGet(UNAME_TO_UID, usernameStr);
+        var jackpotReward = JACKPOT_REWARD + userId;
+        var reward = await myRedis.get(jackpotReward);
+        dataRes.reward = (reward == null ? 0 : reward);
+        var sql = `SELECT * FROM aga.user_ticket
         where user_id = (select user_id from users where username = '${usernameStr}') And season = '${season}';`;
-    logger.info("jackpot_service ticket user sql:" + sql);
-    mySqlDb.query(sql, function (err, result, fields) {
-        if (err == null) {
-            dataRes.code = 200;
-            if (result != null && result.length > 0) {
-                for (var rs of result) {
-                    dataRes.tickets.push(rs.ticket);
+        logger.info("jackpot_service ticket user sql:" + sql);
+        mySqlDb.query(sql, function (err, result, fields) {
+            if (err == null) {
+                dataRes.code = 200;
+                if (result != null && result.length > 0) {
+                    for (var rs of result) {
+                        dataRes.tickets.push(rs.ticket);
+                    }
                 }
+                res.send(dataRes);
+                logger.info("jackpot_service ticket user:" + JSON.stringify(dataRes));
             }
-            res.send(dataRes);
-            logger.info("jackpot_service ticket user:" + JSON.stringify(dataRes));
+            else {
+                dataRes.code = 600;
+                res.send(dataRes);
+                logger.info("jackpot_service ticket user:" + JSON.stringify(dataRes));
+            }
+        });
+    } catch (error) {
+        next(error);
+    }
+});
+
+jackpotService.get('/user/:username/claimed', verifyTokenBlockchain, async (req, res, next) => {
+    try {
+        var dataRes = {}
+        var username = mySqlDb.escape(req.params.username);
+        var usernameStr = username.replaceAll("'", "");
+        var userId = await myRedis.hGet(UNAME_TO_UID, usernameStr);
+        var jackpotReward = JACKPOT_REWARD + userId;
+        var reward = await myRedis.del(jackpotReward);
+        dataRes.code = 200;
+        dataRes.msg = reward;
+        res.send(dataRes);
+    } catch (error) {
+        next(error);
+    }
+});
+
+jackpotService.get('/season', async (req, res, next) => {
+    try {
+        var dataRes = {}
+        var endTime = new Date(myRedis.jackpotConfig.endTime);
+        const diffTime = Math.floor(Math.abs(endTime - new Date()));
+        if (diffTime <= 0) {
+            var ticket = await myRedis.get(JACKPOT_PREV_TICKET);
+            dataRes.timeAppear = 0;
+            dataRes.ticket = ticket == null ? "" : ticket;
         }
         else {
-            dataRes.code = 600;
-            res.send(dataRes);
-            logger.info("jackpot_service ticket user:" + JSON.stringify(dataRes));
+            dataRes.timeAppear = Math.floor(diffTime / 1000);
+            dataRes.ticket = "";
         }
-    });
-});
-
-jackpotService.get('/user/:username/claimed', verifyTokenBlockchain, async (req, res) => {
-    var dataRes = {}
-    var username = mySqlDb.escape(req.params.username);
-    var usernameStr = username.replaceAll("'", "");
-    var userId = await myRedis.hGet(UNAME_TO_UID, usernameStr);
-    var jackpotReward = JACKPOT_REWARD + userId;
-    var reward = await myRedis.del(jackpotReward);
-    dataRes.code = 200;
-    dataRes.msg = reward;
-    res.send(dataRes);
-});
-
-jackpotService.get('/season', async (req, res) => {
-    var dataRes = {}
-    var endTime = new Date(myRedis.jackpotConfig.endTime);
-    const diffTime = Math.floor(Math.abs(endTime - new Date()));
-    if (diffTime <= 0) {
-        var ticket = await myRedis.get(JACKPOT_PREV_TICKET);
-        dataRes.timeAppear = 0;
-        dataRes.ticket = ticket == null ? "" : ticket;
+        res.send(dataRes);
+    } catch (error) {
+        next(error);
     }
-    else {
-        dataRes.timeAppear = Math.floor(diffTime / 1000);
-        dataRes.ticket = "";
-    }
-    res.send(dataRes);
 });
 
 jackpotService.init = function () {

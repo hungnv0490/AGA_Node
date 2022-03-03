@@ -22,26 +22,30 @@ rankingService.get('/season/get', async (req, res) => {
     res.send(dataRes);
 });
 
-rankingService.post('/season/set', async (req, res) => {
-    console.log(req.body);
-    var startTime = req.body.startTime;
-    var endTime = req.body.endTime;
-    var st = new Date(startTime);
-    var et = new Date(endTime);
-    if (st < et && new Date() < et) {
-        if (myRedis.rankingTimeConfig.startTime != startTime || myRedis.rankingTimeConfig.endTime != endTime) {
-            myRedis.rankingTimeConfig.startTime = startTime;
-            myRedis.rankingTimeConfig.endTime = endTime;
-            await myRedis.setRankingTimeConfig();
-            await rankingService.startNewSeason();
-            res.send({ "code": 200 });
+rankingService.post('/season/set', async (req, res, next) => {
+    try {
+        console.log(req.body);
+        var startTime = req.body.startTime;
+        var endTime = req.body.endTime;
+        var st = new Date(startTime);
+        var et = new Date(endTime);
+        if (st < et && new Date() < et) {
+            if (myRedis.rankingTimeConfig.startTime != startTime || myRedis.rankingTimeConfig.endTime != endTime) {
+                myRedis.rankingTimeConfig.startTime = startTime;
+                myRedis.rankingTimeConfig.endTime = endTime;
+                await myRedis.setRankingTimeConfig();
+                await rankingService.startNewSeason();
+                res.send({ "code": 200 });
+                return;
+            }
+            res.send({ "code": 100 });
             return;
         }
-        res.send({ "code": 100 });
+        res.send({ "code": 101 });
         return;
+    } catch (error) {
+        next(error);
     }
-    res.send({ "code": 101 });
-    return;
 });
 
 rankingService.get('/rankboard/get', async (req, res) => {
@@ -51,71 +55,92 @@ rankingService.get('/rankboard/get', async (req, res) => {
     res.send(dataRes);
 });
 
-rankingService.post('/rankboard/set', async (req, res) => {
-    var json = req.body;
-    rankBoardConfig.proDiamond = json.proDiamond;
-    rankBoardConfig.casualDiamond = json.casualDiamond;
-    rankBoardConfig.pro = json.pro;
-    rankBoardConfig.casual = json.casual;
-    await myRedis.setBoardConfig();
-    var dataRes = {}
-    dataRes.code = 200;
-    dataRes.data = rankboard_config;
-    res.send(dataRes);
-});
-
-rankingService.get('/user/:username', async (req, res) => {
-    var dataRes = {}
-    var RankingBoard = "ranking-board";
-    var userId = await myRedis.hGet(UNAME_TO_UID, req.params.username);
-    if (userId == null) {
-        dataRes.code = 101;
-        res.send(dataRes);
-        return;
-    }
-    var rankingReward = "ranking-reward:" + req.params.username;
-    var data = await myRedis.hGet(RankingBoard, userId);
-    var reward = await myRedis.get(rankingReward);
-    if (data == null) {
-        var ranking = new Ranking(req.params.username, req.params.username, "", 0, 0, 0, RankBoard.RankingType.None);
+rankingService.post('/rankboard/set', async (req, res, next) => {
+    try {
+        var json = req.body;
+        rankBoardConfig.proDiamond = json.proDiamond;
+        rankBoardConfig.casualDiamond = json.casualDiamond;
+        rankBoardConfig.pro = json.pro;
+        rankBoardConfig.casual = json.casual;
+        await myRedis.setBoardConfig();
+        var dataRes = {}
         dataRes.code = 200;
-        dataRes.data = ranking;
-        dataRes.reward = (reward == null ? 0 : reward);
+        dataRes.data = rankboard_config;
         res.send(dataRes);
+    } catch (error) {
+        next(error);
     }
-    else {
+});
+
+rankingService.get('/user/:username', async (req, res, next) => {
+    try {
+        var dataRes = {}
+        var RankingBoard = "ranking-board";
+        var userId = await myRedis.hGet(UNAME_TO_UID, req.params.username);
+        if (userId == null) {
+            dataRes.code = 101;
+            res.send(dataRes);
+            return;
+        }
+        var rankingReward = "ranking-reward:" + req.params.username;
+        var data = await myRedis.hGet(RankingBoard, userId);
+        var reward = await myRedis.get(rankingReward);
+        if (data == null) {
+            var ranking = new Ranking(req.params.username, req.params.username, "", 0, 0, 0, RankBoard.RankingType.None);
+            dataRes.code = 200;
+            dataRes.data = ranking;
+            dataRes.reward = (reward == null ? 0 : reward);
+            res.send(dataRes);
+        }
+        else {
+            dataRes.code = 200;
+            dataRes.data = JSON.parse(data);
+            dataRes.reward = (reward == null ? 0 : reward);
+            res.send(dataRes);
+        }
+    } catch (error) {
+        next(error);
+    }
+});
+
+rankingService.post('/user/claimed', verifyTokenBlockchain, async (req, res, next) => {
+    try {
+        var dataRes = {}
+        var rankingReward = "ranking-reward:" + req.body.username;
+        var reward = await myRedis.del(rankingReward);
         dataRes.code = 200;
-        dataRes.data = JSON.parse(data);
-        dataRes.reward = (reward == null ? 0 : reward);
+        dataRes.msg = reward;
         res.send(dataRes);
+    } catch (error) {
+        next(error);
+    }
+
+});
+
+rankingService.get('/rankboard/:isPro', async (req, res, next) => {
+    try {
+        var dataRes = {}
+        dataRes.code = 200;
+        dataRes.data = req.params.isPro == 1 ? rankboard_config.pro : rankboard_config.casual;
+        res.send(dataRes);
+    } catch (error) {
+        next(error);
     }
 });
 
-rankingService.post('/user/claimed', verifyTokenBlockchain, async (req, res) => {
-    var dataRes = {}
-    var rankingReward = "ranking-reward:" + req.body.username;
-    var reward = await myRedis.del(rankingReward);
-    dataRes.code = 200;
-    dataRes.msg = reward;
-    res.send(dataRes);
-});
-
-rankingService.get('/rankboard/:isPro', async (req, res) => {
-    var dataRes = {}
-    dataRes.code = 200;
-    dataRes.data = req.params.isPro == 1 ? rankboard_config.pro : rankboard_config.casual;
-    res.send(dataRes);
-});
-
-rankingService.get('/:isPro', async (req, res) => {
-    var dataRes = {}
-    var isPro = req.params.isPro == 1;
-    var amount = 4000;
-    if (!isPro) amount = 500;
-    var topRankings = await myRedis.boards(isPro, 100);
-    dataRes.code = 200;
-    dataRes.data = topRankings;
-    res.send(dataRes);
+rankingService.get('/:isPro', async (req, res, next) => {
+    try {
+        var dataRes = {}
+        var isPro = req.params.isPro == 1;
+        var amount = 4000;
+        if (!isPro) amount = 500;
+        var topRankings = await myRedis.boards(isPro, 100);
+        dataRes.code = 200;
+        dataRes.data = topRankings;
+        res.send(dataRes);
+    } catch (error) {
+        next(error);
+    }
 });
 
 rankingService.init = function () {
