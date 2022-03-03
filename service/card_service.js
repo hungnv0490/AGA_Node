@@ -39,8 +39,8 @@ cardService.post('/add', verifyTokenBlockchain, async (req, res) => {
             for (var char of cardService.characters) {
                 if (char.Id == json.charId) {
                     
-                    mySqlDb.insertOrUpdateUserMission(userId, Mission.missionType.CollectAmountCard, 1, async function () {
-                        await myredis.updateMission(userId, Mission.missionType.CollectAmountCard, 1);
+                    mySqlDb.insertOrUpdateUserMission(userId, Mission.missionType.CollectAmountCard, 1, 0, 0, async function () {
+                        await myredis.updateMission(userId, Mission.missionType.CollectAmountCard, 1, 0, 0);
                     });
 
                     var rarity = char.Rarity;
@@ -58,11 +58,11 @@ cardService.post('/add', verifyTokenBlockchain, async (req, res) => {
                     else if (rarity == "Epic") {
                         missionType = Mission.missionType.CollectCardEpic;
                     }
-                    else if (rarity == "Ledendary") {
+                    else if (rarity == "Legendary") {
                         missionType = Mission.missionType.CollectCardLegendary;
                     }
-                    mySqlDb.insertOrUpdateUserMission(userId, missionType, 1, async function () {
-                        await myredis.updateMission(userId, missionType, 1);
+                    mySqlDb.insertOrUpdateUserMission(userId, missionType, 1, 0,0,async function () {
+                        await myredis.updateMission(userId, missionType, 1,0,0);
                     });
                     var missionType2 = Mission.missionType.None;
                     if (role == "Caster") {
@@ -74,8 +74,8 @@ cardService.post('/add', verifyTokenBlockchain, async (req, res) => {
                     else if (role == "Protecter") {
                         missionType2 = Mission.missionType.CollectCardProtector;
                     }
-                    mySqlDb.insertOrUpdateUserMission(userId, missionType2, 1, async function () {
-                        await myredis.updateMission(userId, missionType2, 1);
+                    mySqlDb.insertOrUpdateUserMission(userId, missionType2, 1,0,0, async function () {
+                        await myredis.updateMission(userId, missionType2, 1,0,0);
                     });
                 }
             }
@@ -104,6 +104,25 @@ cardService.post('/remove', verifyTokenBlockchain, async (req, res) => {
         response.code = code;
         response.cardId = json.cardId;
         res.send(response);
+    });
+});
+
+cardService.post('/fusion', verifyTokenBlockchain, async (req, res) => {
+    logger.info(JSON.stringify(req.body));
+    var response = {};
+    var json = req.body;
+    var userId = await myredis.hGet(UNAME_TO_UID, json.username);
+    if (!userId) {
+        response.code = 101;
+        response.cardId = 0;
+        res.send(response);
+        return;
+    }
+    mySqlDb.insertOrUpdateUserMission(userId, Mission.missionType.FusionCardLevel, 1, json.charId, json.level, async function () {
+        await myredis.updateMission(userId, Mission.missionType.FusionCardLevel, 1,json.charId, json.level);
+        mySqlDb.insertOrUpdateUserMission(userId, Mission.missionType.FusionAmount, 1, 0, 0, async function () {
+            await myredis.updateMission(userId, Mission.missionType.FusionAmount, 1, 0, 0);
+        });
     });
 });
 

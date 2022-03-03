@@ -129,8 +129,14 @@ mySqlDB.removeUserCard = function (userId, cardId, cb) {
   });
 }
 
-mySqlDB.insertOrUpdateUserMission = function (userId, missionType, amount, cb) {
+mySqlDB.insertOrUpdateUserMission = function (userId, missionType, amount, charId, charLevel, cb) {
   var sql = `Select count(*) count From mission where mission_type=${missionType} And active = 1`;
+  if(charId > 0 && charLevel > 0)
+    sql = `Select count(*) count From mission where mission_type=${missionType} And char_id=${charId} And char_level=${charLevel} And active = 1`;
+  else if(charId > 0)
+    sql = `Select count(*) count From mission where mission_type=${missionType} And char_id=${charId} And active = 1`;
+  else if(charLevel > 0)
+    sql = `Select count(*) count From mission where mission_type=${missionType} And char_level=${charLevel} And active = 1`;
   logger.info("mysqldb insertOrUpdateUserMission sql:" + sql);
   mySqlDB.execute(sql, function (err, result, fields) {
     // var json = JSON.stringify(result);

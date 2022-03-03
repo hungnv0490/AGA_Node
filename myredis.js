@@ -251,9 +251,9 @@ myredis.removeCard = async function(userId, cardId)
     await myredis.publish(CARD_PROCESS, start);
 }
 
-myredis.updateMission = async function(userId, missionType, amount)
+myredis.updateMission = async function(userId, missionType, amount, charId, charLevel)
 {
-    var start = `${userId}|${missionType}|${amount}`;
+    var start = `${userId}|${missionType}|${amount}|${charId}|${charLevel}`;
     await myredis.publish(PUBLIC_MISSION_ADD, start);
 }
 module.exports = myredis;
