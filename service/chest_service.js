@@ -39,7 +39,7 @@ chestService.post('/set', async (req, res) => {
     // res.send(chestConfig.toJson(chestObs));
 });
 
-chestService.get('/user/:username', verifyToken, async (req, res) => {
+chestService.get('/user/:username', async (req, res) => {
     var dataRes = {};
     var packs =[];
     var username = mySqlDb.escape(req.params.username);
