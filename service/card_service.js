@@ -122,6 +122,9 @@ cardService.post('/fusion', verifyTokenBlockchain, async (req, res) => {
         await myredis.updateMission(userId, Mission.missionType.FusionCardLevel, 1,json.charId, json.level);
         mySqlDb.insertOrUpdateUserMission(userId, Mission.missionType.FusionAmount, 1, 0, 0, async function () {
             await myredis.updateMission(userId, Mission.missionType.FusionAmount, 1, 0, 0);
+            response.code = 200;
+            response.cardId = cardId;
+            res.send(response);
         });
     });
 });
