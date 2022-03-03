@@ -10,7 +10,27 @@ charService.get("/get", async (req, res) => {
     var data = await myredis.get("char-config");
     var dataRes = {}
     dataRes.code = 200;
-    dataRes.data =  data != null ? JSON.parse(data) : null;
+    // if (data) {
+    //     var json = JSON.parse(data);
+    //     var keys = Object.keys(json);
+    //     var newJson = {};
+    //     for (var i = 0; i < keys.length; i++) {
+    //         var chara = json[keys[i]];
+    //         var arr = [];
+    //         for (var j = 0; j < chara.length; j++) {
+    //             var ch = chara[j];
+    //             if (j == 0) {
+    //                 ch.RoleName = ch.Role;
+    //                 ch.RarityName = ch.Rarity;
+    //                 arr.push(ch);
+    //             }
+    //             else arr.push(ch);
+    //         }
+    //         newJson[keys[i]] = arr;
+    //     }
+    //     logger.info(newJson);
+    // }
+    dataRes.data = data != null ? JSON.parse(data) : null;
     res.send(dataRes);
 });
 
