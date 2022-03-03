@@ -12,121 +12,133 @@ const UNAME_TO_UID = "uname_to_uid";
 
 cardService.characters = [];
 
-cardService.post('/add', verifyTokenBlockchain, async (req, res) => {
+cardService.post('/add', verifyTokenBlockchain, async (req, res, next) => {
     logger.info(JSON.stringify(req.body));
-    var response = {};
-    var json = req.body;
-    var userId = await myredis.hGet(UNAME_TO_UID, json.username);
-    if (!userId) {
-        response.code = 101;
-        response.cardId = 0;
-        res.send(response);
-        return;
-    }
-    var lifeTime = 1000;
-    var charConfig = await myredis.get("char-config");
-    var obj = JSON.parse(charConfig);
-    var keys = Object.keys(obj);
-    for (var i = 0; i < keys.length; i++) {
-      var charId = charConfig[keys[i]];
-      if(charId == json.charId){
-        lifeTime = 1000;
-      }
-    }
-    mySqlDb.addUserCard(userId, json.cardId, json.charId, json.level, lifeTime, 0, async function (cardId) {
-        if (cardId != 0) {
-            await myredis.addNewCard(userId, json.charId, json.level, cardId);
-            for (var char of cardService.characters) {
-                if (char.Id == json.charId) {
-                    
-                    mySqlDb.insertOrUpdateUserMission(userId, Mission.missionType.CollectAmountCard, 1, 0, 0, async function () {
-                        await myredis.updateMission(userId, Mission.missionType.CollectAmountCard, 1, 0, 0);
-                    });
-
-                    var rarity = char.Rarity;
-                    var role = char.Role;
-                    var missionType = Mission.missionType.None;
-                    if (rarity == "Common") {
-                        missionType = Mission.missionType.CollectCardCommon;
-                    }
-                    else if (rarity == "Uncommon") {
-                        missionType = Mission.missionType.CollectCardUnCommon;
-                    }
-                    else if (rarity == "Rare") {
-                        missionType = Mission.missionType.CollectCardRare;
-                    }
-                    else if (rarity == "Epic") {
-                        missionType = Mission.missionType.CollectCardEpic;
-                    }
-                    else if (rarity == "Legendary") {
-                        missionType = Mission.missionType.CollectCardLegendary;
-                    }
-                    mySqlDb.insertOrUpdateUserMission(userId, missionType, 1, 0,0,async function () {
-                        await myredis.updateMission(userId, missionType, 1,0,0);
-                    });
-                    var missionType2 = Mission.missionType.None;
-                    if (role == "Caster") {
-                        missionType2 = Mission.missionType.CollectCardCaster;
-                    }
-                    else if (role == "Fighter") {
-                        missionType2 = Mission.missionType.CollectCardFighter;
-                    }
-                    else if (role == "Protecter") {
-                        missionType2 = Mission.missionType.CollectCardProtector;
-                    }
-                    mySqlDb.insertOrUpdateUserMission(userId, missionType2, 1,0,0, async function () {
-                        await myredis.updateMission(userId, missionType2, 1,0,0);
-                    });
-                }
+    try {
+        var response = {};
+        var json = req.body;
+        var userId = await myredis.hGet(UNAME_TO_UID, json.username);
+        if (!userId) {
+            response.code = 101;
+            response.cardId = 0;
+            res.send(response);
+            return;
+        }
+        var lifeTime = 1000;
+        var charConfig = await myredis.get("char-config");
+        var obj = JSON.parse(charConfig);
+        var keys = Object.keys(obj);
+        for (var i = 0; i < keys.length; i++) {
+            var charId = charConfig[keys[i]];
+            if (charId == json.charId) {
+                lifeTime = 1000;
             }
         }
-        response.code = 200;
-        response.cardId = cardId;
-        res.send(response);
-    });
-});
+        mySqlDb.addUserCard(userId, json.cardId, json.charId, json.level, lifeTime, 0, async function (cardId) {
+            if (cardId != 0) {
+                await myredis.addNewCard(userId, json.charId, json.level, cardId);
+                for (var char of cardService.characters) {
+                    if (char.Id == json.charId) {
 
-cardService.post('/remove', verifyTokenBlockchain, async (req, res) => {
-    logger.info(req.body);
-    var response = {};
-    var json = req.body;
-    var userId = await myredis.hGet(UNAME_TO_UID, json.username);
-    if (!userId) {
-        response.code = 101;
-        response.cardId = 0;
-        res.send(response);
-        return;
-    }
-    mySqlDb.removeUserCard(userId, json.cardId, async function (code) {
-        if (code == 200) {
-            await myredis.removeCard(userId, json.cardId);           
-        }
-        response.code = code;
-        response.cardId = json.cardId;
-        res.send(response);
-    });
-});
+                        mySqlDb.insertOrUpdateUserMission(userId, Mission.missionType.CollectAmountCard, 1, 0, 0, async function () {
+                            await myredis.updateMission(userId, Mission.missionType.CollectAmountCard, 1, 0, 0);
+                        });
 
-cardService.post('/fusion', verifyTokenBlockchain, async (req, res) => {
-    logger.info(JSON.stringify(req.body));
-    var response = {};
-    var json = req.body;
-    var userId = await myredis.hGet(UNAME_TO_UID, json.username);
-    if (!userId) {
-        response.code = 101;
-        response.cardId = 0;
-        res.send(response);
-        return;
-    }
-    mySqlDb.insertOrUpdateUserMission(userId, Mission.missionType.FusionCardLevel, 1, json.charId, json.level, async function () {
-        await myredis.updateMission(userId, Mission.missionType.FusionCardLevel, 1,json.charId, json.level);
-        mySqlDb.insertOrUpdateUserMission(userId, Mission.missionType.FusionAmount, 1, 0, 0, async function () {
-            await myredis.updateMission(userId, Mission.missionType.FusionAmount, 1, 0, 0);
+                        var rarity = char.Rarity;
+                        var role = char.Role;
+                        var missionType = Mission.missionType.None;
+                        if (rarity == "Common") {
+                            missionType = Mission.missionType.CollectCardCommon;
+                        }
+                        else if (rarity == "Uncommon") {
+                            missionType = Mission.missionType.CollectCardUnCommon;
+                        }
+                        else if (rarity == "Rare") {
+                            missionType = Mission.missionType.CollectCardRare;
+                        }
+                        else if (rarity == "Epic") {
+                            missionType = Mission.missionType.CollectCardEpic;
+                        }
+                        else if (rarity == "Legendary") {
+                            missionType = Mission.missionType.CollectCardLegendary;
+                        }
+                        mySqlDb.insertOrUpdateUserMission(userId, missionType, 1, 0, 0, async function () {
+                            await myredis.updateMission(userId, missionType, 1, 0, 0);
+                        });
+                        var missionType2 = Mission.missionType.None;
+                        if (role == "Caster") {
+                            missionType2 = Mission.missionType.CollectCardCaster;
+                        }
+                        else if (role == "Fighter") {
+                            missionType2 = Mission.missionType.CollectCardFighter;
+                        }
+                        else if (role == "Protecter") {
+                            missionType2 = Mission.missionType.CollectCardProtector;
+                        }
+                        mySqlDb.insertOrUpdateUserMission(userId, missionType2, 1, 0, 0, async function () {
+                            await myredis.updateMission(userId, missionType2, 1, 0, 0);
+                        });
+                    }
+                }
+            }
             response.code = 200;
             response.cardId = cardId;
             res.send(response);
         });
-    });
+    } catch (error) {
+        next(error);
+    }
+});
+
+cardService.post('/remove', verifyTokenBlockchain, async (req, res, next) => {
+    logger.info(req.body);
+    try {
+        var response = {};
+        var json = req.body;
+        var userId = await myredis.hGet(UNAME_TO_UID, json.username);
+        if (!userId) {
+            response.code = 101;
+            response.cardId = 0;
+            res.send(response);
+            return;
+        }
+        mySqlDb.removeUserCard(userId, json.cardId, async function (code) {
+            if (code == 200) {
+                await myredis.removeCard(userId, json.cardId);
+            }
+            response.code = code;
+            response.cardId = json.cardId;
+            res.send(response);
+        });
+    } catch (error) {
+        next(error);
+    }
+});
+
+cardService.post('/fusion', verifyTokenBlockchain, async (req, res, next) => {
+    logger.info(JSON.stringify(req.body));
+    try {
+        var response = {};
+        var json = req.body;
+        var userId = await myredis.hGet(UNAME_TO_UID, json.username);
+        if (!userId) {
+            response.code = 101;
+            response.cardId = 0;
+            res.send(response);
+            return;
+        }
+        mySqlDb.insertOrUpdateUserMission(userId, Mission.missionType.FusionCardLevel, 1, json.charId, json.level, async function () {
+            await myredis.updateMission(userId, Mission.missionType.FusionCardLevel, 1, json.charId, json.level);
+            mySqlDb.insertOrUpdateUserMission(userId, Mission.missionType.FusionAmount, 1, 0, 0, async function () {
+                await myredis.updateMission(userId, Mission.missionType.FusionAmount, 1, 0, 0);
+                response.code = 200;
+                response.cardId = cardId;
+                res.send(response);
+            });
+        });
+    } catch (error) {
+        next(error);
+    }
 });
 
 cardService.init = function () {

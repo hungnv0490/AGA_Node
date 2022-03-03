@@ -15,7 +15,6 @@ charService.get("/get", async (req, res) => {
 });
 
 charService.post("/set", async (req, res) => {
-    var data = req.body;
     // logger.info(req.body);
     var data = await myredis.set("char-config", JSON.stringify(req.body));
     var CharConfigNewData = "char-config-newdata";
@@ -36,7 +35,6 @@ charService.get("/fusion-fee/get", async (req, res) => {
 });
 
 charService.post("/fusion-fee/set", async (req, res) => {
-    var data = req.body;
     // logger.info(req.body);
     var data = await myredis.set("char-fusion-fee-config", JSON.stringify(req.body));
     var CharConfigNewData = "char-fusion-fee-newdata";

@@ -9,7 +9,7 @@ const battleConfig = require('../config/battle_config.js');
 var PackCard = require('../entities/pack_card.js');
 var Pack = require('../entities/pack.js')
 
-rewardService.get("/reward/get", async (req, res)=>{
+rewardService.get("/reward/get", async (req, res, next)=>{
     var data = await myredis.get("reward-endgame-config");
     var dataRes = {}
     dataRes.code = 200;
@@ -17,42 +17,55 @@ rewardService.get("/reward/get", async (req, res)=>{
     res.send(dataRes);
 });
 
-rewardService.post("/reward/set", async (req, res)=>{
-    var data = req.body;
-    // logger.info(req.body);
-    var data = await myredis.set("reward-endgame-config", JSON.stringify(req.body));
-    var RewardEndGameLoadNewData = "reward-endgame-newdata";
-    await myredis.publish(RewardEndGameLoadNewData);
-    var dataRes = {}
-    dataRes.code = 200;
-    dataRes.data = req.body;
-    res.send(dataRes);
-});
-
-rewardService.get("/pack/get", async (req, res)=>{
-    var dataRes = {}
-    dataRes.code = 200;
-    dataRes.data = battleConfig;
-    res.send(dataRes);
-});
-
-rewardService.post("/pack/set", async (req, res)=>{
-    var data = req.body;
-    var packObs = [];
-    for(var pack of data.packs){
-        var packCardObs = [];
-        for(var packCard of pack.packCards){
-            var packCardOb = new PackCard(packCard.Common, packCard.UnCommon, packCard.Rare, packCard.Epic, packCard.Legend);
-            packCardObs.push(packCardOb);
+rewardService.post("/reward/set", async (req, res, next)=>{
+    try {
+        var dataRes = {}
+        // logger.info(req.body);
+        if(!req.body["LevelFormation"] || !req.body["ChestBattleBonus"] || !req.body["RandomPackPercent"]){         
+            dataRes.code = 101;
+            dataRes.data = req.body;
+            res.send(dataRes);
+            return;
         }
-        packObs.push(new Pack(packCardObs, 1));
-    }
-    battleConfig.packs = packObs;
-    await battleConfig.setConfig();
+        await myredis.set("reward-endgame-config", JSON.stringify(req.body));
+        var RewardEndGameLoadNewData = "reward-endgame-newdata";
+        await myredis.publish(RewardEndGameLoadNewData);    
+        dataRes.code = 200;
+        dataRes.data = req.body;
+        res.send(dataRes);
+    } catch (error) {
+        next(error);
+    }   
+});
+
+rewardService.get("/pack/get", async (req, res, next)=>{
     var dataRes = {}
     dataRes.code = 200;
     dataRes.data = battleConfig;
     res.send(dataRes);
+});
+
+rewardService.post("/pack/set", async (req, res, next)=>{
+    var dataRes = {}
+    try {
+        var data = req.body;
+        var packObs = [];
+        for(var pack of data.packs){
+            var packCardObs = [];
+            for(var packCard of pack.packCards){
+                var packCardOb = new PackCard(packCard.Common, packCard.UnCommon, packCard.Rare, packCard.Epic, packCard.Legend);
+                packCardObs.push(packCardOb);
+            }
+            packObs.push(new Pack(packCardObs, 1));
+        }
+        battleConfig.packs = packObs;
+        await battleConfig.setConfig();
+        dataRes.code = 200;
+        dataRes.data = battleConfig;
+        res.send(dataRes);
+    } catch (error) {
+        next(error);
+    }   
 });
 
 rewardService.init = function(){

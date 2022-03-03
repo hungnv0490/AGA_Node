@@ -83,10 +83,27 @@ app.use('/mail', mailService);
 app.use('/diamond', moneyService);
 // app.use('/diamond', moneyService);
 
-app.get("/mysql/test", function (req, res) {
-    mySqlDb.test(function (dt) {
-        res.send(dt);
-    })
+app.get("/mysql/test", function (req, res, next) {
+    try {
+        mySqlDb.test(function (dt) {
+            res.send(dt);
+        })
+    } catch (error) {
+        next(error);
+    }
+   
+    // try {
+    //     await myRedis.set("test", 1);
+    //     throw new Error("Broken");
+    // } catch (error) {
+    //     next(error);
+    // }
+});
+
+app.use(function(err, req, res, next) {
+    logger.error(err);
+    res.send({error:999, track:err.stack});
+    res.end();
 });
 
 setTimeout(initConfig, 1000);
