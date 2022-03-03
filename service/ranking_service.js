@@ -91,9 +91,9 @@ rankingService.get('/user/:username', async (req, res) => {
     }
 });
 
-rankingService.get('/user/:username/claimed', verifyTokenBlockchain, async (req, res) => {
+rankingService.post('/user/claimed', verifyTokenBlockchain, async (req, res) => {
     var dataRes = {}
-    var rankingReward = "ranking-reward:" + req.params.username;
+    var rankingReward = "ranking-reward:" + req.body.username;
     var reward = await myRedis.del(rankingReward);
     dataRes.code = 200;
     dataRes.msg = reward;
