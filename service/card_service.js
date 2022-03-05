@@ -20,21 +20,22 @@ cardService.post('/add', verifyTokenBlockchain, async (req, res, next) => {
         var userId = await myredis.hGet(UNAME_TO_UID, json.username);
         if (!userId) {
             response.code = 101;
-            response.cardId = 0;
+            response.tokenId = json.tokenId;
             res.send(response);
             return;
         }
-        var lifeTime = 1000;
-        var charConfig = await myredis.get("char-config");
-        var obj = JSON.parse(charConfig);
-        var keys = Object.keys(obj);
-        for (var i = 0; i < keys.length; i++) {
-            var charId = charConfig[keys[i]];
-            if (charId == json.charId) {
-                lifeTime = 1000;
-            }
-        }
-        mySqlDb.addUserCard(userId, json.cardId, json.charId, json.level, lifeTime, 0, async function (cardId) {
+        // var lifeTime = 1000;
+        // var charConfig = await myredis.get("char-config");
+        // var obj = JSON.parse(charConfig);
+        // var keys = Object.keys(obj);
+        // for (var i = 0; i < keys.length; i++) {
+        //     var charId = charConfig[keys[i]];
+        //     if (charId == json.charId) {
+        //         lifeTime = 1000;
+        //     }
+        // }
+        var cardId = 0;
+        // mySqlDb.addUserCard(userId, json.tokenId, json.charId, json.level, lifeTime, 0, async function (cardId) {
             if (cardId != 0) {
                 await myredis.addNewCard(userId, json.charId, json.level, cardId);
                 for (var char of cardService.characters) {
@@ -82,9 +83,9 @@ cardService.post('/add', verifyTokenBlockchain, async (req, res, next) => {
                 }
             }
             response.code = 200;
-            response.cardId = cardId;
+            response.tokenId = tokenId;
             res.send(response);
-        });
+        // });
     } catch (error) {
         next(error);
     }
@@ -98,18 +99,18 @@ cardService.post('/remove', verifyTokenBlockchain, async (req, res, next) => {
         var userId = await myredis.hGet(UNAME_TO_UID, json.username);
         if (!userId) {
             response.code = 101;
-            response.cardId = 0;
+            response.tokenId = json.tokenId;
             res.send(response);
             return;
         }
-        mySqlDb.removeUserCard(userId, json.cardId, async function (code) {
-            if (code == 200) {
-                await myredis.removeCard(userId, json.cardId);
-            }
+        // mySqlDb.removeUserCard(userId, json.cardId, async function (code) {
+            // if (code == 200) {
+                await myredis.removeCard(userId, json.tokenId);
+            // }
             response.code = code;
-            response.cardId = json.cardId;
+            response.tokenId = json.tokenId;
             res.send(response);
-        });
+        // });
     } catch (error) {
         next(error);
     }

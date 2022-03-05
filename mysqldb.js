@@ -107,7 +107,7 @@ mySqlDB.updateMission = function (id, name, des, char_id, char_level, mission_ty
 }
 
 mySqlDB.addUserCard = function (userId, cardId, charId, levelFusion, lifeTime, inTeam, cb) {
-  var sql = `INSERT INTO user_card (user_id, card_id, char_id, level_fusion, life_time, in_team, is_new)` +
+  var sql = `INSERT INTO user_card (user_id, id_blc, char_id, level_fusion, life_time, in_team, is_new)` +
     ` VALUES (${userId},${cardId},${charId},${levelFusion},${lifeTime},${inTeam},1)`;
   logger.info("mysqldb addUserCard sql:" + sql);
   mySqlDB.execute(sql, function (err, result, fields) {
