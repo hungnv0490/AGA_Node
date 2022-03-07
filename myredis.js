@@ -41,7 +41,8 @@ const RANKING_CONFIG_SEASON = "ranking-config-season";
 const RANKING_CONFIG_BOARD = "ranking-config-board";
 const RankingBoardPro = "ranking-board-pro";
 const RankingBoardCasual = "ranking-board-casual";
-const RankingBoard = "ranking-board";
+const RankingBoardDataCasual = "ranking-board-data-casual";//data
+const RankingBoardDataPro = "ranking-board-data-pro";//data
 const RankingLoadNewData = "ranking-load-new-data";
 
 const PUBLIC_CARD_ADD = "card-process";
@@ -186,7 +187,7 @@ myredis.boards = async function (isPro, top) {
         for (var value of maxScore) {
             if (i % 2 == 0) {
                 // logger.info("value:" + value)
-                var ranking = await myredis.hGet(RankingBoard, value);
+                var ranking = await myredis.hGet(isPro?RankingBoardDataPro:RankingBoardDataCasual, value);
                 r++;
                 if(ranking != null)
                 {

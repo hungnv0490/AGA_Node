@@ -12,6 +12,8 @@ const verifyTokenBlockchain = require('../middlewares/verifyToken.js');
 const rankingService = express.Router();
 const RANKING_SEASON = "ranking-season";
 const UNAME_TO_UID = "uname_to_uid";
+const RankingBoardDataCasual = "ranking-board-data-casual";//data
+const RankingBoardDataPro = "ranking-board-data-pro";//data
 
 rankingService.task = null;
 
@@ -72,18 +74,22 @@ rankingService.post('/rankboard/set', async (req, res, next) => {
     }
 });
 
-rankingService.get('/user/:username', async (req, res, next) => {
+rankingService.get('/user/:username/:isPro', async (req, res, next) => {
     try {
         var dataRes = {}
-        var RankingBoard = "ranking-board";
         var userId = await myRedis.hGet(UNAME_TO_UID, req.params.username);
         if (userId == null) {
             dataRes.code = 101;
             res.send(dataRes);
             return;
         }
-        var rankingReward = "ranking-reward:" + req.params.username;
-        var data = await myRedis.hGet(RankingBoard, userId);
+
+        var rankingReward = "";
+        var isPro = (req.params.isPro == 1);
+        if (isPro) rankingReward = "ranking-reward-pro:" + req.params.username;
+        else rankingReward = "ranking-reward-casual:" + req.params.username;
+
+        var data = await myRedis.hGet(isPro ? RankingBoardDataPro : RankingBoardDataCasual, userId);
         var reward = await myRedis.get(rankingReward);
         if (data == null) {
             var ranking = new Ranking(req.params.username, req.params.username, "", 0, 0, 0, RankBoard.RankingType.None);
@@ -106,7 +112,17 @@ rankingService.get('/user/:username', async (req, res, next) => {
 rankingService.post('/user/claimed', verifyTokenBlockchain, async (req, res, next) => {
     try {
         var dataRes = {}
-        var rankingReward = "ranking-reward:" + req.body.username;
+        var rankingReward = "";
+        var isPro = (req.body.isPro == 1);
+        if (isPro) rankingReward = "ranking-reward-pro:" + req.body.username;
+        else rankingReward = "ranking-reward-casual:" + req.body.username;
+        var reward = await myRedis.get(rankingReward);
+        if (isNaN(req.body.diamond) || req.body.diamond <= 0 || req.body.diamond > reward) {
+            dataRes.code = 300;
+            res.send(dataRes);
+            logger.info("ranking_service user claimed:" + JSON.stringify(dataRes));
+            return;
+        }
         var reward = await myRedis.del(rankingReward);
         dataRes.code = 200;
         dataRes.msg = reward;
@@ -209,9 +225,11 @@ rankingService.rewards = async function (isPro) {
                 logger.info('ranking rewards board.rankingType:' + board.RankingType);
                 var rankingUsers = dt[key];
                 var diamond = Math.floor(rankBoardDiamond * board.PerDiamond / 100 / rankingUsers.length);
-                var rewards = `1-0-${diamond}`;
+                // var rewards = `1-0-${diamond}`;
                 for (var rankingUser of rankingUsers) {
-                    var rankingReward = "ranking-reward:" + rankingUser["Username"];
+                    var rankingReward = "";
+                    if (isPro) rankingReward = "ranking-reward-pro:" + rankingUser["Username"];
+                    else rankingReward = "ranking-reward-casual:" + rankingUser["Username"];
                     await myRedis.incrBy(rankingReward, diamond);
                     mySqlDB.updateUserRankingEndSeason(rankingUser["UserId"], board.RankingType, rankingUser["Rank"], season);
                 }

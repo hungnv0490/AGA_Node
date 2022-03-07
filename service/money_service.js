@@ -42,6 +42,7 @@ moneyService.get('/get/:username', async (req, res, next) => {
         next(error);
     }
 });
+
 moneyService.withdawCount = 0;
 moneyService.post('/withdraw', verifyTokenBlockchain, async (req, res, next) => {
     try {
