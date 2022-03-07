@@ -144,4 +144,22 @@ moneyService.post('/deposit', verifyTokenBlockchain, async (req, res, next) => {
     }
 });
 
+moneyService.post('/add-energy', verifyTokenBlockchain, async (req, res, next) => {
+    try {
+        var username = mySqlDb.escape(req.body.username);
+        var usernameStr = username.replaceAll("'", "");
+        if (isNaN(req.body.energy) || req.body.energy <= 0) {
+            dataRes.code = 300;
+            logger.info("money_service add-energy:" + JSON.stringify(dataRes));
+            res.send(dataRes);
+            return;
+        }
+        await myRedis.hIncrBy("add-energy", usernameStr, req.body.energy);
+        await myRedis.publish("ADD-ENERGY",`${usernameStr}|${req.body.energy}`);
+        res.send({code:200});
+    } catch (error) {
+        next(error);
+    }
+});
+
 module.exports = moneyService;

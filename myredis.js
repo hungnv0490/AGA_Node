@@ -8,9 +8,9 @@ const rankBoardConfig = require('./config/rankboard_config.js')
 const redis = require('redis');
 
 const myredis = redis.createClient({
-    host: process.env.redisHost || process.env.redisHost_Product,
+    socket:{host: process.env.redisHost || process.env.redisHost_Product},
     port: 6379,
-    password:process.env.redisPass || process.env.redisPass_Product
+    password: process.env.redisPass || process.env.redisPass_Product
 });
 myredis.connect();
 var util = require('./util.js');
