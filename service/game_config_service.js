@@ -61,6 +61,7 @@ gameConfigService.post('/delete-data-redis', async (req, res) => {
                 await myRedis.DEL("userid_to_nickname");
                 await myRedis.DEL("reward-endgame-config");
                 await myRedis.DEL("char-fusion-fee-config");
+                await myRedis.DEL("mission_create_at");
                 dataRes.code = 200;
             }
             else dataRes.code = 600;
