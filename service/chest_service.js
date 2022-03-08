@@ -78,10 +78,13 @@ chestService.post('/user/claim', verifyToken, async (req, res, next) => {
     try {
         var dataRes = {};
         var username = mySqlDb.escape(req.body.username);
-        var packIds = mySqlDb.escape(req.body.packIds);
-        packIds = packIds.replaceAll("'", "");
-        var sql = `Delete FROM aga.user_pack up  
-    where up.user_id = (select user_id from users where username = ${username}) And pack_id in (${packIds});`;
+        var pack = mySqlDb.escape(req.body.pack);
+        pack = pack.replaceAll("'", "");
+        var fm = pack.split('-');
+        var packId = fm[0];
+        var amount = fm[1];
+        var sql = `Update aga.user_pack up set amount=amount-${amount}  
+                    where up.user_id = (select user_id from users where username = ${username}) And pack_id = ${packId} And amount >= ${amount};`;
         mySqlDb.query(sql, function (err, result, fields) {
             if (err) {
                 logger.error(err);
