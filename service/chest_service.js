@@ -7,6 +7,7 @@ var PackCard = require('../entities/pack_card.js');
 var Pack2 = require('../entities/pack2.js');
 const verifyToken = require('../middlewares/verifyToken.js');
 const mySqlDb = require('../mysqldb.js');
+const myRedis = require('../myredis.js');
 
 chestService.get('/get', async (req, res) => {
     var dataRes = {}
@@ -78,24 +79,68 @@ chestService.post('/user/claim', verifyToken, async (req, res, next) => {
     try {
         var dataRes = {};
         var username = mySqlDb.escape(req.body.username);
+        var usernameStr = username.replaceAll("'", "");
         var pack = mySqlDb.escape(req.body.pack);
         pack = pack.replaceAll("'", "");
         var fm = pack.split('-');
         var packId = fm[0];
         var amount = fm[1];
-        var sql = `Update aga.user_pack up set amount=amount-${amount}  
-                    where up.user_id = (select user_id from users where username = ${username}) And pack_id = ${packId} And amount >= ${amount};`;
-        mySqlDb.query(sql, function (err, result, fields) {
+        const UNAME_TO_UID = "uname_to_uid";
+        var uid = await myRedis.hGet(UNAME_TO_UID, usernameStr);
+        if (!uid) {
+            dataRes.code = 201;
+            dataRes.msg = "user not exist in game";
+            res.send(dataRes);
+            return;
+        }
+        var key = `username-pack-claim-lock:${usernameStr}`;
+        var value = await myRedis.get(key);
+        if (value != null && value == "true") {
+            dataRes.code = 202;
+            dataRes.msg = "please try again";
+            res.send(dataRes);
+            return;
+        }
+        await myRedis.set(key, true);
+        await myRedis.expire(key, 1);
+
+        var sql = `Select count(*) as x From aga.user_pack
+                    where user_id = ${uid} And pack_id = ${packId};`;
+        mySqlDb.query(sql, async function (err, result, fields) {
             if (err) {
                 logger.error(err);
-                dataRes.code = 101;
+                dataRes.code = 203;
                 dataRes.msg = err.message;
+                res.send(dataRes);
+                await myRedis.set(key, false);
             }
             else {
-                dataRes.code = 200;
+                var max = result[0].x;
+                if (amount > max) {
+                    dataRes.code = 204;
+                    dataRes.msg = "too max amount, max is:" + max;
+                    res.send(dataRes);
+                    await myRedis.set(key, false);
+                }
+                else {
+                    sql = `Update aga.user_pack up set amount=amount-${amount}  
+                            where up.user_id = ${uid} And pack_id = ${packId} And amount >= ${amount};`;
+                    mySqlDb.query(sql, async function (err, result, fields) {
+                        if (err) {
+                            logger.error(err);
+                            dataRes.code = 101;
+                            dataRes.msg = err.message;
+                        }
+                        else {
+                            dataRes.code = 200;
+                        }
+                        res.send(dataRes);
+                        await myRedis.set(key, false);
+                    });
+                }
             }
-            res.send(dataRes);
         });
+
     } catch (error) {
         next(error);
     }
