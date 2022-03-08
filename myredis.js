@@ -217,7 +217,8 @@ myredis.rankingStartNewSeason = async function () {
 
     await myredis.DEL(RankingBoardPro);
     await myredis.DEL(RankingBoardCasual);
-    await myredis.DEL(RankingBoard);
+    await myredis.DEL(RankingBoardDataCasual);
+    await myredis.DEL(RankingBoardDataPro);
 
     var start = `${startTimeStr}|${endTimeStr}|${season}`;
     logger.info("myredis rankingStartNewSeason RANKING_START_NEW:" + start);
@@ -237,7 +238,8 @@ myredis.rankingEndSeason = async function () {
     await myredis.DEL(RANKING_END_TIME);
     await myredis.DEL(RankingBoardPro);
     await myredis.DEL(RankingBoardCasual);
-    await myredis.DEL(RankingBoard);
+    await myredis.DEL(RankingBoardDataCasual);
+    await myredis.DEL(RankingBoardDataPro);
 }
 
 myredis.addNewCard = async function(userId, charId, level, cardId)
