@@ -62,6 +62,7 @@ gameConfigService.post('/delete-data-redis', async (req, res) => {
                 await myRedis.DEL("reward-endgame-config");
                 await myRedis.DEL("char-fusion-fee-config");
                 await myRedis.DEL("mission_create_at");
+                await myRedis.DEL("lose_rank_battle_continious");
                 dataRes.code = 200;
             }
             else dataRes.code = 600;
