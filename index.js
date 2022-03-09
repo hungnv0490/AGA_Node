@@ -114,17 +114,6 @@ async function initConfig() {
     await myRedis.loadRankingConfig();
     await battleConfig.init();
     await chestConfig.init();
-    var sql = `Select count(*) as x From aga.user_pack
-    where user_id = 1 And pack_id = 1;`;
-    mySqlDb.query(sql, async function (err, result, fields) {
-        logger.info(result);
-        if (err) {
-            logger.info("1:" + result);
-        }
-        else {
-            logger.info("2:" + result[0].x);
-        }
-    });
 }
 
 async function init() {

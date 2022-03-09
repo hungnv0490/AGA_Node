@@ -4,6 +4,7 @@ var logger = log4js.getLogger();
 const mySqlDb = require('../mysqldb.js');
 const myRedis = require('../myredis.js');
 const verifyTokenBlockchain = require('../middlewares/verifyToken.js');
+const teleBot = require('../telebot.js');
 
 const moneyService = express.Router();
 const USERNAME_MONEY_LOCK = "username-money-lock";
@@ -86,6 +87,15 @@ moneyService.post('/withdraw', verifyTokenBlockchain, async (req, res, next) => 
                 logger.info("money_service withdraw:" + JSON.stringify(dataRes));
                 res.send(dataRes);
                 await myRedis.set(key, false);
+
+                var withdrawGroupBot = await myRedis.get("withdrawGroupBot");
+                if(withdrawGroupBot){
+                    var groups = withdrawGroupBot.split("|");
+                    for(var group of groups){
+                        teleBot.sendMessage(group, `${usernameStr} widthraw ${req.body.diamond} diamond`);
+                    }
+                }
+
                 if (err == 200) {
                     var UPDATE_MONEY = "update-money";
                     await myRedis.publish(UPDATE_MONEY, `${userId}`);
@@ -156,8 +166,8 @@ moneyService.post('/add-energy', verifyTokenBlockchain, async (req, res, next) =
             return;
         }
         await myRedis.hIncrBy("add-energy", usernameStr, req.body.energy);
-        await myRedis.publish("ADD-ENERGY",`${usernameStr}|${req.body.energy}`);
-        res.send({code:200});
+        await myRedis.publish("ADD-ENERGY", `${usernameStr}|${req.body.energy}`);
+        res.send({ code: 200 });
     } catch (error) {
         next(error);
     }
