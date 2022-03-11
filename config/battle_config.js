@@ -82,8 +82,8 @@ battleConfig.setConfig = async function () {
     var values = "";
     for (var pack of battleConfig.packs) {
         if (i < battleConfig.packs.length - 1)
-            values += `('BattleReward','Battle reward','${pack.Format()}','','${createTime}'),`;
-        else values += `('BattleReward','Battle reward','${pack.Format()}','','${createTime}')`;
+            values += `('BattleReward','Battle','${pack.Format()}','','${createTime}'),`;
+        else values += `('BattleReward','Battle','${pack.Format()}','','${createTime}')`;
         i++;
     }
     var sql = `Insert into pack(name,pack.describe,pack_cards,url,create_time)

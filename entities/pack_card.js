@@ -14,7 +14,7 @@ class PackCard {
 
 
 PackCard.Default = function () {
-    return new PackCard(70, 20, 5, 4, 1);
+    return new PackCard(70, 20, 8, 1.8, 0.2);
 }
 
 module.exports = PackCard;

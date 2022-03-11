@@ -8,6 +8,7 @@ var Pack2 = require('../entities/pack2.js');
 const verifyToken = require('../middlewares/verifyToken.js');
 const mySqlDb = require('../mysqldb.js');
 const myRedis = require('../myredis.js');
+var Chest = require('../entities/chest.js');
 
 chestService.get('/get', async (req, res) => {
     var dataRes = {}
@@ -23,17 +24,27 @@ chestService.post('/set', async (req, res, next) => {
         chestConfig.DailyLoginMaxChestPoint = json.DailyLoginMaxChestPoint;
         chestConfig.DailyMissionMaxChestPoint = json.DailyMissionMaxChestPoint;
         chestConfig.AchievementMaxChestPoint = json.AchievementMaxChestPoint;
-        chestConfig.chests = json.chests;
-        // for(var chest of json.chests){
-        //     var packCardObs = [];
-        //     for(var packCard of chest.packCards){
-        //         var packCardOb = new PackCard(packCard.Common, packCard.UnCommon, packCard.Rare, packCard.Epic, packCard.Legend);
-        //         packCardObs.push(packCardOb);
-        //     }
-        //     chestObs.push(new Chest(packCardObs));
-        // }
+        chestConfig.chests = []
+        chestConfig.dailyLoginPacks = []
+
+        for(var chest of json.chests){
+            var packCardObs = [];
+            for(var packCard of chest.packCards){
+                var packCardOb = new PackCard(packCard.Common, packCard.UnCommon, packCard.Rare, packCard.Epic, packCard.Legend);
+                packCardObs.push(packCardOb);
+            }
+            chestConfig.chests.push(new Chest(packCardObs));
+        }
+        for(var chest of json.dailyLoginPacks){
+            var packCardObs = [];
+            for(var packCard of chest.packCards){
+                var packCardOb = new PackCard(packCard.Common, packCard.UnCommon, packCard.Rare, packCard.Epic, packCard.Legend);
+                packCardObs.push(packCardOb);
+            }
+            chestConfig.dailyLoginPacks.push(new Chest(packCardObs));
+        }
+
         await chestConfig.setConfig();
-        // var getOb = chestConfig.getOb(chestObs);
         var dataRes = {}
         dataRes.code = 200;
         dataRes.data = chestConfig.toApiRes();

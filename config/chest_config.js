@@ -12,13 +12,18 @@ chestConfig = {}
 chestConfig.DailyLoginMaxChestPoint = 10;
 chestConfig.DailyMissionMaxChestPoint = 10;
 chestConfig.AchievementMaxChestPoint = 10;
-chestConfig.packIds = "";
+chestConfig.PackIds = "";
+chestConfig.DailyLoginPackIds = "";
 chestConfig.chests = [
     new Chest([PackCard.Default()]),
     new Chest([PackCard.Default()]),
     new Chest([PackCard.Default()]),
     new Chest([PackCard.Default()]),
 ];
+chestConfig.dailyLoginPacks = [
+    new Chest([PackCard.Default()])
+];
+
 const CHEST_CONFIG_NEW_DATA = "chest-config-new-data";
 
 chestConfig.init = async function () {
@@ -28,65 +33,75 @@ chestConfig.init = async function () {
         chestConfig.DailyLoginMaxChestPoint = json.DailyLoginMaxChestPoint;
         chestConfig.DailyMissionMaxChestPoint = json.DailyMissionMaxChestPoint;
         chestConfig.AchievementMaxChestPoint = json.AchievementMaxChestPoint;
-        chestConfig.packIds = json.packIds;
+        chestConfig.PackIds = json.PackIds;
     }
 
-    var sql = `Select * from pack where name = 'ChestReward' AND create_time in (SELECT max(create_time) FROM aga.pack where name = 'ChestReward');;`
+    var sql = `Select * from pack where (name = 'ChestReward' OR name='DailyLoginReward') AND create_time in (SELECT max(create_time) FROM aga.pack where name = 'ChestReward');;`
     logger.info("chest_config init sql:" + sql);
     mysqlDb.execute(sql, async function (err, results, fields) {
         if (results != null && results.length > 0) {
             var ids = "";
-            var i = 0;
+            var dailyLoginPackIds = "";
             logger.info("chest_config init results:" + JSON.stringify(results));
-            chestConfig.chests = []
+            chestConfig.chests = [];
+            chestConfig.dailyLoginPacks = []
             for (var result of results) {
-                if (i < results.length - 1)
-                    ids += result.id + "|";
-                else ids += result.id;
-                i++;
                 var packCardStrs = result.pack_cards.split('|');
                 var packCards = []
                 for (var packCardStr of packCardStrs) {
                     var cards = packCardStr.split('-');
                     packCards.push(new PackCard(parseFloat(cards[0]), parseFloat(cards[1]), parseFloat(cards[2]), parseFloat(cards[3]), parseFloat(cards[4])));
                 }
-                chestConfig.chests.push(new Chest(packCards));
+                if (result.name == 'ChestReward') {
+                    ids += result.id + "|";
+                    chestConfig.chests.push(new Chest(packCards));
+                }
+                else {
+                    dailyLoginPackIds += result.id + "|";
+                    chestConfig.dailyLoginPacks.push(new Chest(packCards));
+                }
             }
-            chestConfig.packIds = ids;
+            chestConfig.PackIds = ids.slice(0, -1);
+            chestConfig.DailyLoginPackIds = dailyLoginPackIds.slice(0, -1);
             await myRedis.set(CHEST_CONFIG, chestConfig.toRedis());
             await myRedis.publish(CHEST_CONFIG_NEW_DATA);
-            CHEST_CONFIG_NEW_DATA
         }
         else {
             var createTime = util.dateFormat(new Date(), "%Y-%m-%d %H:%M:%S", false);
             var values = "";
-            var i = 0;
             for (var pack of chestConfig.chests) {
-
-                if (i < chestConfig.chests.length - 1)
-                    values += `('ChestReward','Chest reward','${pack.Format()}','','${createTime}'),`;
-                else values += `('ChestReward','Chest reward','${pack.Format()}','','${createTime}')`;
+                values += `('ChestReward','Mission','${pack.Format()}','','${createTime}'),`;
+            }
+            var i = 0;
+            for (var pack of chestConfig.dailyLoginPacks) {
+                if (i < chestConfig.dailyLoginPacks.length - 1)
+                    values += `('DailyLoginReward','Login','${pack.Format()}','','${createTime}'),`;
+                else values += `('DailyLoginReward','Login','${pack.Format()}','','${createTime}')`;
                 i++;
             }
+
             var sql = `Insert into pack(name,pack.describe,pack_cards,url,create_time)
                         Values ${values};`;
             logger.info("chest_config init sql 1:" + sql);
             mysqlDb.execute(sql, async function (err, results, fields) {
                 logger.info("chest_config init results 1:" + JSON.stringify(results));
-                var sql = `Select * From pack where name='ChestReward' And create_time='${createTime}';`
+                var sql = `Select * From pack where (name='ChestReward' OR name='DailyLoginReward') And create_time='${createTime}';`
                 logger.info("chest_config init sql 2:" + sql);
                 mysqlDb.execute(sql, async function (err, results, fields) {
                     if (results != null && results.length > 0) {
                         var ids = "";
-                        var i = 0;
+                        var dailyLoginPackIds = "";
                         logger.info("chest_config init results 2:" + JSON.stringify(results));
                         for (var result of results) {
-                            if (i < results.length - 1)
+                            if (result.name == 'ChestReward') {
                                 ids += result.id + "|";
-                            else ids += result.id;
-                            i++;
+                            }
+                            else {
+                                dailyLoginPackIds += result.id + "|";
+                            }
                         }
-                        chestConfig.packIds = ids;
+                        chestConfig.PackIds = ids.slice(0, -1);
+                        chestConfig.DailyLoginPackIds = dailyLoginPackIds.slice(0, -1);
                         await myRedis.set(CHEST_CONFIG, chestConfig.toRedis());
                         await myRedis.publish(CHEST_CONFIG_NEW_DATA);
                     }
@@ -101,7 +116,8 @@ chestConfig.toRedis = function () {
     cf.DailyLoginMaxChestPoint = chestConfig.DailyLoginMaxChestPoint
     cf.DailyMissionMaxChestPoint = chestConfig.DailyMissionMaxChestPoint;
     cf.AchievementMaxChestPoint = chestConfig.AchievementMaxChestPoint;
-    cf.packIds = chestConfig.packIds;
+    cf.PackIds = chestConfig.PackIds;
+    cf.DailyLoginPackIds = chestConfig.DailyLoginPackIds;
     return JSON.stringify(cf);
 }
 
@@ -111,52 +127,50 @@ chestConfig.toApiRes = function () {
     cf.DailyMissionMaxChestPoint = chestConfig.DailyMissionMaxChestPoint;
     cf.AchievementMaxChestPoint = chestConfig.AchievementMaxChestPoint;
     cf.chests = chestConfig.chests;
+    cf.dailyLoginPacks = chestConfig.dailyLoginPacks;
     return cf;
 }
 
 chestConfig.setConfig = async function () {
-    var oldChestConfigStr = await myRedis.get(CHEST_CONFIG);
-    var oldChestConfig = JSON.parse(oldChestConfigStr);
+    // var oldChestConfigStr = await myRedis.get(CHEST_CONFIG);
+    // var oldChestConfig = JSON.parse(oldChestConfigStr);
     var createTime = util.dateFormat(new Date(), "%Y-%m-%d %H:%M:%S", false);
-    var i = 0;
     var values = "";
     for (var pack of chestConfig.chests) {
-        logger.info(pack);
-        var packCards = []
-        for (var packCard of pack.packCards) {
-            packCards.push(new PackCard(packCard.Common, packCard.UnCommon, packCard.Rare, packCard.Epic, packCard.Legend));
-        }
-        var chest = new Chest(packCards);
-        if (i < chestConfig.chests.length - 1)
-            values += `('ChestReward','Chest reward','${chest.Format()}','','${createTime}'),`;
-        else values += `('ChestReward','Chest reward','${chest.Format()}','','${createTime}')`;
+        values += `('ChestReward','Mission','${pack.Format()}','','${createTime}'),`;
+    }
+    var i = 0;
+    for (var pack of chestConfig.dailyLoginPacks) {
+        if (i < chestConfig.dailyLoginPacks.length - 1)
+            values += `('DailyLoginReward','Login','${pack.Format()}','','${createTime}'),`;
+        else values += `('DailyLoginReward','Login','${pack.Format()}','','${createTime}')`;
         i++;
     }
+
     var sql = `Insert into pack(name,pack.describe,pack_cards,url,create_time)
-                    Values ${values};`;
-    logger.info("chest_config setConfig sql 1:" + sql);
+                Values ${values};`;
+    logger.info("chest_config init sql 1:" + sql);
     mysqlDb.execute(sql, async function (err, results, fields) {
-        logger.info("battle_config setConfig results 1:" + JSON.stringify(results));
-        var sql = `Select * From pack where name='ChestReward' And create_time='${createTime}';`
-        logger.info("chest_config setConfig sql 2:" + sql);
+        logger.info("chest_config init results 1:" + JSON.stringify(results));
+        var sql = `Select * From pack where (name='ChestReward' OR name='DailyLoginReward') And create_time='${createTime}';`
+        logger.info("chest_config init sql 2:" + sql);
         mysqlDb.execute(sql, async function (err, results, fields) {
             if (results != null && results.length > 0) {
                 var ids = "";
-                var i = 0;
-                logger.info("chest_config setConfig results 2:" + JSON.stringify(results));
+                var dailyLoginPackIds = "";
+                logger.info("chest_config init results 2:" + JSON.stringify(results));
                 for (var result of results) {
-                    if (i < results.length - 1)
+                    if (result.name == 'ChestReward') {
                         ids += result.id + "|";
-                    else ids += result.id;
-                    i++;
+                    }
+                    else {
+                        dailyLoginPackIds += result.id + "|";
+                    }
                 }
-                chestConfig.packIds = ids;                
+                chestConfig.PackIds = ids.slice(0, -1);
+                chestConfig.DailyLoginPackIds = dailyLoginPackIds.slice(0, -1);
                 await myRedis.set(CHEST_CONFIG, chestConfig.toRedis());
                 await myRedis.publish(CHEST_CONFIG_NEW_DATA);
-                // var sql = `Delete From pack Where id in (${oldChestConfig.packIds.replaceAll('|', ',')});`
-                // logger.info("chest_config setConfig sql 3:" + sql);
-                // mysqlDb.execute(sql, function (err, results, fields) {
-                // });
             }
         });
     });
