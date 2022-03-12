@@ -6,6 +6,7 @@ const nanoidNumber = nanoId.customAlphabet("123456789", 10);
 const nanoidSS = nanoId.customAlphabet("ABCDEFGHIJKLMNOPQRSTUVXYZ123456789", 5);
 const rankBoardConfig = require('./config/rankboard_config.js')
 const redis = require('redis');
+const RankBoard = require("./entities/rankboard.js");
 
 const myredis = redis.createClient({
     socket:{host: process.env.redisHost || process.env.redisHost_Product},
@@ -161,8 +162,20 @@ myredis.loadRankingConfig = async function () {
         rankBoardConfig.casualDiamond = json.casualDiamond;
         rankBoardConfig.ADRPro = json.ADRPro;
         rankBoardConfig.ADRCasual = json.ADRCasual;
-        rankBoardConfig.pro = json.pro;
-        rankBoardConfig.casual = json.casual;
+        rankBoardConfig.pro = [];
+        rankBoardConfig.casual = [];
+        for(var item of json.pro){
+            var rankBoard = RankBoard.fromJson(item);
+            rankBoardConfig.pro.push(rankBoard);
+        }
+        for(var item of json.casual){
+            var rankBoard = RankBoard.fromJson(item);
+            rankBoardConfig.casual.push(rankBoard);
+        }
+
+        // rankBoardConfig.pro = json.pro;
+        // rankBoardConfig.casual = json.casual;
+
         // logger.info("myredis loadRankingConfig :" + rankBoardConfig.pro);
     }
     else await myredis.set(RANKING_CONFIG_BOARD, rankBoardConfig.toJson());
@@ -173,7 +186,7 @@ myredis.setRankingTimeConfig = async function () {
 }
 
 myredis.setBoardConfig = async function(){
-    await myredis.set(RANKING_CONFIG_BOARD, JSON.stringify(rankBoardConfig));
+    await myredis.set(RANKING_CONFIG_BOARD, rankBoardConfig.toJson());
     await myredis.publish(RankingLoadNewData);
 }
 

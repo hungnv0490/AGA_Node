@@ -64,9 +64,18 @@ rankingService.post('/rankboard/set', async (req, res, next) => {
         rankBoardConfig.casualDiamond = json.casualDiamond;
         rankBoardConfig.ADRPro = json.ADRPro;
         rankBoardConfig.ADRCasual = json.ADRCasual;
-
-        rankBoardConfig.pro = json.pro;
-        rankBoardConfig.casual = json.casual;
+        rankBoardConfig.pro = [];
+        rankBoardConfig.casual = [];
+        for(var item of json.pro){
+            var rankBoard = RankBoard.fromJson(item);
+            rankBoardConfig.pro.push(rankBoard);
+        }
+        for(var item of json.casual){
+            var rankBoard = RankBoard.fromJson(item);
+            rankBoardConfig.casual.push(rankBoard);
+        }
+        // rankBoardConfig.pro = json.pro;
+        // rankBoardConfig.casual = json.casual;
         await myRedis.setBoardConfig();
         var dataRes = {}
         dataRes.code = 200;

@@ -12,6 +12,18 @@ class RankBoard {
       this.ADR = Math.ceil(adr * this.PerDiamond / 100); 
     }
   }
+  // "RankingType": 1,
+        // "PointMin": 1100,
+        // "PointMax": 1999,
+        // "BattleMin": 50,
+        // "PerDiamond": 10,
+        // "InRank": 4000,
+        // "ADD": 2000,
+        // "ADR": 1000
+  RankBoard.fromJson=function(json){
+    return new RankBoard(json.RankingType, json.PointMin, json.PointMax, json.BattleMin, json.PerDiamond, json.InRank);
+  }
+
   RankBoard.proRanks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
   RankBoard.casualRanks = [12, 13, 14, 15, 16, 17, 18, 19, 20];
 
