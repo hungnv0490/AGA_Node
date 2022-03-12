@@ -3,6 +3,8 @@ var RankBoard = require('../entities/rankboard.js');
 rankboard_config = {}
 rankboard_config.proDiamond = 40000;
 rankboard_config.casualDiamond = 10000;
+rankboard_config.ADRPro = 40000;
+rankboard_config.ADRCasual = 10000;
 
 rankboard_config.pro=[
     new RankBoard(RankBoard.RankingType.Bronze, 1100, 1999, 50, 10, 4000 ),

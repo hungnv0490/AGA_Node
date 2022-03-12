@@ -159,6 +159,8 @@ myredis.loadRankingConfig = async function () {
         var json = JSON.parse(board);
         rankBoardConfig.proDiamond = json.proDiamond;
         rankBoardConfig.casualDiamond = json.casualDiamond;
+        rankBoardConfig.ADRPro = json.ADRPro;
+        rankBoardConfig.ADRCasual = json.ADRCasual;
         rankBoardConfig.pro = json.pro;
         rankBoardConfig.casual = json.casual;
         // logger.info("myredis loadRankingConfig :" + rankBoardConfig.pro);

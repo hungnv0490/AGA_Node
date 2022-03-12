@@ -62,6 +62,9 @@ rankingService.post('/rankboard/set', async (req, res, next) => {
         var json = req.body;
         rankBoardConfig.proDiamond = json.proDiamond;
         rankBoardConfig.casualDiamond = json.casualDiamond;
+        rankBoardConfig.ADRPro = json.ADRPro;
+        rankBoardConfig.ADRCasual = json.ADRCasual;
+
         rankBoardConfig.pro = json.pro;
         rankBoardConfig.casual = json.casual;
         await myRedis.setBoardConfig();
@@ -199,9 +202,11 @@ rankingService.rewards = async function (isPro) {
 
     var rankBoardCf = rankBoardConfig.pro;
     var rankBoardDiamond = rankBoardConfig.proDiamond;
+    var rankBoardAdr = rankBoardConfig.ADRPro;
     if (!isPro) {
         rankBoardCf = rankBoardConfig.casual;
         rankBoardDiamond = rankBoardConfig.casualDiamond;
+        rankBoardAdr = rankBoardConfig.ADRCasual;
     }
     logger.info('ranking rewards topRankings:' + topRankings);
     logger.info('ranking rewards rankBoardDiamond:' + rankBoardDiamond);
@@ -225,12 +230,21 @@ rankingService.rewards = async function (isPro) {
                 logger.info('ranking rewards board.rankingType:' + board.RankingType);
                 var rankingUsers = dt[key];
                 var diamond = Math.floor(rankBoardDiamond * board.PerDiamond / 100 / rankingUsers.length);
+                var adr = Math.floor(rankBoardAdr * board.PerDiamond / 100 / rankingUsers.length);
                 // var rewards = `1-0-${diamond}`;
                 for (var rankingUser of rankingUsers) {
                     var rankingReward = "";
-                    if (isPro) rankingReward = "ranking-reward-pro:" + rankingUser["Username"];
-                    else rankingReward = "ranking-reward-casual:" + rankingUser["Username"];
+                    var rewardAdrKey = "";
+                    if (isPro) {
+                        rankingReward = "ranking-reward-pro:" + rankingUser["Username"];
+                        rewardAdrKey = "ranking-reward-adr-pro:"+ rankingUser["Username"];
+                    }
+                    else {
+                        rankingReward = "ranking-reward-casual:" + rankingUser["Username"];
+                        rewardAdrKey = "ranking-reward-adr-casual:"+ rankingUser["Username"];
+                    }
                     await myRedis.incrBy(rankingReward, diamond);
+                    await myRedis.incrBy(rewardAdrKey, adr);
                     mySqlDB.updateUserRankingEndSeason(rankingUser["UserId"], board.RankingType, rankingUser["Rank"], season);
                 }
                 // rankingUsers.forEach(element => {
