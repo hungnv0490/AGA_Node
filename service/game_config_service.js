@@ -50,7 +50,25 @@ gameConfigService.post('/delete-data-redis', async (req, res) => {
                 }
                 await myRedis.DEL("nname_to_uid");
                 await myRedis.DEL("rank_battle_continious");
-                keys = await myRedis.KEYS("ranking-reward:*");
+                keys = await myRedis.KEYS("ranking-reward-pro:*");
+                if(keys && keys.length > 0){
+                    for (var k of keys) {
+                        await myRedis.DEL(k);
+                    }
+                }
+                keys = await myRedis.KEYS("ranking-reward-casual:*");
+                if(keys && keys.length > 0){
+                    for (var k of keys) {
+                        await myRedis.DEL(k);
+                    }
+                }
+                keys = await myRedis.KEYS("ranking-reward-adr-pro:*");
+                if(keys && keys.length > 0){
+                    for (var k of keys) {
+                        await myRedis.DEL(k);
+                    }
+                }
+                keys = await myRedis.KEYS("ranking-reward-adr-casual:*");
                 if(keys && keys.length > 0){
                     for (var k of keys) {
                         await myRedis.DEL(k);

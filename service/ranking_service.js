@@ -88,23 +88,33 @@ rankingService.get('/user/:username/:isPro', async (req, res, next) => {
         }
 
         var rankingReward = "";
+        var adrRewardKey = "";
         var isPro = (req.params.isPro == 1);
-        if (isPro) rankingReward = "ranking-reward-pro:" + req.params.username;
-        else rankingReward = "ranking-reward-casual:" + req.params.username;
+        if (isPro) {
+            rankingReward = "ranking-reward-pro:" + req.params.username;
+            adrRewardKey = "ranking-reward-adr-pro:" + req.params.username;
+        }
+        else {
+            rankingReward = "ranking-reward-casual:" + req.params.username;
+            adrRewardKey = "ranking-reward-adr-casual:" + req.params.username;
+        }
 
         var data = await myRedis.hGet(isPro ? RankingBoardDataPro : RankingBoardDataCasual, userId);
         var reward = await myRedis.get(rankingReward);
+        var rewardAdr = await myRedis.get(adrRewardKey);
         if (data == null) {
             var ranking = new Ranking(req.params.username, req.params.username, "", 0, 0, 0, RankBoard.RankingType.None);
             dataRes.code = 200;
             dataRes.data = ranking;
             dataRes.reward = (reward == null ? 0 : reward);
+            dataRes.rewardAdr = (rewardAdr == null ? 0 : rewardAdr);
             res.send(dataRes);
         }
         else {
             dataRes.code = 200;
             dataRes.data = JSON.parse(data);
             dataRes.reward = (reward == null ? 0 : reward);
+            dataRes.rewardAdr = (rewardAdr == null ? 0 : rewardAdr);
             res.send(dataRes);
         }
     } catch (error) {
@@ -116,17 +126,29 @@ rankingService.post('/user/claimed', verifyTokenBlockchain, async (req, res, nex
     try {
         var dataRes = {}
         var rankingReward = "";
+        var adrRewardKey = "";
         var isPro = (req.body.isPro == 1);
-        if (isPro) rankingReward = "ranking-reward-pro:" + req.body.username;
-        else rankingReward = "ranking-reward-casual:" + req.body.username;
-        var reward = await myRedis.get(rankingReward);
-        if (isNaN(req.body.diamond) || req.body.diamond <= 0 || req.body.diamond > reward) {
-            dataRes.code = 300;
-            res.send(dataRes);
-            logger.info("ranking_service user claimed:" + JSON.stringify(dataRes));
-            return;
+        if (isPro) {
+            rankingReward = "ranking-reward-pro:" + req.body.username;
+            adrRewardKey = "ranking-reward-adr-pro:" + req.body.username;
         }
+        else {
+            rankingReward = "ranking-reward-casual:" + req.body.username;
+            adrRewardKey = "ranking-reward-adr-casual:" + req.body.username;
+        }
+
+        // var reward = await myRedis.get(rankingReward);
+        // var rewardAdr = await myRedis.get(adrRewardKey);
+
+        // if (isNaN(req.body.diamond) || req.body.diamond <= 0 || req.body.diamond > reward) {
+        //     dataRes.code = 300;
+        //     res.send(dataRes);
+        //     logger.info("ranking_service user claimed:" + JSON.stringify(dataRes));
+        //     return;
+        // }
         var reward = await myRedis.del(rankingReward);
+        var reward = await myRedis.del(adrRewardKey);
+
         dataRes.code = 200;
         dataRes.msg = reward;
         res.send(dataRes);
