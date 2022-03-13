@@ -2,1081 +2,1591 @@
     "RATOH": [
         {
             "Id": "1",
+            "NFT Id": "18",
             "Name": "RATOH",
             "Planet": "Kald",
-            "Describe": "Intelligent, brave and always curious. Ratoh explores any place that is considered a dead place.",
+            "Describe": "A scheming and brave hero who loves to explore the dead lands. His super powers are always ready to take revenge on the troublemakers.",
             "Rarity": "Rare",
             "Race": "Sciencast",
             "Army": "Ground Force",
-            "Ability": "While playing: Gets +50%  ATK for each allies die in battle",
+            "Ability": "RATOH will gain 50% more ATK for each ally died in the battle.",
+            "Attack Type": "Melee",
             "Role": "Fighter",
             "Level": "1",
             "Atk": "2",
-            "Hp": "12"
+            "Hp": "12",
+            "Fusion ADD Cost": "5,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
         },
         {
             "Level": "2",
             "Atk": "3",
-            "Hp": "23"
+            "Hp": "23",
+            "Fusion ADD Cost": "7,000",
+            "Battle Reward": "5",
+            "Life-Time": "1,500"
         },
         {
             "Level": "3",
             "Atk": "5",
-            "Hp": "34"
+            "Hp": "34",
+            "Fusion ADD Cost": "10,000",
+            "Battle Reward": "65",
+            "Life-Time": "2,000"
         },
         {
             "Level": "4",
             "Atk": "6",
-            "Hp": "45"
+            "Hp": "45",
+            "Fusion ADD Cost": "30,000",
+            "Battle Reward": "210",
+            "Life-Time": "2,500"
         },
         {
             "Level": "5",
             "Atk": "8",
-            "Hp": "56"
+            "Hp": "56",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "400",
+            "Life-Time": "3,500"
         }
     ],
     "DESIUS": [
         {
             "Id": "2",
+            "NFT Id": "25",
             "Name": "DESIUS",
             "Planet": "Kald",
-            "Describe": "Deadly, unrepentant monster hunter who has spent her life searching for all traces and destroying the entire empire of Xeke who murdered her family.",
+            "Describe": "A monster hunter devoted her life seeking for all traces of Xeke who murdered her family, and destroying their entire kingdom.",
             "Rarity": "Epic",
             "Race": "Mercenary",
             "Army": "Navy Force",
-            "Ability": "When destroyed: Do 200% damage to all enemies in battle.",
+            "Ability": " \nWhen DESIUS is destroyed, she deals 300% damage on all enemies in the battle.",
+            "Attack Type": "Range",
             "Role": "Fighter",
             "Level": "1",
-            "Atk": "3",
-            "Hp": "12"
+            "Atk": "4",
+            "Hp": "12",
+            "Fusion ADD Cost": "10,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
         },
         {
             "Level": "2",
-            "Atk": "4",
-            "Hp": "23"
+            "Atk": "5",
+            "Hp": "23",
+            "Fusion ADD Cost": "12,000",
+            "Battle Reward": "8",
+            "Life-Time": "1,500"
         },
         {
             "Level": "3",
             "Atk": "6",
-            "Hp": "35"
+            "Hp": "35",
+            "Fusion ADD Cost": "15,000",
+            "Battle Reward": "80",
+            "Life-Time": "2,000"
         },
         {
             "Level": "4",
             "Atk": "7",
-            "Hp": "46"
+            "Hp": "46",
+            "Fusion ADD Cost": "50,000",
+            "Battle Reward": "270",
+            "Life-Time": "2,500"
         },
         {
             "Level": "5",
             "Atk": "9",
-            "Hp": "58"
+            "Hp": "58",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "500",
+            "Life-Time": "3,500"
         }
     ],
     "ARC": [
         {
             "Id": "3",
+            "NFT Id": "11",
             "Name": "ARC",
             "Planet": "Bleynt",
-            "Describe": "A ferocious hunter who lives for the thrill of tracking down and slaying anyone claiming to be the strongest. ",
+            "Describe": "A ferocious hunter who revels in the excitement of killing whoever claims to be the most powerful.",
             "Rarity": "Uncommon",
             "Race": "Demihuman",
             "Army": "Ground Force",
-            "Ability": "When destroyed:   -50% ATK to the enemy in same line",
+            "Ability": "When ARC is destroyed, he will debuff 50% ATK of opposite enemy. If the opposite enemy is dead, ARC will deal damage on the gladiator next to the dead one.",
+            "Attack Type": "Melee",
             "Role": "Fighter",
             "Level": "1",
-            "Atk": "1",
-            "Hp": "10"
+            "Atk": "2",
+            "Hp": "10",
+            "Fusion ADD Cost": "3,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
         },
         {
             "Level": "2",
-            "Atk": "2",
-            "Hp": "22"
+            "Atk": "3",
+            "Hp": "22",
+            "Fusion ADD Cost": "5,000",
+            "Battle Reward": "4",
+            "Life-Time": "1,500"
         },
         {
             "Level": "3",
-            "Atk": "3",
-            "Hp": "35"
+            "Atk": "4",
+            "Hp": "35",
+            "Fusion ADD Cost": "8,000",
+            "Battle Reward": "60",
+            "Life-Time": "2,000"
         },
         {
             "Level": "4",
-            "Atk": "4",
-            "Hp": "47"
+            "Atk": "5",
+            "Hp": "47",
+            "Fusion ADD Cost": "20,000",
+            "Battle Reward": "180",
+            "Life-Time": "2,500"
         },
         {
             "Level": "5",
-            "Atk": "5",
-            "Hp": "60"
+            "Atk": "6",
+            "Hp": "60",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "350",
+            "Life-Time": "3,500"
         }
     ],
     "SEANNUM": [
         {
             "Id": "4",
+            "NFT Id": "1",
             "Name": "SEANNUM",
             "Planet": "Hyetra",
-            "Describe": "An aggressive and belligerent Warrior which inherited from his parents's genes. He has dreamed of dominating planet Bleynt since he was a child and now he had actualized it.",
+            "Describe": "A belligerent warrior, who inherited the powers of his parents, dreamed of dominating the planet Bleynt since he was a child. Now, it's time for him to fulfill his dream.",
             "Rarity": "Common",
             "Race": "Antiquity",
             "Army": "Ground Force",
-            "Ability": "While playing: Gets +30% HP for each allies die in battle",
+            "Ability": "SEANNUM will instantly buff 50% more damage himself for the next turn if she killed an opposite enemy. \n",
+            "Attack Type": "Range",
             "Role": "Fighter",
             "Level": "1",
             "Atk": "3",
-            "Hp": "9"
+            "Hp": "9",
+            "Fusion ADD Cost": "2,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
         },
         {
             "Level": "2",
             "Atk": "4",
-            "Hp": "22"
+            "Hp": "22",
+            "Fusion ADD Cost": "4,000",
+            "Battle Reward": "4",
+            "Life-Time": "1,500"
         },
         {
             "Level": "3",
             "Atk": "5",
-            "Hp": "35"
+            "Hp": "35",
+            "Fusion ADD Cost": "7,000",
+            "Battle Reward": "55",
+            "Life-Time": "2,000"
         },
         {
             "Level": "4",
             "Atk": "7",
-            "Hp": "49"
+            "Hp": "49",
+            "Fusion ADD Cost": "15,000",
+            "Battle Reward": "150",
+            "Life-Time": "2,500"
         },
         {
             "Level": "5",
             "Atk": "8",
-            "Hp": "62"
+            "Hp": "62",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "300",
+            "Life-Time": "3,500"
         }
     ],
     "MUNCH": [
         {
             "Id": "5",
+            "NFT Id": "2",
             "Name": "MUNCH",
             "Planet": "Gehg",
-            "Describe": "A true warrior with golden armor and a big mace. Man of honor!",
+            "Describe": "A true warrior with golden armor and a big mace. The destruction of the enemy enhances his strength and honor.",
             "Rarity": "Common",
             "Race": "Mosteras",
             "Army": "Ground Force",
-            "Ability": "While playing: This gets +20% ATK for each enemie die in battle",
+            "Ability": "After 3 attacks, MUNCH deals 100% damage to all enemies in the battle. His ability will be kept and stacked to use in the next turns.",
+            "Attack Type": "Melee",
             "Role": "Protector",
             "Level": "1",
             "Atk": "3",
-            "Hp": "11"
+            "Hp": "11",
+            "Fusion ADD Cost": "2,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
         },
         {
             "Level": "2",
             "Atk": "4",
-            "Hp": "23"
+            "Hp": "23",
+            "Fusion ADD Cost": "4,000",
+            "Battle Reward": "4",
+            "Life-Time": "1,500"
         },
         {
             "Level": "3",
             "Atk": "5",
-            "Hp": "36"
+            "Hp": "36",
+            "Fusion ADD Cost": "7,000",
+            "Battle Reward": "55",
+            "Life-Time": "2,000"
         },
         {
             "Level": "4",
             "Atk": "7",
-            "Hp": "49"
+            "Hp": "49",
+            "Fusion ADD Cost": "15,000",
+            "Battle Reward": "150",
+            "Life-Time": "2,500"
         },
         {
             "Level": "5",
             "Atk": "8",
-            "Hp": "62"
+            "Hp": "62",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "300",
+            "Life-Time": "3,500"
         }
     ],
     "GIME": [
         {
             "Id": "6",
+            "NFT Id": "3",
             "Name": "GIME",
             "Planet": "Strael",
-            "Describe": "Sexy, sexy and... deadly",
+            "Describe": "A sexy and charming girl with the ability to deal great damage, especially becomes more energetic when an enemy dies.",
             "Rarity": "Common",
             "Race": "Human",
             "Army": "Ground Force",
-            "Ability": "When this card destroy a card, deal 200% damage on all eneies in battle",
+            "Ability": "When GIME is destroyed, she deals 150% damage on all enemies in the battle\r\n",
+            "Attack Type": "Melee",
             "Role": "Protector",
             "Level": "1",
             "Atk": "2",
-            "Hp": "12"
+            "Hp": "12",
+            "Fusion ADD Cost": "2,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
         },
         {
             "Level": "2",
             "Atk": "3",
-            "Hp": "24"
+            "Hp": "24",
+            "Fusion ADD Cost": "4,000",
+            "Battle Reward": "4",
+            "Life-Time": "1,500"
         },
         {
             "Level": "3",
             "Atk": "5",
-            "Hp": "37"
+            "Hp": "37",
+            "Fusion ADD Cost": "7,000",
+            "Battle Reward": "55",
+            "Life-Time": "2,000"
         },
         {
             "Level": "4",
             "Atk": "6",
-            "Hp": "49"
+            "Hp": "49",
+            "Fusion ADD Cost": "15,000",
+            "Battle Reward": "150",
+            "Life-Time": "2,500"
         },
         {
             "Level": "5",
             "Atk": "8",
-            "Hp": "62"
+            "Hp": "62",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "300",
+            "Life-Time": "3,500"
         }
     ],
     "FILU": [
         {
             "Id": "7",
+            "NFT Id": "12",
             "Name": "FILU",
             "Planet": "Cyarz",
-            "Describe": "Two bloods are running through his veins: Human and Dragon. He is the center of all wars",
+            "Describe": "A half-breed with Human and Dragon who is the center of all wars. His ability will amaze enemies at the last moment.",
             "Rarity": "Uncommon",
             "Race": "???",
             "Army": "Ground Force",
-            "Ability": "Do deal 100% damage for all enimes after 4 basic attacks",
+            "Ability": "After 4 attacks, FILU deals 150% damage to all opponents in the battle.\n",
+            "Attack Type": "Melee",
             "Role": "Protector",
             "Level": "1",
-            "Atk": "3",
-            "Hp": "13"
+            "Atk": "4",
+            "Hp": "13",
+            "Fusion ADD Cost": "3,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
         },
         {
             "Level": "2",
             "Atk": "5",
-            "Hp": "26"
+            "Hp": "26",
+            "Fusion ADD Cost": "5,000",
+            "Battle Reward": "4",
+            "Life-Time": "1,500"
         },
         {
             "Level": "3",
             "Atk": "7",
-            "Hp": "40"
+            "Hp": "40",
+            "Fusion ADD Cost": "8,000",
+            "Battle Reward": "60",
+            "Life-Time": "2,000"
         },
         {
             "Level": "4",
             "Atk": "8",
-            "Hp": "54"
+            "Hp": "54",
+            "Fusion ADD Cost": "20,000",
+            "Battle Reward": "180",
+            "Life-Time": "2,500"
         },
         {
             "Level": "5",
             "Atk": "9",
-            "Hp": "65"
+            "Hp": "65",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "350",
+            "Life-Time": "3,500"
         }
     ],
     "DRAKUL": [
         {
             "Id": "8",
+            "NFT Id": "4",
             "Name": "DRAKUL",
             "Planet": "Gegh",
-            "Describe": "A loyal sentry of planet Gegh, armed with great armor and a big laser gun.",
+            "Describe": "A Gegh's devoted and loyal sentry, armed with heavy armor and a powerful laser gun. Not only good defense, his healing ability is also a formidable point.",
             "Rarity": "Common",
             "Race": "Dager",
             "Army": "Ground Force",
-            "Ability": "Do heal 10% as hitself HP for all allies next-door after 4 basic attacks",
+            "Ability": "After 3 attacks, DRAKUL will automatically buff 50% ATK to himself and buff 20% ATK to allies on the battlefield. His ability will be kept and stacked to use in the next turns.",
+            "Attack Type": "Range",
             "Role": "Caster",
             "Level": "1",
             "Atk": "3",
-            "Hp": "13"
+            "Hp": "13",
+            "Fusion ADD Cost": "2,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
         },
         {
             "Level": "2",
             "Atk": "4",
-            "Hp": "26"
+            "Hp": "26",
+            "Fusion ADD Cost": "4,000",
+            "Battle Reward": "4",
+            "Life-Time": "1,500"
         },
         {
             "Level": "3",
             "Atk": "5",
-            "Hp": "40"
+            "Hp": "40",
+            "Fusion ADD Cost": "7,000",
+            "Battle Reward": "55",
+            "Life-Time": "2,000"
         },
         {
             "Level": "4",
             "Atk": "7",
-            "Hp": "53"
+            "Hp": "53",
+            "Fusion ADD Cost": "15,000",
+            "Battle Reward": "150",
+            "Life-Time": "2,500"
         },
         {
             "Level": "5",
             "Atk": "8",
-            "Hp": "67"
+            "Hp": "67",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "300",
+            "Life-Time": "3,500"
         }
     ],
     "DENYRIS": [
         {
             "Id": "9",
+            "NFT Id": "19",
             "Name": "DENYRIS",
             "Planet": "Bleynt",
-            "Describe": "A little elf with big wings and a deadly archery. Don't mess with her, or her arrows will stuck on your body.",
+            "Describe": "A little elf with big wings & formidable archery making you pay the price for messing actions.",
             "Rarity": "Rare",
             "Race": "Dema",
             "Army": "Ground Force",
-            "Ability": "Do 300% damage to random enemy at battle after kill an enemy",
+            "Ability": "After 2 attacks, DENYRIS will steal 20% ATK of opposite enemy and convert it to its own. If the opposite enemy is dead, DENYRIS will deal damage on the gladiator next to the dead one.",
+            "Attack Type": "Range",
             "Role": "Caster",
             "Level": "1",
-            "Atk": "1",
-            "Hp": "10"
+            "Atk": "2",
+            "Hp": "10",
+            "Fusion ADD Cost": "5,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
         },
         {
             "Level": "2",
-            "Atk": "2",
-            "Hp": "22"
+            "Atk": "3",
+            "Hp": "22",
+            "Fusion ADD Cost": "7,000",
+            "Battle Reward": "5",
+            "Life-Time": "1,500"
         },
         {
             "Level": "3",
-            "Atk": "3",
-            "Hp": "35"
+            "Atk": "4",
+            "Hp": "35",
+            "Fusion ADD Cost": "10,000",
+            "Battle Reward": "65",
+            "Life-Time": "2,000"
         },
         {
             "Level": "4",
-            "Atk": "4",
-            "Hp": "48"
+            "Atk": "5",
+            "Hp": "48",
+            "Fusion ADD Cost": "30,000",
+            "Battle Reward": "210",
+            "Life-Time": "2,500"
         },
         {
             "Level": "5",
-            "Atk": "5",
-            "Hp": "61"
+            "Atk": "7",
+            "Hp": "61",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "400",
+            "Life-Time": "3,500"
         }
     ],
     "GOLEM": [
         {
             "Id": "10",
+            "NFT Id": "26",
             "Name": "GOLEM",
             "Planet": "Bryani",
-            "Describe": "He is a true definition of a monster. Challenge him and you all will know. ",
+            "Describe": "A true monster with a quick recovery ability. Your damage only makes him stronger.",
             "Rarity": "Epic",
             "Race": "Witch",
             "Army": "Ground Force",
-            "Ability": "When this card lost HP, +30% damage on each HP lost in battle to ATK",
+            "Ability": "When GOLEM loses HP, 30% HP lost in the battle will be directly converted to his ATK. After 3 attacks, GOLEM will deal stacks of damage to opposite enemy. If the opposite enemy is dead, GOLEM will deal damage on the gladiator next to the dead one.\r\n",
+            "Attack Type": "Melee",
             "Role": "Protector",
             "Level": "1",
-            "Atk": "3",
-            "Hp": "13"
+            "Atk": "4",
+            "Hp": "13",
+            "Fusion ADD Cost": "10,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
         },
         {
             "Level": "2",
-            "Atk": "4",
-            "Hp": "27"
+            "Atk": "5",
+            "Hp": "27",
+            "Fusion ADD Cost": "12,000",
+            "Battle Reward": "8",
+            "Life-Time": "1,500"
         },
         {
             "Level": "3",
             "Atk": "6",
-            "Hp": "41"
+            "Hp": "41",
+            "Fusion ADD Cost": "15,000",
+            "Battle Reward": "80",
+            "Life-Time": "2,000"
         },
         {
             "Level": "4",
             "Atk": "8",
-            "Hp": "56"
+            "Hp": "56",
+            "Fusion ADD Cost": "50,000",
+            "Battle Reward": "270",
+            "Life-Time": "2,500"
         },
         {
             "Level": "5",
             "Atk": "10",
-            "Hp": "70"
+            "Hp": "70",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "500",
+            "Life-Time": "3,500"
         }
     ],
-    "TIAYOS": [
+    "DANYRD": [
         {
             "Id": "11",
-            "Name": "TIAYOS",
+            "NFT Id": "13",
+            "Name": "DANYRD",
             "Planet": "STRAEL",
-            "Describe": "A tiny girl but carry a Big Gun as her weapon. A General who likes to use violence to overwhelm others' spirits. Actions speak louder than words!",
-            "Rarity": "Epic",
-            "Race": "Human",
+            "Describe": "A beast trainer always wearing a thick suit to protect from injury and belt with various weapons.",
+            "Rarity": "Uncommon",
+            "Race": "Demihuman",
             "Army": "Ground Force",
-            "Ability": "While Playing: Cards at nextdoor in battle get +30%ATK  + 30%HP",
+            "Ability": "After 3 attacks, DANYRD will buff 15% ATK and 15% HP to allies cards in the battle. In case activating the ability, DANYRD does not use normal attacks. His ability will be kept and stacked to use in the next turns.",
+            "Attack Type": "Range",
             "Role": "Caster",
             "Level": "1",
             "Atk": "3",
-            "Hp": "13"
+            "Hp": "13",
+            "Fusion ADD Cost": "3,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
         },
         {
             "Level": "2",
             "Atk": "4",
-            "Hp": "24"
+            "Hp": "24",
+            "Fusion ADD Cost": "5,000",
+            "Battle Reward": "4",
+            "Life-Time": "1,500"
         },
         {
             "Level": "3",
             "Atk": "5",
-            "Hp": "35"
+            "Hp": "35",
+            "Fusion ADD Cost": "8,000",
+            "Battle Reward": "60",
+            "Life-Time": "2,000"
         },
         {
             "Level": "4",
             "Atk": "6",
-            "Hp": "46"
+            "Hp": "46",
+            "Fusion ADD Cost": "20,000",
+            "Battle Reward": "180",
+            "Life-Time": "2,500"
         },
         {
             "Level": "5",
             "Atk": "7",
-            "Hp": "59"
+            "Hp": "59",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "350",
+            "Life-Time": "3,500"
         }
     ],
-    "ZUKAZINA": [
+    "EUNTO": [
         {
             "Id": "12",
-            "Name": "ZUKAZINA",
+            "NFT Id": "14",
+            "Name": "EUNTO",
             "Planet": "Hyetra",
-            "Describe": "Reborn and cursed with a demonic crown, Zukazina hunts down all creatures that threat his empire.",
-            "Rarity": "Epic",
-            "Race": "Galom",
+            "Describe": "A professional weapons repairman and enthusiastic support teammate with light armor and helmet.",
+            "Rarity": "Uncommon",
+            "Race": "Magier",
             "Army": "Navy force",
-            "Ability": "While Playing: After 3 basic attack Move/change/swap to random lines. 2 cards on swap get +30%ATK  + 30%HP",
+            "Ability": "After 3 attacks, EUNTO can swap position with another ally gladiator. EUNTO and the swaping gladiator both get 20% more ATK and heal 20% HP.",
+            "Attack Type": "Melee",
             "Role": "Protector",
             "Level": "1",
             "Atk": "3",
-            "Hp": "13"
+            "Hp": "13",
+            "Fusion ADD Cost": "3,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
         },
         {
             "Level": "2",
             "Atk": "4",
-            "Hp": "26"
+            "Hp": "26",
+            "Fusion ADD Cost": "5,000",
+            "Battle Reward": "4",
+            "Life-Time": "1,500"
         },
         {
             "Level": "3",
             "Atk": "6",
-            "Hp": "39"
+            "Hp": "39",
+            "Fusion ADD Cost": "8,000",
+            "Battle Reward": "60",
+            "Life-Time": "2,000"
         },
         {
             "Level": "4",
             "Atk": "7",
-            "Hp": "52"
+            "Hp": "52",
+            "Fusion ADD Cost": "20,000",
+            "Battle Reward": "180",
+            "Life-Time": "2,500"
         },
         {
             "Level": "5",
             "Atk": "9",
-            "Hp": "68"
+            "Hp": "68",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "350",
+            "Life-Time": "3,500"
         }
     ],
-    "Azrael": [
+    "TONDRA": [
         {
             "Id": "13",
-            "Name": "Azrael",
+            "NFT Id": "5",
+            "Name": "TONDRA",
             "Planet": "Kald",
-            "Describe": "A cunning woman, but is very straightforward when it comes to her path, gentle and very considerate to her subordinates, always listening to traitors.",
-            "Rarity": "Epic",
-            "Race": "Sciencast",
+            "Describe": "A pink hair girl gets stronger over damages. Saws, swords, and wheel shoes help her defeat enemies.",
+            "Rarity": "Common",
+            "Race": "Human",
             "Army": "Navy force",
-            "Ability": "While Playing: After 3 basic attack do 100% to all enemies on battle, +30%ATK",
+            "Ability": "After 3 attacks, TONDRA will deal 50% damage on all enemies on the battle and automatically receive 20% more ATK. His ability will be kept and stacked to use in the next turns.\n",
+            "Attack Type": "Range",
             "Role": "Fighter",
             "Level": "1",
             "Atk": "2",
-            "Hp": "10"
-        },
-        {
-            "Level": "2",
-            "Atk": "3",
-            "Hp": "21"
-        },
-        {
-            "Level": "3",
-            "Atk": "5",
-            "Hp": "33"
-        },
-        {
-            "Level": "4",
-            "Atk": "6",
-            "Hp": "45"
-        },
-        {
-            "Level": "5",
-            "Atk": "8",
-            "Hp": "59"
-        }
-    ],
-    "Azula": [
-        {
-            "Id": "14",
-            "Name": "Azula",
-            "Planet": "Myq - Strael",
-            "Describe": "Quiet, Actions speak louder than words, As a Hero who likes to use violence to overwhelm others' spirits. Always put his own interests first",
-            "Rarity": "Rare",
-            "Race": "Crox",
-            "Army": "Ground Force",
-            "Ability": "While Playing: After 3 basic attack do 300% to enemy on same line, self heal up +15% HP",
-            "Role": "Protector",
-            "Level": "1",
-            "Atk": "3",
-            "Hp": "13"
+            "Hp": "10",
+            "Fusion ADD Cost": "2,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
         },
         {
             "Level": "2",
             "Atk": "4",
-            "Hp": "26"
+            "Hp": "26",
+            "Fusion ADD Cost": "4,000",
+            "Battle Reward": "4",
+            "Life-Time": "1,500"
         },
         {
             "Level": "3",
             "Atk": "6",
-            "Hp": "39"
-        },
-        {
-            "Level": "4",
-            "Atk": "8",
-            "Hp": "53"
-        },
-        {
-            "Level": "5",
-            "Atk": "10",
-            "Hp": "69"
-        }
-    ],
-    "Zush": [
-        {
-            "Id": "15",
-            "Name": "Zush",
-            "Planet": "Cyarz - Bleynt",
-            "Describe": "Is a cheerful person who sometimes goes crazy because he wants to manipulate Hela",
-            "Rarity": "Rare",
-            "Race": "Lance",
-            "Army": "Ground Force",
-            "Ability": "While Playing: After 3 basic attack do 150% damage to random a enemy at battle, heal 100% as basic damage on random an ally at battle",
-            "Role": "Caster",
-            "Level": "1",
-            "Atk": "3",
-            "Hp": "13"
-        },
-        {
-            "Level": "2",
-            "Atk": "4",
-            "Hp": "26"
-        },
-        {
-            "Level": "3",
-            "Atk": "5",
-            "Hp": "39"
+            "Hp": "42",
+            "Fusion ADD Cost": "7,000",
+            "Battle Reward": "55",
+            "Life-Time": "2,000"
         },
         {
             "Level": "4",
             "Atk": "7",
-            "Hp": "52"
+            "Hp": "55",
+            "Fusion ADD Cost": "15,000",
+            "Battle Reward": "150",
+            "Life-Time": "2,500"
         },
         {
             "Level": "5",
             "Atk": "9",
-            "Hp": "68"
+            "Hp": "68",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "300",
+            "Life-Time": "3,500"
         }
     ],
-    "Calatar": [
+    "SAMELIA": [
+        {
+            "Id": "14",
+            "NFT Id": "6",
+            "Name": "SAMELIA",
+            "Planet": "Myq - Strael",
+            "Describe": "A beautiful girl with bat ears and an iron tail. The trident in hand is a powerful weapon to enhance the ability to attack and recover for herself.",
+            "Rarity": "Common",
+            "Race": "Human Darian ",
+            "Army": "Ground Force",
+            "Ability": "After 3 basic attacks, SAMELIA will deal 150% damage on the opposite enemy and automatically heal up 15% HP herself. If the opposite enemy is dead, SAMELIA will deal damage on the gladiator next to the dead one.",
+            "Attack Type": "Range",
+            "Role": "Protector",
+            "Level": "1",
+            "Atk": "3",
+            "Hp": "13",
+            "Fusion ADD Cost": "2,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
+        },
+        {
+            "Level": "2",
+            "Atk": "4",
+            "Hp": "26",
+            "Fusion ADD Cost": "4,000",
+            "Battle Reward": "4",
+            "Life-Time": "1,500"
+        },
+        {
+            "Level": "3",
+            "Atk": "6",
+            "Hp": "39",
+            "Fusion ADD Cost": "7,000",
+            "Battle Reward": "55",
+            "Life-Time": "2,000"
+        },
+        {
+            "Level": "4",
+            "Atk": "8",
+            "Hp": "53",
+            "Fusion ADD Cost": "15,000",
+            "Battle Reward": "150",
+            "Life-Time": "2,500"
+        },
+        {
+            "Level": "5",
+            "Atk": "10",
+            "Hp": "69",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "300",
+            "Life-Time": "3,500"
+        }
+    ],
+    "AWIAI": [
+        {
+            "Id": "15",
+            "NFT Id": "20",
+            "Name": "AWIAI",
+            "Planet": "Cyarz - Bleynt",
+            "Describe": "A man with 4 arms holding 4 swords not only deals great damage to the enemy, but also strengthens the ability of his teammates.",
+            "Rarity": "Rare",
+            "Race": "Genta Mustag ",
+            "Army": "Ground Force",
+            "Ability": "After 3 attacks, AWIAI deals 150% damage on the random enemy and heal 100% ATK to a random ally in the battle",
+            "Attack Type": "Range",
+            "Role": "Caster",
+            "Level": "1",
+            "Atk": "3",
+            "Hp": "13",
+            "Fusion ADD Cost": "5,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
+        },
+        {
+            "Level": "2",
+            "Atk": "4",
+            "Hp": "26",
+            "Fusion ADD Cost": "7,000",
+            "Battle Reward": "5",
+            "Life-Time": "1,500"
+        },
+        {
+            "Level": "3",
+            "Atk": "5",
+            "Hp": "39",
+            "Fusion ADD Cost": "10,000",
+            "Battle Reward": "65",
+            "Life-Time": "2,000"
+        },
+        {
+            "Level": "4",
+            "Atk": "7",
+            "Hp": "52",
+            "Fusion ADD Cost": "30,000",
+            "Battle Reward": "210",
+            "Life-Time": "2,500"
+        },
+        {
+            "Level": "5",
+            "Atk": "9",
+            "Hp": "68",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "400",
+            "Life-Time": "3,500"
+        }
+    ],
+    "CALATAR": [
         {
             "Id": "16",
-            "Name": "Calatar",
+            "NFT Id": "7",
+            "Name": "CALATAR",
             "Planet": "Soiq",
-            "Describe": "Sometimes I fall in love with her cuteness. Look at that cute cat ear!",
+            "Describe": "A cute girl with cat ears that has the ability to buff damage to random allies",
             "Rarity": "Common",
             "Race": "Spiritual",
             "Army": "Navy force",
-            "Ability": "While Playing: After 2 basic attack, Buff 50% damage to random an ally at battle",
+            "Ability": "After 2 attacks, CALATAR buffs 50% damage to the random allies in the battle on only next turn.",
+            "Attack Type": "Range",
             "Role": "Fighter",
             "Level": "1",
-            "Atk": "1",
-            "Hp": "10"
+            "Atk": "2",
+            "Hp": "10",
+            "Fusion ADD Cost": "2,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
         },
         {
             "Level": "2",
-            "Atk": "2",
-            "Hp": "22"
+            "Atk": "3",
+            "Hp": "22",
+            "Fusion ADD Cost": "4,000",
+            "Battle Reward": "4",
+            "Life-Time": "1,500"
         },
         {
             "Level": "3",
             "Atk": "4",
-            "Hp": "35"
+            "Hp": "35",
+            "Fusion ADD Cost": "7,000",
+            "Battle Reward": "55",
+            "Life-Time": "2,000"
         },
         {
             "Level": "4",
             "Atk": "6",
-            "Hp": "48"
+            "Hp": "48",
+            "Fusion ADD Cost": "15,000",
+            "Battle Reward": "150",
+            "Life-Time": "2,500"
         },
         {
             "Level": "5",
             "Atk": "8",
-            "Hp": "63"
+            "Hp": "63",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "300",
+            "Life-Time": "3,500"
         }
     ],
-    "Verid": [
+    "VERID": [
         {
             "Id": "17",
-            "Name": "Verid",
+            "NFT Id": "27",
+            "Name": "VERID",
             "Planet": "Myq",
-            "Describe": "He loves math and academic tv shows, every time he gets the right answer, he's quite arrogant, and when i get the wrong answer, i see him pretending to be silent as if he doesn't know anything",
+            "Describe": "He's expert in tactics, paralyze enemies. He can reduce the enemy's attack damage by his light shield.",
             "Rarity": "Epic",
             "Race": "???",
             "Army": "Navy force",
-            "Ability": "While Playing: After 2 basic attack Debuff 50% damage to random random an enemy at battle",
+            "Ability": "After 3 attacks, VERIA always debuffs 30% damage to all his enemies in the battle. His ability will be kept and stacked to use in the next turns. ",
+            "Attack Type": "Melee",
             "Role": "Fighter",
             "Level": "1",
-            "Atk": "2",
-            "Hp": "12"
+            "Atk": "4",
+            "Hp": "12",
+            "Fusion ADD Cost": "10,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
         },
         {
             "Level": "2",
-            "Atk": "3",
-            "Hp": "24"
+            "Atk": "5",
+            "Hp": "24",
+            "Fusion ADD Cost": "12,000",
+            "Battle Reward": "8",
+            "Life-Time": "1,500"
         },
         {
             "Level": "3",
-            "Atk": "4",
-            "Hp": "36"
+            "Atk": "6",
+            "Hp": "36",
+            "Fusion ADD Cost": "15,000",
+            "Battle Reward": "80",
+            "Life-Time": "2,000"
         },
         {
             "Level": "4",
-            "Atk": "6",
-            "Hp": "48"
+            "Atk": "7",
+            "Hp": "48",
+            "Fusion ADD Cost": "50,000",
+            "Battle Reward": "270",
+            "Life-Time": "2,500"
         },
         {
             "Level": "5",
-            "Atk": "8",
-            "Hp": "62"
+            "Atk": "9",
+            "Hp": "62",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "500",
+            "Life-Time": "3,500"
         }
     ],
-    "Etzak": [
+    "ETZAK": [
         {
             "Id": "18",
-            "Name": "Etzak",
+            "NFT Id": "29",
+            "Name": "ETZAK",
             "Planet": "Gegh",
-            "Describe": "She loves banana, she's very stylish and hot tempered",
+            "Describe": "She's very stylish with short hair and hot tempered. If you tease her, she will punch a few hole in your body.",
             "Rarity": "Legendary",
             "Race": "Yerkin Masel",
             "Army": "Ground Force",
-            "Ability": "When deploy: do 100% damage on all enemies on battle field",
+            "Ability": "- When deployed, ETZAK deals 100% damage on all enemies in the battle.\r\n- While playing, ETZAK always steals 10% ATK damage of opposite enemy on the battle ground to increase his own damage.\r\n\r\nIf the opposite enemy is dead, ETZAK will deal damage on the gladiator next to the dead one.",
+            "Attack Type": "Range",
             "Role": "Fighter",
             "Level": "1",
-            "Atk": "3",
-            "Hp": "10"
+            "Atk": "5",
+            "Hp": "10",
+            "Fusion ADD Cost": "20,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
         },
         {
             "Level": "2",
-            "Atk": "4",
-            "Hp": "21"
+            "Atk": "6",
+            "Hp": "21",
+            "Fusion ADD Cost": "30,000",
+            "Battle Reward": "13",
+            "Life-Time": "1,500"
         },
         {
             "Level": "3",
-            "Atk": "5",
-            "Hp": "33"
+            "Atk": "7",
+            "Hp": "33",
+            "Fusion ADD Cost": "50,000",
+            "Battle Reward": "120",
+            "Life-Time": "2,000"
         },
         {
             "Level": "4",
-            "Atk": "6",
-            "Hp": "44"
+            "Atk": "8",
+            "Hp": "44",
+            "Fusion ADD Cost": "100,000",
+            "Battle Reward": "420",
+            "Life-Time": "2,500"
         },
         {
             "Level": "5",
-            "Atk": "8",
-            "Hp": "58"
+            "Atk": "10",
+            "Hp": "58",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "750",
+            "Life-Time": "3,500"
         }
     ],
-    "Neast": [
+    "NEAST": [
         {
             "Id": "19",
-            "Name": "Neast",
+            "NFT Id": "8",
+            "Name": "NEAST",
             "Planet": "Gegh",
-            "Describe": "As a sailor I am always ready to sacrifice and obey all orders",
+            "Describe": "His blade is sharper than a laser. When the blade has absorb enough blood, it will increase damage for Neast.",
             "Rarity": "Common",
             "Race": "Human",
             "Army": "Navy force",
-            "Ability": "While at battle: + 50% ATK on each card replace ",
+            "Ability": "When the enemy replaces a new gladiator on the battle ground, NEAST will increase 30% ATK base damage for himself.",
+            "Attack Type": "Melee",
             "Role": "Caster",
             "Level": "1",
-            "Atk": "1",
-            "Hp": "8"
+            "Atk": "2",
+            "Hp": "8",
+            "Fusion ADD Cost": "2,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
         },
         {
             "Level": "2",
-            "Atk": "2",
-            "Hp": "19"
+            "Atk": "3",
+            "Hp": "19",
+            "Fusion ADD Cost": "4,000",
+            "Battle Reward": "4",
+            "Life-Time": "1,500"
         },
         {
             "Level": "3",
-            "Atk": "3",
-            "Hp": "31"
+            "Atk": "4",
+            "Hp": "31",
+            "Fusion ADD Cost": "7,000",
+            "Battle Reward": "55",
+            "Life-Time": "2,000"
         },
         {
             "Level": "4",
-            "Atk": "4",
-            "Hp": "43"
+            "Atk": "5",
+            "Hp": "43",
+            "Fusion ADD Cost": "15,000",
+            "Battle Reward": "150",
+            "Life-Time": "2,500"
         },
         {
             "Level": "5",
-            "Atk": "5",
-            "Hp": "57"
+            "Atk": "6",
+            "Hp": "57",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "300",
+            "Life-Time": "3,500"
         }
     ],
-    "Eldechen": [
+    "ELDECHEN": [
         {
             "Id": "20",
-            "Name": "Eldechen",
+            "NFT Id": "9",
+            "Name": "ELDECHEN",
             "Planet": "Strael",
-            "Describe": "His hair is curly red. he rides a trampoline. He's quite childish and playful. he likes to play with everyone especially outdoor activities.",
+            "Describe": "He has serious face, curly black hair - the featured of human spell race. Contrary to his face, He's quite childish and playful.",
             "Rarity": "Common",
             "Race": "Human Spell",
             "Army": "Spell",
-            "Ability": "While Playing: After 3 basic attack, swap position of 2 random enemies at battle",
+            "Ability": "After 3 attacks, ELDECHEN swaps the position of 2 random enemies. Then he heals 20% cap HP for 2 allies gladiator.",
+            "Attack Type": "Range",
             "Role": "Caster",
             "Level": "1",
-            "Atk": "1",
-            "Hp": "8"
+            "Atk": "2",
+            "Hp": "8",
+            "Fusion ADD Cost": "2,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
         },
         {
             "Level": "2",
-            "Atk": "2",
-            "Hp": "19"
+            "Atk": "3",
+            "Hp": "19",
+            "Fusion ADD Cost": "4,000",
+            "Battle Reward": "4",
+            "Life-Time": "1,500"
         },
         {
             "Level": "3",
-            "Atk": "3",
-            "Hp": "31"
+            "Atk": "4",
+            "Hp": "31",
+            "Fusion ADD Cost": "7,000",
+            "Battle Reward": "55",
+            "Life-Time": "2,000"
         },
         {
             "Level": "4",
-            "Atk": "4",
-            "Hp": "42"
+            "Atk": "5",
+            "Hp": "42",
+            "Fusion ADD Cost": "15,000",
+            "Battle Reward": "150",
+            "Life-Time": "2,500"
         },
         {
             "Level": "5",
-            "Atk": "5",
-            "Hp": "56"
+            "Atk": "6",
+            "Hp": "56",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "300",
+            "Life-Time": "3,500"
         }
     ],
-    "Elmon": [
+    "ELMON": [
         {
             "Id": "21",
-            "Name": "Elmon",
+            "NFT Id": "15",
+            "Name": "ELMON",
             "Planet": "Myq",
             "Describe": "Elmon used to be a tea house singer, he was a saxophone player. He plays so well that there were enemies in disguise to hear him perform.",
             "Rarity": "Uncommon",
             "Race": "Garroth",
             "Army": "Ground Force",
-            "Ability": "At bend, when battle start: Do 100% damage to all enemies at battle",
+            "Ability": "When deployed, ELMON deal 100% damage on all enemies in the battle.",
+            "Attack Type": "Range",
             "Role": "Caster",
             "Level": "1",
             "Atk": "3",
-            "Hp": "13"
+            "Hp": "13",
+            "Fusion ADD Cost": "3,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
         },
         {
             "Level": "2",
             "Atk": "4",
-            "Hp": "24"
+            "Hp": "24",
+            "Fusion ADD Cost": "5,000",
+            "Battle Reward": "4",
+            "Life-Time": "1,500"
         },
         {
             "Level": "3",
             "Atk": "5",
-            "Hp": "35"
+            "Hp": "35",
+            "Fusion ADD Cost": "8,000",
+            "Battle Reward": "60",
+            "Life-Time": "2,000"
         },
         {
             "Level": "4",
             "Atk": "6",
-            "Hp": "47"
+            "Hp": "47",
+            "Fusion ADD Cost": "20,000",
+            "Battle Reward": "180",
+            "Life-Time": "2,500"
         },
         {
             "Level": "5",
             "Atk": "7",
-            "Hp": "60"
+            "Hp": "60",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "350",
+            "Life-Time": "3,500"
         }
     ],
-    "GoofwNinjaz": [
+    "GOOF NINJA": [
         {
             "Id": "22",
-            "Name": "GoofwNinjaz",
+            "NFT Id": "28",
+            "Name": "GOOF NINJA",
             "Planet": "Kald",
-            "Describe": "three boy triplets with red, yellow and green clothes, naughty and adventurous, stubborn",
+            "Describe": "Don't be fooled by her sensuality, she is also known as the top killer on planet Kald. She has never failed any mission.",
             "Rarity": "Epic",
             "Race": "Garroth",
             "Army": "Ground Force",
-            "Ability": "When destroyed: Do 200% damage to all enemies at battles, heal 100% as damage for all allies at battle",
+            "Ability": "When deployed, GOOF NINJA buffs all allies +20% ATK.\r\nWhen destroyed, GOOF NINJA deals 200% ATK to all enemies in the battle. ",
+            "Attack Type": "Melee",
             "Role": "Caster",
             "Level": "1",
-            "Atk": "2",
-            "Hp": "10"
+            "Atk": "4",
+            "Hp": "10",
+            "Fusion ADD Cost": "10,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
         },
         {
             "Level": "2",
-            "Atk": "3",
-            "Hp": "22"
+            "Atk": "5",
+            "Hp": "22",
+            "Fusion ADD Cost": "12,000",
+            "Battle Reward": "8",
+            "Life-Time": "1,500"
         },
         {
             "Level": "3",
-            "Atk": "4",
-            "Hp": "35"
+            "Atk": "6",
+            "Hp": "35",
+            "Fusion ADD Cost": "15,000",
+            "Battle Reward": "80",
+            "Life-Time": "2,000"
         },
         {
             "Level": "4",
-            "Atk": "5",
-            "Hp": "48"
+            "Atk": "7",
+            "Hp": "48",
+            "Fusion ADD Cost": "50,000",
+            "Battle Reward": "270",
+            "Life-Time": "2,500"
         },
         {
             "Level": "5",
-            "Atk": "6",
-            "Hp": "63"
+            "Atk": "8",
+            "Hp": "63",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "500",
+            "Life-Time": "3,500"
         }
     ],
-    "Shisaia": [
+    "SHISAIA": [
         {
             "Id": "23",
-            "Name": "Shisaia",
+            "NFT Id": "10",
+            "Name": "SHISAIA",
             "Planet": "Soiq",
-            "Describe": "he is a prime example of \"cold on the outside but spongy on the inside\"",
+            "Describe": "He is a prime example of \"cold on the outside but spongy on the inside\"",
             "Rarity": "Common",
             "Race": "Darxath",
             "Army": "Ground Force",
-            "Ability": "While Playing: After get hit by 3 attack ( inclue skill attack ), heal 100% as damage to 2 allies at battle",
+            "Ability": "After 3 attacks, SHISAIA heals 100% ATK for 2 allies next to him.",
+            "Attack Type": "Range",
             "Role": "Protector",
             "Level": "1",
             "Atk": "3",
-            "Hp": "13"
+            "Hp": "13",
+            "Fusion ADD Cost": "2,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
         },
         {
             "Level": "2",
             "Atk": "4",
-            "Hp": "24"
+            "Hp": "24",
+            "Fusion ADD Cost": "4,000",
+            "Battle Reward": "4",
+            "Life-Time": "1,500"
         },
         {
             "Level": "3",
             "Atk": "5",
-            "Hp": "36"
+            "Hp": "36",
+            "Fusion ADD Cost": "7,000",
+            "Battle Reward": "55",
+            "Life-Time": "2,000"
         },
         {
             "Level": "4",
             "Atk": "6",
-            "Hp": "48"
+            "Hp": "48",
+            "Fusion ADD Cost": "15,000",
+            "Battle Reward": "150",
+            "Life-Time": "2,500"
         },
         {
             "Level": "5",
             "Atk": "7",
-            "Hp": "62"
+            "Hp": "62",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "300",
+            "Life-Time": "3,500"
         }
     ],
-    "Asher": [
+    "ASHER": [
         {
             "Id": "24",
-            "Name": "Asher",
+            "NFT Id": "21",
+            "Name": "ASHER",
             "Planet": "Gegh",
-            "Describe": "She's a weapons company, she always carries a Guitarrón Mexicano. she wears big round earrings and red nails, she wears red lipstick and flashy makeup",
+            "Describe": "Asher is a weapons maker. She always carries a Guitarrón Mexicano. he wears the warrior outfit of the planet Gegh. She has bold lipstick and big jewelry.",
             "Rarity": "Rare",
             "Race": "Darxath Onyq ",
             "Army": "Ground Force",
-            "Ability": "While Playing: After get hit by 3 attack ( inclue skill attack ), do 100% attack to all enemies at battle",
+            "Ability": "After 3 attacks, ASHER deals 150% ATK damage to all enemies in the battle.",
+            "Attack Type": "Range",
             "Role": "Protector",
             "Level": "1",
             "Atk": "3",
-            "Hp": "10"
+            "Hp": "10",
+            "Fusion ADD Cost": "5,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
         },
         {
             "Level": "2",
             "Atk": "4",
-            "Hp": "22"
+            "Hp": "22",
+            "Fusion ADD Cost": "7,000",
+            "Battle Reward": "5",
+            "Life-Time": "1,500"
         },
         {
             "Level": "3",
             "Atk": "5",
-            "Hp": "35"
+            "Hp": "35",
+            "Fusion ADD Cost": "10,000",
+            "Battle Reward": "65",
+            "Life-Time": "2,000"
         },
         {
             "Level": "4",
             "Atk": "6",
-            "Hp": "48"
+            "Hp": "48",
+            "Fusion ADD Cost": "30,000",
+            "Battle Reward": "210",
+            "Life-Time": "2,500"
         },
         {
             "Level": "5",
             "Atk": "7",
-            "Hp": "63"
+            "Hp": "63",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "400",
+            "Life-Time": "3,500"
         }
     ],
-    "Malie": [
+    "MALIE": [
         {
             "Id": "25",
-            "Name": "Malie",
+            "NFT Id": "22",
+            "Name": "MALIE",
             "Planet": "Gegh",
             "Describe": "He used to be a sailor. He wears a sailor suit and holds a large compass in his hand",
             "Rarity": "Rare",
             "Race": "Human",
             "Army": "Navy force",
-            "Ability": "Naval force. Team-Up: You can fit two Character here. When played: All naval force get +1 strenth/+1 health",
+            "Ability": "MALIE buffs 20% ATK and 10% HP for the allies nearby.",
+            "Attack Type": "Melee",
             "Role": "Fighter",
             "Level": "1",
             "Atk": "3",
-            "Hp": "10"
+            "Hp": "10",
+            "Fusion ADD Cost": "5,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
         },
         {
             "Level": "2",
             "Atk": "4",
-            "Hp": "21"
+            "Hp": "21",
+            "Fusion ADD Cost": "7,000",
+            "Battle Reward": "5",
+            "Life-Time": "1,500"
         },
         {
             "Level": "3",
             "Atk": "5",
-            "Hp": "33"
+            "Hp": "33",
+            "Fusion ADD Cost": "10,000",
+            "Battle Reward": "65",
+            "Life-Time": "2,000"
         },
         {
             "Level": "4",
             "Atk": "6",
-            "Hp": "44"
+            "Hp": "44",
+            "Fusion ADD Cost": "30,000",
+            "Battle Reward": "210",
+            "Life-Time": "2,500"
         },
         {
             "Level": "5",
             "Atk": "8",
-            "Hp": "58"
+            "Hp": "58",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "400",
+            "Life-Time": "3,500"
         }
     ],
-    "Hisuco": [
+    "HISUCO": [
         {
             "Id": "26",
-            "Name": "Hisuco",
+            "NFT Id": "16",
+            "Name": "HISUCO",
             "Planet": "Gegh",
-            "Describe": "He has no special powers. But he is a very good fighter pilot. he always wears a white flight suit and a helmet with eye protection",
+            "Describe": "She is a warrior with the power to suppress her enemies. She always hides her beauty and strength under a fighter pilot suit.",
             "Rarity": "Uncommon",
             "Race": "Mustag Ninjaz",
             "Army": "Ground force",
-            "Ability": "While Playing: After get hit by 3 attack, do 150% damage to all enemies at battle",
+            "Ability": "After 3 attacks, HISUCO deals 100% damage to all enemies in the battle.",
+            "Attack Type": "Melee",
             "Role": "Caster",
             "Level": "1",
-            "Atk": "1",
-            "Hp": "8"
+            "Atk": "2",
+            "Hp": "8",
+            "Fusion ADD Cost": "3,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
         },
         {
             "Level": "2",
-            "Atk": "2",
-            "Hp": "19"
+            "Atk": "3",
+            "Hp": "19",
+            "Fusion ADD Cost": "5,000",
+            "Battle Reward": "4",
+            "Life-Time": "1,500"
         },
         {
             "Level": "3",
-            "Atk": "3",
-            "Hp": "31"
+            "Atk": "4",
+            "Hp": "31",
+            "Fusion ADD Cost": "8,000",
+            "Battle Reward": "60",
+            "Life-Time": "2,000"
         },
         {
             "Level": "4",
-            "Atk": "4",
-            "Hp": "42"
+            "Atk": "5",
+            "Hp": "42",
+            "Fusion ADD Cost": "20,000",
+            "Battle Reward": "180",
+            "Life-Time": "2,500"
         },
         {
             "Level": "5",
-            "Atk": "5",
-            "Hp": "56"
+            "Atk": "6",
+            "Hp": "56",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "350",
+            "Life-Time": "3,500"
         }
     ],
-    "Sherisse": [
+    "SHERISSE": [
         {
             "Id": "27",
-            "Name": "Sherisse",
+            "NFT Id": "17",
+            "Name": "SHERISSE",
             "Planet": "Gegh",
-            "Describe": "As a wealthy businessman in the land of Omityp on planet Protector, using every trick to make a profit",
+            "Describe": "He is a rich businessman in the land of Omityp on the planet Protector. He uses all sorts of tricks to get more profit.",
             "Rarity": "Uncommon",
             "Race": "Witch Galom ",
             "Army": "Ground force",
-            "Ability": "While at battle: + 50% ATK on each card replace ",
+            "Ability": "When any allies are replaced on the field, SHERISSE increases himself by 50% ATK base damage.",
+            "Attack Type": "Melee",
             "Role": "Caster",
             "Level": "1",
             "Atk": "3",
-            "Hp": "13"
+            "Hp": "13",
+            "Fusion ADD Cost": "3,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
         },
         {
             "Level": "2",
             "Atk": "4",
-            "Hp": "24"
+            "Hp": "24",
+            "Fusion ADD Cost": "5,000",
+            "Battle Reward": "4",
+            "Life-Time": "1,500"
         },
         {
             "Level": "3",
             "Atk": "5",
-            "Hp": "35"
+            "Hp": "35",
+            "Fusion ADD Cost": "8,000",
+            "Battle Reward": "60",
+            "Life-Time": "2,000"
         },
         {
             "Level": "4",
             "Atk": "6",
-            "Hp": "47"
+            "Hp": "47",
+            "Fusion ADD Cost": "20,000",
+            "Battle Reward": "180",
+            "Life-Time": "2,500"
         },
         {
             "Level": "5",
             "Atk": "7",
-            "Hp": "60"
+            "Hp": "60",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "350",
+            "Life-Time": "3,500"
         }
     ],
-    "Samus": [
+    "SAMUS": [
         {
             "Id": "28",
-            "Name": "Samus",
+            "NFT Id": "30",
+            "Name": "SAMUS",
             "Planet": "Gegh",
-            "Describe": "A big guy, wearing a cape, armor and helmet, weapon is a sDarianr with two pointed ends and a hexagonal shield",
+            "Describe": "A dark lord appeared in the ancient universe. He was overthrown by the gods of justice and buried in hell. His soul is scattered across the universes. He is calling the evil spirits to work for him to collect his soul so that he can live again.",
             "Rarity": "Legendary",
             "Race": "Genta Antiquity ",
             "Army": "Ground force",
-            "Ability": "While Playing: After get hit by 3 attack ( inclue skill attack ), do 100% attack to all enemies at battle. Buff all allies get +50% ATK, 20% HP",
+            "Ability": "When deployed, SAMUS debuffs 20% ATK and 20% HP of all enemies in the battle. After 3 attacks, SAMUS deals 150% ATK to the opposite enemy gladiator. He buffs 20% ATK and 20% HP to all allies. If the opposite enemy is dead, SAMUS deals damage on the gladiator next to the dead one.",
+            "Attack Type": "Range",
             "Role": "Protector",
             "Level": "1",
+            "Atk": "5",
+            "Hp": "10",
+            "Fusion ADD Cost": "20,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
+        },
+        {
+            "Level": "2",
+            "Atk": "6",
+            "Hp": "22",
+            "Fusion ADD Cost": "30,000",
+            "Battle Reward": "13",
+            "Life-Time": "1,500"
+        },
+        {
+            "Level": "3",
+            "Atk": "7",
+            "Hp": "35",
+            "Fusion ADD Cost": "50,000",
+            "Battle Reward": "120",
+            "Life-Time": "2,000"
+        },
+        {
+            "Level": "4",
+            "Atk": "8",
+            "Hp": "48",
+            "Fusion ADD Cost": "100,000",
+            "Battle Reward": "420",
+            "Life-Time": "2,500"
+        },
+        {
+            "Level": "5",
+            "Atk": "10",
+            "Hp": "63",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "750",
+            "Life-Time": "3,500"
+        }
+    ],
+    "CERAW": [
+        {
+            "Id": "29",
+            "NFT Id": "23",
+            "Name": "CERAW",
+            "Planet": "Gegh",
+            "Describe": "One of the righteous warriors. She fights to protect the elderly and children from the dark evils.",
+            "Rarity": "Rare",
+            "Race": "Terror Sustainer ",
+            "Army": "Ground force",
+            "Ability": "After 3 attacks, CERAW swaps 2 enemies randomly and deals 150% damage to 2 of them.",
+            "Attack Type": "Range",
+            "Role": "Fighter",
+            "Level": "1",
             "Atk": "3",
-            "Hp": "10"
+            "Hp": "12",
+            "Fusion ADD Cost": "5,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
         },
         {
             "Level": "2",
             "Atk": "4",
-            "Hp": "22"
+            "Hp": "23",
+            "Fusion ADD Cost": "7,000",
+            "Battle Reward": "5",
+            "Life-Time": "1,500"
         },
         {
             "Level": "3",
-            "Atk": "5",
-            "Hp": "35"
+            "Atk": "6",
+            "Hp": "34",
+            "Fusion ADD Cost": "10,000",
+            "Battle Reward": "65",
+            "Life-Time": "2,000"
         },
         {
             "Level": "4",
-            "Atk": "6",
-            "Hp": "48"
-        },
-        {
-            "Level": "5",
             "Atk": "7",
-            "Hp": "63"
-        }
-    ],
-    "Ceraw": [
-        {
-            "Id": "29",
-            "Name": "Ceraw",
-            "Planet": "Gegh",
-            "Describe": "He is a maker of robotic microphones that can assemble many different shapes and functions. Wearing an orange worker's shirt, a pair of mechanical shoes with lights and other functions that make it compatible with the robots",
-            "Rarity": "Rare",
-            "Race": "Terror Sustainer ",
-            "Army": "Ground force",
-            "Ability": "While Playing: After 3 basic attack, swap position of 2 random enemies at battle",
-            "Role": "Fighter",
-            "Level": "1",
-            "Atk": "2",
-            "Hp": "12"
-        },
-        {
-            "Level": "2",
-            "Atk": "3",
-            "Hp": "23"
-        },
-        {
-            "Level": "3",
-            "Atk": "5",
-            "Hp": "34"
-        },
-        {
-            "Level": "4",
-            "Atk": "6",
-            "Hp": "45"
+            "Hp": "45",
+            "Fusion ADD Cost": "30,000",
+            "Battle Reward": "210",
+            "Life-Time": "2,500"
         },
         {
             "Level": "5",
-            "Atk": "8",
-            "Hp": "56"
+            "Atk": "9",
+            "Hp": "56",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "400",
+            "Life-Time": "3,500"
         }
     ],
-    "Ernestine": [
+    "ERNESTINE": [
         {
             "Id": "30",
-            "Name": "Ernestine",
+            "NFT Id": "24",
+            "Name": "ERNESTINE",
             "Planet": "Gegh",
             "Describe": "He is a madman who always carries small explosives and wants to destroy all enemies",
             "Rarity": "Rare",
             "Race": "Raider Lance ",
             "Army": "Naval Force",
-            "Ability": "While Playing: After 2 basic attack, Buff 50% damage to random an ally at battle",
+            "Ability": "After 2 attacks, ERNESTINE buffs 50% HP to his ally randomly in the battle.",
+            "Attack Type": "Melee",
             "Role": "Protector",
             "Level": "1",
             "Atk": "3",
-            "Hp": "13"
+            "Hp": "13",
+            "Fusion ADD Cost": "5,000",
+            "Battle Reward": "1",
+            "Life-Time": "1,000"
         },
         {
             "Level": "2",
             "Atk": "4",
-            "Hp": "26"
+            "Hp": "26",
+            "Fusion ADD Cost": "7,000",
+            "Battle Reward": "5",
+            "Life-Time": "1,500"
         },
         {
             "Level": "3",
             "Atk": "6",
-            "Hp": "39"
+            "Hp": "39",
+            "Fusion ADD Cost": "10,000",
+            "Battle Reward": "65",
+            "Life-Time": "2,000"
         },
         {
             "Level": "4",
             "Atk": "7",
-            "Hp": "52"
+            "Hp": "52",
+            "Fusion ADD Cost": "30,000",
+            "Battle Reward": "210",
+            "Life-Time": "2,500"
         },
         {
             "Level": "5",
             "Atk": "9",
-            "Hp": "68"
+            "Hp": "68",
+            "Fusion ADD Cost": "0",
+            "Battle Reward": "400",
+            "Life-Time": "3,500"
         }
     ]
 }

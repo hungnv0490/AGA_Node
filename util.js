@@ -1,4 +1,38 @@
 util = {}
+util.map =
+{
+    '18': 1,
+    '25': 2,
+    '11': 3,
+    '1': 4,
+    '2': 5,
+    '3': 6,
+    '12': 7,
+    '4': 8,
+    '19': 9,
+    '26': 10,
+    '13': 11,
+    '14': 12,
+    '5': 13,
+    '6': 14,
+    '20': 15,
+    '7': 16,
+    '27': 17,
+    '29': 18,
+    '8': 19,
+    '9': 20,
+    '15': 21,
+    '28': 22,
+    '10': 23,
+    '21': 24,
+    '22': 25,
+    '16': 26,
+    '17': 27,
+    '30': 28,
+    '23': 29,
+    '24': 30
+};
+
 util.dateFormat = function (date, fstr, utc) {
     utc = utc ? 'getUTC' : 'get';
     return fstr.replace(/%[YmdHMS]/g, function (m) {
@@ -19,5 +53,9 @@ util.dateFormat = function (date, fstr, utc) {
 util.dateFormat2 = function () {
     var date = new Date();
     return date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + ":" + date.getMilliseconds();
+}
+
+util.getCharIdFromNftId = function(nftId){
+    return util.map[nftId];
 }
 module.exports = util;
