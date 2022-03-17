@@ -8,6 +8,9 @@ var log4js = require("log4js");
 var logger = log4js.getLogger();
 var util = require('./util.js');
 const jwt = require('jsonwebtoken');
+const https = require("https");
+const fs = require("fs");
+var http = require('http');
 
 var battleConfig = require('./config/battle_config.js');
 var chestConfig = require('./config/chest_config.js');
@@ -122,9 +125,28 @@ async function init() {
     cardService.init();
 }
 
-app.listen(port, async () => {
-    // var sign = jwt.sign({name:'aga',start:2022,type:'game'}, process.env.tokenSecret);
-    // logger.info(sign);
-    console.log(process.env.mysqlHot || process.env.mysqlHot_Product);
-    logger.info("start server:" + util.dateFormat(new Date(), "%Y-%m-%d %H:%M:%S", false));
-})
+// https.createServer(
+    // Provide the private and public key to the server by reading each
+    // file's content with the readFileSync() method.
+// {
+//   key: fs.readFileSync("key.pem"),
+//   cert: fs.readFileSync("cert.pem"),
+// },
+// app
+// )
+// app.listen(port, async () => {
+//     // var sign = jwt.sign({name:'aga',start:2022,type:'game'}, process.env.tokenSecret);
+//     // logger.info(sign);
+//     console.log("port:" + port);
+//     logger.info("start server:" + util.dateFormat(new Date(), "%Y-%m-%d %H:%M:%S", false));
+// })
+http.createServer(app.handle.bind(app)).listen(2707, ()=>{
+    logger.info("start on " + 2707);
+});
+https.createServer({
+//   ca: fs.readFileSync('./server.ca-bundle'),
+  key: fs.readFileSync('./key.pem'),
+  cert: fs.readFileSync('./cert.pem')
+}, app.handle.bind(app)).listen(2708, ()=>{
+    logger.info("start on 2708");
+});
