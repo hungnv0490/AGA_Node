@@ -17,6 +17,14 @@ const RankingBoardDataPro = "ranking-board-data-pro";//data
 
 rankingService.task = null;
 
+rankingService.get('/season/info', async (req, res) => {
+    var dataRes = {}
+    dataRes.code = 200;
+    dataRes.endTimeSec = Math.round((new Date(myRedis.rankingTimeConfig.endTime) - new Date()) / 1000);
+    if(dataRes.endTimeSec < 0) dataRes.endTimeSec = 0;
+    res.send(dataRes);
+});
+
 rankingService.get('/season/get', async (req, res) => {
     var dataRes = {}
     dataRes.code = 200;

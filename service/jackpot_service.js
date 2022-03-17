@@ -14,6 +14,14 @@ const JACKPOT_REWARD = "jackpot-reward:";
 const UNAME_TO_UID = "uname_to_uid";
 const JACKPOT_PREV_TICKET = "jackpot-prev-ticket";
 
+jackpotService.get('/season/info', async (req, res) => {
+    var dataRes = {}
+    dataRes.code = 200;
+    dataRes.endTimeSec = Math.round((new Date(myRedis.jackpotConfig.endTime) - new Date()) / 1000);
+    if(dataRes.endTimeSec < 0) dataRes.endTimeSec = 0;
+    res.send(dataRes);
+});
+
 jackpotService.get('/get', async (req, res) => {
     var dataRes = {}
     dataRes.code = 200;
@@ -90,6 +98,12 @@ jackpotService.get('/user/:username/claimed', verifyTokenBlockchain, async (req,
         var username = mySqlDb.escape(req.params.username);
         var usernameStr = username.replaceAll("'", "");
         var userId = await myRedis.hGet(UNAME_TO_UID, usernameStr);
+        if (!userId) {
+            dataRes.code = 201;
+            res.send(dataRes);
+            logger.info("jackpot_service user " + username + " claim:" + JSON.stringify(dataRes));
+            return;
+        }
         var jackpotReward = JACKPOT_REWARD + userId;
         var reward = await myRedis.del(jackpotReward);
         dataRes.code = 200;
