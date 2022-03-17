@@ -180,14 +180,50 @@ rankingService.get('/rankboard/:isPro', async (req, res, next) => {
 
 rankingService.get('/:isPro', async (req, res, next) => {
     try {
+        logger.info("1:");
         var dataRes = {}
         var isPro = req.params.isPro == 1;
         var amount = 4000;
         if (!isPro) amount = 500;
-        var topRankings = await myRedis.boards(isPro, 100);
-        dataRes.code = 200;
-        dataRes.data = topRankings;
-        res.send(dataRes);
+        var topRankings = await myRedis.boards(isPro, amount);
+        logger.info("2:");
+        var str = "";
+        for (var i = 0; i < topRankings.length; i++) {
+            logger.info("topRankings[i]:" + topRankings[i]);
+            if (i < topRankings.length - 1)
+                str += `${topRankings[i].UserId},`;
+            else str += `${topRankings[i].UserId}`;
+        }
+        logger.info("2:" + 2);
+
+        var sql = `select user_id, nickname, avatar, frame from users where user_id in (${str});`;
+        mySqlDB.query(sql, function (err, result, fields) {
+            var dt = {};
+            if(!err){
+                for (var r of result) {
+                    // logger.info("result:" + r);
+                    var key = `${r.user_id}`;
+                    dt[key] = r;
+                }
+            }
+            // logger.info("1:" + dt);
+            var data = [];
+            for (var i = 0; i < topRankings.length; i++) {
+                var js = topRankings[i];
+                var key = `${js.UserId}`;
+                // logger.info("key:" + key);
+                if(dt.hasOwnProperty(key)){
+                    // logger.info("dt[key]:" + dt[key]);
+                    js.Nickname = dt[key].nickname;
+                    js.Avatar = dt[key].avatar;
+                    js.Frame = dt[key].frame;
+                }
+                data.push(js);
+            }
+            dataRes.code = 200;
+            dataRes.data = data;
+            res.send(dataRes);
+        });      
     } catch (error) {
         next(error);
     }
