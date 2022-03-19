@@ -91,11 +91,11 @@ chestService.post('/user/claim', verifyToken, async (req, res, next) => {
         var dataRes = {};
         var username = mySqlDb.escape(req.body.username);
         var usernameStr = username.replaceAll("'", "");
-        var pack = mySqlDb.escape(req.body.pack);
-        pack = pack.replaceAll("'", "");
-        var fm = pack.split('-');
-        var packId = fm[0];
-        var amount = fm[1];
+        // var pack = mySqlDb.escape(req.body.pack);
+        // pack = pack.replaceAll("'", "");
+        // var fm = res
+        var packId = req.body.packId;
+        var amount = req.body.amount;
         const UNAME_TO_UID = "uname_to_uid";
         var uid = await myRedis.hGet(UNAME_TO_UID, usernameStr);
         if (!uid) {
