@@ -21,7 +21,7 @@ rankingService.get('/season/info', async (req, res) => {
     var dataRes = {}
     dataRes.code = 200;
     dataRes.endTimeSec = Math.round((new Date(myRedis.rankingTimeConfig.endTime) - new Date()) / 1000);
-    if(dataRes.endTimeSec < 0) dataRes.endTimeSec = 0;
+    if (dataRes.endTimeSec < 0) dataRes.endTimeSec = 0;
     res.send(dataRes);
 });
 
@@ -74,11 +74,11 @@ rankingService.post('/rankboard/set', async (req, res, next) => {
         rankBoardConfig.ADRCasual = json.ADRCasual;
         rankBoardConfig.pro = [];
         rankBoardConfig.casual = [];
-        for(var item of json.pro){
+        for (var item of json.pro) {
             var rankBoard = RankBoard.fromJson(item);
             rankBoardConfig.pro.push(rankBoard);
         }
-        for(var item of json.casual){
+        for (var item of json.casual) {
             var rankBoard = RankBoard.fromJson(item);
             rankBoardConfig.casual.push(rankBoard);
         }
@@ -143,15 +143,16 @@ rankingService.post('/user/claimed', verifyTokenBlockchain, async (req, res, nex
     try {
         var dataRes = {}
         var rankingReward = "";
-        var adrRewardKey = "";
+        // var adrRewardKey = "";
         var isPro = (req.body.isPro == 1);
+        var isADD = (req.body.isADD == 1);
         if (isPro) {
-            rankingReward = "ranking-reward-pro:" + req.body.username;
-            adrRewardKey = "ranking-reward-adr-pro:" + req.body.username;
+            if (isADD) rankingReward = "ranking-reward-pro:" + req.body.username;
+            else rankingReward = "ranking-reward-adr-pro:" + req.body.username;
         }
         else {
-            rankingReward = "ranking-reward-casual:" + req.body.username;
-            adrRewardKey = "ranking-reward-adr-casual:" + req.body.username;
+            if (isADD) rankingReward = "ranking-reward-casual:" + req.body.username;
+            else rankingReward = "ranking-reward-adr-casual:" + req.body.username;
         }
 
         // var reward = await myRedis.get(rankingReward);
@@ -164,7 +165,7 @@ rankingService.post('/user/claimed', verifyTokenBlockchain, async (req, res, nex
         //     return;
         // }
         var reward = await myRedis.del(rankingReward);
-        var reward = await myRedis.del(adrRewardKey);
+        // var reward = await myRedis.del(adrRewardKey);
 
         dataRes.code = 200;
         dataRes.msg = reward;
@@ -207,7 +208,7 @@ rankingService.get('/:isPro', async (req, res, next) => {
         var sql = `select user_id, nickname, avatar, frame from users where user_id in (${str});`;
         mySqlDB.query(sql, function (err, result, fields) {
             var dt = {};
-            if(!err){
+            if (!err) {
                 for (var r of result) {
                     // logger.info("result:" + r);
                     var key = `${r.user_id}`;
@@ -220,7 +221,7 @@ rankingService.get('/:isPro', async (req, res, next) => {
                 var js = topRankings[i];
                 var key = `${js.UserId}`;
                 // logger.info("key:" + key);
-                if(dt.hasOwnProperty(key)){
+                if (dt.hasOwnProperty(key)) {
                     // logger.info("dt[key]:" + dt[key]);
                     js.Nickname = dt[key].nickname;
                     js.Avatar = dt[key].avatar;
@@ -231,7 +232,7 @@ rankingService.get('/:isPro', async (req, res, next) => {
             dataRes.code = 200;
             dataRes.data = data;
             res.send(dataRes);
-        });      
+        });
     } catch (error) {
         next(error);
     }
@@ -312,11 +313,11 @@ rankingService.rewards = async function (isPro) {
                     var rewardAdrKey = "";
                     if (isPro) {
                         rankingReward = "ranking-reward-pro:" + rankingUser["Username"];
-                        rewardAdrKey = "ranking-reward-adr-pro:"+ rankingUser["Username"];
+                        rewardAdrKey = "ranking-reward-adr-pro:" + rankingUser["Username"];
                     }
                     else {
                         rankingReward = "ranking-reward-casual:" + rankingUser["Username"];
-                        rewardAdrKey = "ranking-reward-adr-casual:"+ rankingUser["Username"];
+                        rewardAdrKey = "ranking-reward-adr-casual:" + rankingUser["Username"];
                     }
                     await myRedis.incrBy(rankingReward, diamond);
                     await myRedis.incrBy(rewardAdrKey, adr);
