@@ -1,6 +1,8 @@
 
 process.env.NTBA_FIX_319 = 1;
-
+const myRedis = require('./myredis.js');
+var log4js = require("log4js");
+var logger = log4js.getLogger();
 const TelegramBot = require('node-telegram-bot-api');
 
 const bot = new TelegramBot(process.env.agaWidthdrawBot, { polling: true });
@@ -33,7 +35,7 @@ bot.on('message', async (msg) => {
             }
         }
         logger.info(dt);
-        bot.sendMessage(chatId, msg.text);
+        bot.sendMessage(chatId, dt);
     }
   });
 
