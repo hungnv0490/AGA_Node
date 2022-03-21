@@ -12,6 +12,7 @@ const USERNAME_MONEY_LOCK = "username-money-lock";
 moneyService.get('/get/:username', async (req, res, next) => {
     try {
         var dataRes = {}
+        dataRes.maxTimes = 5;
         var username = mySqlDb.escape(req.params.username);
         var today = new Date();
         var priorDate = new Date(new Date().setDate(today.getDate() - 7));
@@ -23,20 +24,68 @@ moneyService.get('/get/:username', async (req, res, next) => {
     select @err, @userId, @diamond;
     `;
         mySqlDb.query(sql, function (err, result, fields) {
-            logger.info("money_service err:" + err + " result:" + result);
+            logger.info("money_service err:" + err + " result:" + JSON.stringify(result));
             if (result.length != 0) {
                 var diamond = result[result.length - 1][0]['@diamond'];
                 var err = result[result.length - 1][0]['@err'];
+                var userId = result[result.length - 1][0]['@userId'];
                 dataRes.code = err;
                 dataRes.diamond = diamond;
-                logger.info("money_service get:" + JSON.stringify(dataRes));
-                res.send(dataRes);
+        
+                sql = `Select *, now() nw from users where user_id = ${userId}`;
+                var nextSecond = 0;
+                var times = 0;
+                mySqlDb.query(sql, (err, result, fields) => {
+                    // logger.info(result);
+                    logger.info(JSON.stringify(result));
+                    if (!err && result.length > 0) {
+                        var dt = result[0];
+                        times = dt.withdraw_times;
+                        var lastDate = new Date(dt.withdraw_last_date);
+                        logger.info(lastDate);
+                        if (lastDate.getDate() == new Date().getDate() 
+                                && lastDate.getMonth() == new Date().getMonth()
+                                && lastDate.getFullYear() == new Date().getFullYear()) {
+                            if (times < 5) {
+                                var nextDate = new Date(lastDate.getTime() + 30 * 60 * 1000);
+                                var ms = nextDate.getTime() - lastDate.getTime();
+                                nextSecond = Math.round(ms / 1000);
+                            }
+                            else {
+                                var curTime = new Date().getTime();
+                                var nextDate = new Date(curTime + 24 * 60 * 60 * 1000);
+                                var startNextDate = util.dateFormat(nextDate, "%Y-%m-%d", false);
+                                startNextDate += " 00:00:00";
+                                logger.info("startNextDate:" + startNextDate);
+                                var ms = new Date(startNextDate).getTime() - curTime;
+                                nextSecond = Math.round(ms / 1000);
+                            }
+                        }
+                        else  {
+                            times = 0;
+                            nextSecond = 0;
+                            // var curTime = new Date().getTime();
+                            // var nextDate = new Date(curTime + 24 * 60 * 60 * 1000);
+                            // var startNextDate = util.dateFormat(nextDate, "%Y-%m-%d", false);
+                            // startNextDate += " 00:00:00";
+                            // logger.info("startNextDate:" + startNextDate);
+                            // var ms = new Date(startNextDate).getTime() - curTime;
+                            // nextSecond = Math.round(ms / 1000);
+                        }
+                    }
+                    dataRes.times = times;
+                    dataRes.nextSecond = nextSecond;
+                    res.send(dataRes);
+                    logger.info("money_service get:" + JSON.stringify(dataRes));
+                });
             }
             else {
                 dataRes.code = 600;
                 dataRes.diamond = 0;
-                logger.info("money_service get:" + JSON.stringify(dataRes));
+                dataRes.times = 0;
+                dataRes.nextSecond = 0;
                 res.send(dataRes);
+                logger.info("money_service get:" + JSON.stringify(dataRes));
             }
         });
     } catch (error) {
@@ -89,9 +138,9 @@ moneyService.post('/withdraw', verifyTokenBlockchain, async (req, res, next) => 
                 await myRedis.set(key, false);
 
                 var withdrawGroupBot = await myRedis.get("withdrawGroupBot");
-                if(withdrawGroupBot){
+                if (withdrawGroupBot) {
                     var groups = withdrawGroupBot.split("|");
-                    for(var group of groups){
+                    for (var group of groups) {
                         teleBot.sendMessage(group, `${usernameStr} widthraw ${req.body.diamond} diamond`);
                     }
                 }

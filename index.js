@@ -123,6 +123,41 @@ async function init() {
     jackpotService.init();
     rankingService.init();
     cardService.init();
+    // var sql = `Select *, now() nw from users where user_id = ${2}`;
+    // var nextSecond = 0;
+    // var times = 0;
+    // mySqlDb.query(sql, (err, result, fields)=>{
+    //     logger.info(result);
+    //     logger.info(JSON.stringify(result));
+    //     if(result.length > 0){
+    //         var dt = result[0];
+    //         times = dt.withdraw_times;
+    //         var lastDate = new Date(dt.withdraw_last_date);
+    //         logger.info(lastDate);
+    //         if(lastDate.getDate() == new Date().getDate()){
+    //             if(times < 5) {
+    //                 var nextDate = new Date(lastDate.getTime() + 30 * 60 * 1000);
+    //                 var ms = nextDate.getTime() - lastDate.getTime();
+    //                 nextSecond  = Math.round(ms / 1000);
+    //             }
+    //             else{
+    //                 var nextDate = new Date(lastDate.getTime() + 24 * 60 * 60 * 1000);
+    //                 var startNextDate =  util.dateFormat(nextDate, "%Y-%m-%d", false);
+    //                 // logger.info("startNextDate:" + startNextDate);
+    //                 var ms = new Date(startNextDate).getTime() - lastDate.getTime();
+    //                 nextSecond  = Math.round(ms / 1000);
+    //             }
+    //         }
+    //         else{
+    //             var nextDate = new Date(lastDate.getTime() + 24 * 60 * 60 * 1000);
+    //             var startNextDate =  util.dateFormat(nextDate, "%Y-%m-%d", false);
+    //             // logger.info("startNextDate:" + startNextDate);
+    //             var ms = new Date(startNextDate).getTime() - lastDate.getTime();
+    //             nextSecond  = Math.round(ms / 1000);
+    //         }
+    //     }
+    //     logger.info("times:" + times + " next:" + nextSecond);
+    // });
 }
 
 // https.createServer(
