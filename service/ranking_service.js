@@ -154,6 +154,8 @@ rankingService.post('/user/claimed', verifyTokenBlockchain, async (req, res, nex
             if (isADD) rankingReward = "ranking-reward-casual:" + req.body.username;
             else rankingReward = "ranking-reward-adr-casual:" + req.body.username;
         }
+        var reward = await myRedis.get(rankingReward);
+        mySqlDB.claimRequestHis(req.body.username, reward, isADD ? 2 : 3);
 
         // var reward = await myRedis.get(rankingReward);
         // var rewardAdr = await myRedis.get(adrRewardKey);
@@ -164,11 +166,11 @@ rankingService.post('/user/claimed', verifyTokenBlockchain, async (req, res, nex
         //     logger.info("ranking_service user claimed:" + JSON.stringify(dataRes));
         //     return;
         // }
-        var reward = await myRedis.del(rankingReward);
+        var dd = await myRedis.del(rankingReward);
         // var reward = await myRedis.del(adrRewardKey);
 
         dataRes.code = 200;
-        dataRes.msg = reward;
+        dataRes.msg = dd;
         res.send(dataRes);
     } catch (error) {
         next(error);

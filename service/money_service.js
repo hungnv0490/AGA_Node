@@ -5,6 +5,7 @@ const mySqlDb = require('../mysqldb.js');
 const myRedis = require('../myredis.js');
 const verifyTokenBlockchain = require('../middlewares/verifyToken.js');
 const teleBot = require('../telebot.js');
+const axios = require('axios');
 
 const moneyService = express.Router();
 const USERNAME_MONEY_LOCK = "username-money-lock";
@@ -186,6 +187,8 @@ moneyService.post('/withdraw', verifyTokenBlockchain, async (req, res, next) => 
             await myRedis.hSet(key, false);
             return;
         }
+        mySqlDb.claimRequestHis(req.body.username, req.body.diamond, 1);
+
         var dataRes = {}
         var today = new Date();
         var priorDate = new Date(new Date().setDate(today.getDate() - 7));
@@ -210,8 +213,24 @@ moneyService.post('/withdraw', verifyTokenBlockchain, async (req, res, next) => 
                 var withdrawGroupBot = await myRedis.get("withdrawGroupBot");
                 if (withdrawGroupBot) {
                     var groups = withdrawGroupBot.split("|");
+                    var url = `https://api.telegram.org/bot${process.env.agaWidthdrawBot}/sendMessage`;
+                    var content = `${usernameStr} widthraw ${req.body.diamond} diamond`;
                     for (var group of groups) {
-                        teleBot.sendMessage(group, `${usernameStr} widthraw ${req.body.diamond} diamond`);
+                        logger.info("group:" + group);                      
+                        if (group) {
+                            axios.post(url, {
+                                chat_id: group,
+                                text: content
+                              })
+                              .then(function (response) {
+                                // logger.error(response);
+                              })
+                              .catch(function (error) {
+                                  if(error.response){
+                                    logger.error(error.response.data);
+                                  }
+                              });
+                        }
                     }
                 }
 

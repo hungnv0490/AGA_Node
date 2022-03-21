@@ -181,5 +181,15 @@ mySqlDB.updateUserRankingEndSeason = function (userId, rankingType, rank, season
   });
 }
 
+mySqlDB.claimRequestHis = function (address, amount, type) {
+  var currentTime = util.dateFormat(new Date(), "%Y-%m-%d %H:%M:%S", false);
+  var sql = `INSERT INTO claim_request_his(address, amount, type, date_time) Values ('${address}', ${amount}, ${type}, '${currentTime}')`;
+  logger.info("mysqldb claimRequestHis sql:" + sql);
+  mySqlDB.execute(sql, function (err, result, fields) {
+    logger.error("mysqldb claimRequestHis err 2:" + err + " result 2:" + JSON.stringify(result));
+  });
+}
+
+
 module.exports = mySqlDB;
 
