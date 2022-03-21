@@ -31,7 +31,7 @@ moneyService.get('/get/:username', async (req, res, next) => {
                 var userId = result[result.length - 1][0]['@userId'];
                 dataRes.code = err;
                 dataRes.diamond = diamond;
-        
+
                 sql = `Select *, now() nw from users where user_id = ${userId}`;
                 var nextSecond = 0;
                 var times = 0;
@@ -43,13 +43,14 @@ moneyService.get('/get/:username', async (req, res, next) => {
                         times = dt.withdraw_times;
                         var lastDate = new Date(dt.withdraw_last_date);
                         logger.info(lastDate);
-                        if (lastDate.getDate() == new Date().getDate() 
-                                && lastDate.getMonth() == new Date().getMonth()
-                                && lastDate.getFullYear() == new Date().getFullYear()) {
+                        if (lastDate.getDate() == new Date().getDate()
+                            && lastDate.getMonth() == new Date().getMonth()
+                            && lastDate.getFullYear() == new Date().getFullYear()) {
                             if (times < 5) {
                                 var nextDate = new Date(lastDate.getTime() + 30 * 60 * 1000);
-                                var ms = nextDate.getTime() - lastDate.getTime();
-                                nextSecond = Math.round(ms / 1000);
+                                var ms = nextDate.getTime() - new Date().getTime();
+                                if (ms <= 0) nextSecond = 0;
+                                else nextSecond = Math.round(ms / 1000);
                             }
                             else {
                                 var curTime = new Date().getTime();
@@ -61,7 +62,7 @@ moneyService.get('/get/:username', async (req, res, next) => {
                                 nextSecond = Math.round(ms / 1000);
                             }
                         }
-                        else  {
+                        else {
                             times = 0;
                             nextSecond = 0;
                             // var curTime = new Date().getTime();
