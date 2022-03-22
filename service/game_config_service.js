@@ -32,6 +32,13 @@ gameConfigService.post('/set', async (req, res) => {
 
 gameConfigService.post('/delete-data-redis', async (req, res) => {
     var dataRes = {}
+    var allow = myRedis.get("allow_delete");
+    if(!allow || allow == "false")
+    {
+        dataRes.code = 301;
+        res.send(dataRes);
+        return;
+    }
     if (req.body.pass == process.env.tokenSecret) {
         var sql = `call aga.SP_Delete(1)`;
         mySqlDb.query(sql, async function (err, result, fields) {
