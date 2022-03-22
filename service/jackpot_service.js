@@ -100,14 +100,17 @@ jackpotService.get('/user/:username/claimed', verifyTokenBlockchain, async (req,
         var userId = await myRedis.hGet(UNAME_TO_UID, usernameStr);
         if (!userId) {
             dataRes.code = 201;
+            dataRes.reward = 0;
             res.send(dataRes);
             logger.info("jackpot_service user " + username + " claim:" + JSON.stringify(dataRes));
             return;
         }
         var jackpotReward = JACKPOT_REWARD + userId;
-        var reward = await myRedis.del(jackpotReward);
+        var reward = await myRedis.get(jackpotReward);
+        mySqlDb.claimRequestHis(req.params.username, reward, 4);
+        await myRedis.del(jackpotReward);
         dataRes.code = 200;
-        dataRes.msg = reward;
+        dataRes.reward = reward;
         res.send(dataRes);
     } catch (error) {
         next(error);
@@ -117,15 +120,16 @@ jackpotService.get('/user/:username/claimed', verifyTokenBlockchain, async (req,
 jackpotService.get('/season', async (req, res, next) => {
     try {
         var dataRes = {}
+        // logger.info("end time:" + myRedis.jackpotConfig.endTime);
         var endTime = new Date(myRedis.jackpotConfig.endTime);
-        const diffTime = Math.floor(Math.abs(endTime - new Date()));
+        const diffTime = Math.floor(endTime.getTime() - new Date().getTime());
         if (diffTime <= 0) {
             var ticket = await myRedis.get(JACKPOT_PREV_TICKET);
             dataRes.timeAppear = 0;
             dataRes.ticket = ticket == null ? "" : ticket;
         }
         else {
-            dataRes.timeAppear = Math.floor(diffTime / 1000);
+            dataRes.timeAppear = Math.round(diffTime / 1000);
             dataRes.ticket = "";
         }
         res.send(dataRes);
