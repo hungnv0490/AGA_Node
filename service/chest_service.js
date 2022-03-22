@@ -157,4 +157,36 @@ chestService.post('/user/claim', verifyToken, async (req, res, next) => {
     }
 });
 
+chestService.post('/add-pack-user', verifyToken, async (req, res, next) => {
+    try {
+        logger.info(req.body);
+        var username = mySqlDb.escape(req.body.username);
+        var usernameStr = username.replaceAll("'", "");
+        const UNAME_TO_UID = "uname_to_uid";
+        var uid = await myRedis.hGet(UNAME_TO_UID, usernameStr);
+        if (!uid) {
+            dataRes.code = 201;
+            dataRes.msg = "user not exist in game";
+            res.send(dataRes);
+            return;
+        }
+
+        var dateTimeStr = util.dateFormat(new Date(), "%Y-%m-%d %H:%M:%S", false);
+        var sql = `INSERT INTO user_pack
+        (user_id,
+        pack_id,
+        amount,create_time,is_new)
+        VALUES (${uid}, ${req.body.packId}, ${req.body.packAmount},'${dateTimeStr}',${1})
+        ON DUPLICATE KEY UPDATE amount=amount+${req.body.packAmount},is_new=1;`;
+        mySqlDb.execute(sql, (err, result, fields)=>{
+            var dataRes = {}
+            dataRes.code = 200;
+            res.send(dataRes);
+        });       
+        // res.send(chestConfig.toJson(chestObs));
+    } catch (error) {
+        next(error);
+    }
+});
+
 module.exports = chestService;
