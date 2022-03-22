@@ -177,6 +177,7 @@ async function init() {
 // })
 http.createServer(app.handle.bind(app)).listen(2707, ()=>{
     logger.info("start on " + 2707);
+    logger.info(util.curDateFormat3());
 });
 https.createServer({
 //   ca: fs.readFileSync('./server.ca-bundle'),

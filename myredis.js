@@ -111,7 +111,7 @@ myredis.jackpotStartNewSeason = async function () {
     var endTimeStr = util.dateFormat(endTime, "%Y-%m-%d %H:%M:%S", false);//endTime.toISOString().replace(/T/, ' ').replace(/\..+/, '');
     var startTime = new Date(myredis.jackpotConfig.startTime);
     var startTimeStr = util.dateFormat(startTime, "%Y-%m-%d %H:%M:%S", false);;//startTime.toISOString().replace(/T/, ' ').replace(/\..+/, '');
-    var season = nanoidSS();
+    var season = util.curDateFormat3();
     var jackpotTk = nanoTk();
     var secret = nanoidNumber();
     await myredis.SET(JACKPOT_SEASON, season);
@@ -225,7 +225,7 @@ myredis.rankingStartNewSeason = async function () {
     var endTimeStr = util.dateFormat(endTime, "%Y-%m-%d %H:%M:%S", false);//endTime.toISOString().replace(/T/, ' ').replace(/\..+/, '');
     var startTime = new Date(myredis.rankingTimeConfig.startTime);
     var startTimeStr = util.dateFormat(startTime, "%Y-%m-%d %H:%M:%S", false);;//startTime.toISOString().replace(/T/, ' ').replace(/\..+/, '');
-    var season = nanoidSS();
+    var season = util.curDateFormat3();
     await myredis.SET(RANKING_SEASON, season);
     await myredis.SET(RANKING_START_TIME, startTimeStr);
     await myredis.SET(RANKING_END_TIME, endTimeStr);

@@ -55,6 +55,14 @@ util.dateFormat2 = function () {
     return date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + ":" + date.getMilliseconds();
 }
 
+util.curDateFormat3 = function () {
+    var date = new Date();
+    var month = 1 + date.getMonth();
+    var monthStr = month.toString();
+    if(month < 10) monthStr = "0" + month;
+    return `${date.getFullYear().toString().substring(2, 4)}${monthStr}${date.getDate()}`;
+}
+
 util.getCharIdFromNftId = function(nftId){
     return util.map[nftId];
 }
