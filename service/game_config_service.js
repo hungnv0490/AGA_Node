@@ -36,6 +36,7 @@ gameConfigService.post('/delete-data-redis', async (req, res) => {
     if(!allow || allow == "false")
     {
         dataRes.code = 301;
+        dataRes.msg = "can not delete now. you need permission";
         res.send(dataRes);
         return;
     }
