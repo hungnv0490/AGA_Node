@@ -165,23 +165,38 @@ rankingService.post('/user/claimed', verifyTokenBlockchain, async (req, res, nex
         var value = await myRedis.get(key);
         if (value != null && value == "true") {
             dataRes.code = 201;
-            logger.info("money_service withdraw:" + JSON.stringify(dataRes));
             res.send(dataRes);
             return;
         }
         await myRedis.set(key, true);
         await myRedis.expire(key, 1);
-        var reward = await myRedis.get(rankingReward);
-        if(reward > 0){
-            var UPDATE_MONEY = "update-money";
-            await myRedis.publish(UPDATE_MONEY, `${userId}`);
-            mySqlDB.claimRequestHis(req.body.username, reward, isADD ? 2 : 3);
-            var dd = await myRedis.del(rankingReward);
+        var rewardStr = await myRedis.get(rankingReward);
+        logger.info("ranking_service claim:" + rewardStr);
+        var reward = 0;
+        if(rewardStr){
+            reward = parseInt(rewardStr);
         }
-        await myRedis.set(key, false);
-        dataRes.code = 200;
-        dataRes.msg = reward;
-        res.send(dataRes);
+        if (reward) {
+            var createTime = util.dateFormat(new Date(), "%Y-%m-%d %H:%M:%S", false);
+            var sql = `Insert Into trans_log (session_id,user_id,cash,cash_gain,gem,gem_gain,time,type)
+                        Values (${-1},${userId},'${0}','${reward}','0','0','${createTime}',14)`;
+            mySqlDB.execute(sql, async function (err, result, fields) {
+                var UPDATE_MONEY = "update-money";
+                await myRedis.publish(UPDATE_MONEY, `${userId}`);
+                mySqlDB.claimRequestHis(req.body.username, reward, isADD ? 2 : 3);
+                await myRedis.del(rankingReward);
+                await myRedis.set(key, false);
+                dataRes.code = 200;
+                dataRes.msg = reward;
+                res.send(dataRes);
+            });
+        }
+        else {
+            await myRedis.set(key, false);
+            dataRes.code = 200;
+            dataRes.msg = reward;
+            res.send(dataRes);
+        }
     } catch (error) {
         next(error);
     }
