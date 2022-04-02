@@ -14,6 +14,7 @@ const RANKING_SEASON = "ranking-season";
 const UNAME_TO_UID = "uname_to_uid";
 const RankingBoardDataCasual = "ranking-board-data-casual";//data
 const RankingBoardDataPro = "ranking-board-data-pro";//data
+const ClaimRankingRewardLock = "claim-ranking-reward-lock:";
 
 rankingService.task = null;
 
@@ -145,7 +146,7 @@ rankingService.post('/user/claimed', verifyTokenBlockchain, async (req, res, nex
         var rankingReward = "";
         // var adrRewardKey = "";
         var isPro = (req.body.isPro == 1);
-        var isADD = (req.body.isADD == 1);
+        var isADD = true;
         if (isPro) {
             if (isADD) rankingReward = "ranking-reward-pro:" + req.body.username;
             else rankingReward = "ranking-reward-adr-pro:" + req.body.username;
@@ -154,23 +155,32 @@ rankingService.post('/user/claimed', verifyTokenBlockchain, async (req, res, nex
             if (isADD) rankingReward = "ranking-reward-casual:" + req.body.username;
             else rankingReward = "ranking-reward-adr-casual:" + req.body.username;
         }
+        var userId = await myRedis.hGet(UNAME_TO_UID, req.body.username);
+        if (userId == null) {
+            dataRes.code = 101;
+            res.send(dataRes);
+            return;
+        }
+        var key = ClaimRankingRewardLock + req.body.username;
+        var value = await myRedis.get(key);
+        if (value != null && value == "true") {
+            dataRes.code = 201;
+            logger.info("money_service withdraw:" + JSON.stringify(dataRes));
+            res.send(dataRes);
+            return;
+        }
+        await myRedis.set(key, true);
+        await myRedis.expire(key, 1);
         var reward = await myRedis.get(rankingReward);
-        mySqlDB.claimRequestHis(req.body.username, reward, isADD ? 2 : 3);
-
-        // var reward = await myRedis.get(rankingReward);
-        // var rewardAdr = await myRedis.get(adrRewardKey);
-
-        // if (isNaN(req.body.diamond) || req.body.diamond <= 0 || req.body.diamond > reward) {
-        //     dataRes.code = 300;
-        //     res.send(dataRes);
-        //     logger.info("ranking_service user claimed:" + JSON.stringify(dataRes));
-        //     return;
-        // }
-        var dd = await myRedis.del(rankingReward);
-        // var reward = await myRedis.del(adrRewardKey);
-
+        if(reward > 0){
+            var UPDATE_MONEY = "update-money";
+            await myRedis.publish(UPDATE_MONEY, `${userId}`);
+            mySqlDB.claimRequestHis(req.body.username, reward, isADD ? 2 : 3);
+            var dd = await myRedis.del(rankingReward);
+        }
+        await myRedis.set(key, false);
         dataRes.code = 200;
-        dataRes.msg = dd;
+        dataRes.msg = reward;
         res.send(dataRes);
     } catch (error) {
         next(error);
@@ -322,7 +332,7 @@ rankingService.rewards = async function (isPro) {
                         rewardAdrKey = "ranking-reward-adr-casual:" + rankingUser["Username"];
                     }
                     await myRedis.incrBy(rankingReward, diamond);
-                    await myRedis.incrBy(rewardAdrKey, adr);
+                    // await myRedis.incrBy(rewardAdrKey, adr);
                     mySqlDB.updateUserRankingEndSeason(rankingUser["UserId"], board.RankingType, rankingUser["Rank"], season);
                 }
                 // rankingUsers.forEach(element => {
