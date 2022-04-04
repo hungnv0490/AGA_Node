@@ -298,8 +298,8 @@ rankingService.startNewSeason = async function () {
 
 rankingService.rewards = async function (isPro) {
     logger.info("pro:" + isPro);
-    var amount = 4000;
-    if (!isPro) amount = 500;
+    var amount = 3000;
+    if (!isPro) amount = 2000;
     var topRankings = await myRedis.boards(isPro, amount);
     if (topRankings.length <= 0) return;
 
@@ -332,7 +332,8 @@ rankingService.rewards = async function (isPro) {
             if (board.RankingType == key) {
                 logger.info('ranking rewards board.rankingType:' + board.RankingType);
                 var rankingUsers = dt[key];
-                var diamond = Math.floor(rankBoardDiamond * board.PerDiamond / 100 / rankingUsers.length);
+                // var diamond = Math.floor(rankBoardDiamond * board.PerDiamond / 100 / rankingUsers.length);
+                var diamond = board.RewardPerson;
                 var adr = Math.floor(rankBoardAdr * board.PerDiamond / 100 / rankingUsers.length);
                 // var rewards = `1-0-${diamond}`;
                 for (var rankingUser of rankingUsers) {

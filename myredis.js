@@ -7,6 +7,7 @@ const nanoidSS = nanoId.customAlphabet("ABCDEFGHIJKLMNOPQRSTUVXYZ123456789", 5);
 const rankBoardConfig = require('./config/rankboard_config.js')
 const redis = require('redis');
 const RankBoard = require("./entities/rankboard.js");
+const Ranking = require("./entities/ranking.js");
 
 const myredis = redis.createClient({
     socket:{host: process.env.redisHost || process.env.redisHost_Product},
@@ -209,7 +210,14 @@ myredis.boards = async function (isPro, top) {
                     // logger.info("ranking:" + rankingOb.Rank)
                     var rankingOb = JSON.parse(ranking);
                     rankingOb.Rank = r;
-                    res.push(rankingOb);
+                    var ranking = new Ranking(rankingOb.Nickname, rankingOb.Username, rankingOb.Avatar, r, rankingOb.Point,
+                        rankingOb.BattleAmount, rankingOb.RankingType, rankingOb.isPro);
+                    var rankBoard = ranking.GetRankBoard(isPro);
+                    if(rankBoard == null){
+                        ranking.RankingType = RankBoard.RankingType.None;
+                    }
+                    else ranking.RankingType = rankBoard.RankingType;
+                    res.push(ranking);
                 }
             }
             i++;
