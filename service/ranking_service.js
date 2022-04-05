@@ -284,7 +284,7 @@ rankingService.get('/bot/insert-db', async (req, res, next) => {
             else names[`${element.Name}`] = 1;
             var name = element.Name;
             if(id > 1) name += (id-1);
-            var sql = `insert ignore into users(user_id, username, nickname, password, type) value(${100000000+index}, '${name}', '${name}', 'aaa', 1);`;
+            var sql = `insert ignore into users(user_id, username, nickname, password, type, avatar, frame) value(${100000000+index}, '${name}', '${name}', 'aaa', 1, ${element.Avatar}, ${element.Frame});`;
             mySqlDB.execute(sql, function (err, fiels, result){
 
             });
@@ -305,7 +305,7 @@ rankingService.get('/bot/insert-db', async (req, res, next) => {
             else names[`${element.Name}`] = 1;
             var name = element.Name;
             if(id > 1) name += (id-1);
-            var sql = `insert ignore into users(user_id, username, nickname, password, type) value(${200000000+index}, '${name}', '${name}', 'aaa', 1);`;
+            var sql = `insert ignore into users(user_id, username, nickname, password, type, avatar, frame) value(${200000000+index}, '${name}', '${name}', 'aaa', 1, ${element.Avatar}, ${element.Frame});`;
             mySqlDB.execute(sql, function (err, fiels, result){
 
             });        
