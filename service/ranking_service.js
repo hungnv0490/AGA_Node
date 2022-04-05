@@ -8,6 +8,8 @@ const rankBoardConfig = require('../config/rankboard_config.js');
 const Ranking = require('../entities/ranking.js')
 const RankBoard = require('../entities/rankboard.js')
 const verifyTokenBlockchain = require('../middlewares/verifyToken.js');
+const botCasual = require('../config/bot_casual.json');
+const botPro = require('../config/bot_pro.json');
 
 const rankingService = express.Router();
 const RANKING_SEASON = "ranking-season";
@@ -173,7 +175,7 @@ rankingService.post('/user/claimed', verifyTokenBlockchain, async (req, res, nex
         var rewardStr = await myRedis.get(rankingReward);
         logger.info("ranking_service claim:" + rewardStr);
         var reward = 0;
-        if(rewardStr){
+        if (rewardStr) {
             reward = parseInt(rewardStr);
         }
         if (reward) {
@@ -260,6 +262,155 @@ rankingService.get('/:isPro', async (req, res, next) => {
             dataRes.data = data;
             res.send(dataRes);
         });
+    } catch (error) {
+        next(error);
+    }
+});
+
+rankingService.get('/bot/insert-db', async (req, res, next) => {
+    try {
+        logger.info("insert-db");
+        var dataRes = {}
+        var array = botCasual["Sheet1"];
+        var names = {}
+        for (let index = 0; index < array.length; index++) {
+            const element = array[index];
+            var id = 1;
+            if(names[`${element.Name}`] > 0){
+                id = names[`${element.Name}`];
+                id += 1;
+                names[`${element.Name}`] = id;
+            }
+            else names[`${element.Name}`] = 1;
+            var name = element.Name;
+            if(id > 1) name += (id-1);
+            var sql = `insert ignore into users(user_id, username, nickname, password, type) value(${100000000+index}, '${name}', '${name}', 'aaa', 1);`;
+            mySqlDB.execute(sql, function (err, fiels, result){
+
+            });
+            await myRedis.hSet("uname_to_uid", name, index + 100000000);
+            await myRedis.hSet("uid_to_uname", index + 100000000, name);
+            await myRedis.hSet("nname_to_uid", name, index + 100000000);
+            await myRedis.hSet("userid_to_nickname", index + 100000000, name);
+        }
+        var array = botPro["Sheet1"];
+        for (let index = 0; index < array.length; index++) {
+            const element = array[index];
+            var id = 1;
+            if(names[`${element.Name}`] > 0){
+                id = names[`${element.Name}`];
+                id += 1;
+                names[`${element.Name}`] = id;
+            }
+            else names[`${element.Name}`] = 1;
+            var name = element.Name;
+            if(id > 1) name += (id-1);
+            var sql = `insert ignore into users(user_id, username, nickname, password, type) value(${200000000+index}, '${name}', '${name}', 'aaa', 1);`;
+            mySqlDB.execute(sql, function (err, fiels, result){
+
+            });        
+            await myRedis.hSet("uname_to_uid", name, index + 200000000);
+            await myRedis.hSet("uid_to_uname", index + 200000000, name);
+            await myRedis.hSet("nname_to_uid", name, index + 200000000);
+            await myRedis.hSet("userid_to_nickname", index + 200000000, name);
+        }
+        dataRes.code = 200;
+        res.send(dataRes);
+    } catch (error) {
+        next(error);
+    }
+});
+
+rankingService.get('/bot/fake-ranking', async (req, res, next) => {
+    try {
+        var dataRes = {}
+        var array = botCasual["Sheet1"];
+        logger.info("fake-ranking");
+        var names = {}
+        for (let index = 0; index < array.length; index++) {
+            const element = array[index];
+            var id = 1;
+            if(names[`${element.Name}`] > 0){
+                id = names[`${element.Name}`];
+                id += 1;
+                names[`${element.Name}`] = id;
+            }
+            else names[`${element.Name}`] = 1;
+            var name = element.Name;
+            if(id > 1) name += (id-1);
+            var ranking = new Ranking(name, name, element.Avatar, 1, parseInt(element.Point), 100, 1, false);
+            var p = parseInt(element.Point);
+            var uid = 100000000 + index;
+            await myRedis.zAdd("ranking-board-casual", { score: p, value: uid});
+            await myRedis.hSet("ranking-board-data-casual", 100000000 + index, JSON.stringify(ranking));
+        }
+        var array = botPro["Sheet1"];
+        for (let index = 0; index < array.length; index++) {
+            const element = array[index];
+            var id = 1;
+            if(names[`${element.Name}`] > 0){
+                id = names[`${element.Name}`];
+                id += 1;
+                names[`${element.Name}`] = id;
+            }
+            else names[`${element.Name}`] = 1;
+            var name = element.Name;
+            if(id > 1) name += (id-1);
+            var ranking = new Ranking(name, name, element.Avatar, 1,parseInt(element.Point), 100, 1, false);
+            var p = parseInt(element.Point);
+            var uid = 200000000 + index;
+            await myRedis.zAdd("ranking-board-pro",  { score: p, value: uid});
+            await myRedis.hSet("ranking-board-data-pro", uid, JSON.stringify(ranking));
+        }
+        dataRes.code = 200;
+        res.send(dataRes);
+    } catch (error) {
+        next(error);
+    }
+});
+
+rankingService.get('/bot/clear-ranking', async (req, res, next) => {
+    try {
+        var dataRes = {}
+        var array = botCasual["Sheet1"];
+        logger.info("clear-ranking");
+        var names = {}
+        for (let index = 0; index < array.length; index++) {
+            const element = array[index];
+            var id = 1;
+            if(names[`${element.Name}`] > 0){
+                id = names[`${element.Name}`];
+                id += 1;
+                names[`${element.Name}`] = id;
+            }
+            else names[`${element.Name}`] = 1;
+            var name = element.Name;
+            if(id > 1) name += (id-1);            
+            var p = parseInt(element.Point);
+            var uid = 100000000 + index;
+            await myRedis.zRem("ranking-board-casual", uid);
+            await myRedis.hDel("ranking-board-data-casual", uid);
+        }
+        var array = botPro["Sheet1"];
+        for (let index = 0; index < array.length; index++) {
+            const element = array[index];
+            var id = 1;
+            if(names[`${element.Name}`] > 0){
+                id = names[`${element.Name}`];
+                id += 1;
+                names[`${element.Name}`] = id;
+            }
+            else names[`${element.Name}`] = 1;
+            var name = element.Name;
+            if(id > 1) name += (id-1);
+            var p = parseInt(element.Point);
+            var uid = 200000000 + index;
+            // var ranking = new Ranking(name, name, element.Avatar, 1, p, 100, 1, false);           
+            await myRedis.zRem("ranking-board-pro", uid);
+            await myRedis.hDel("ranking-board-data-pro",uid);
+        }
+        dataRes.code = 200;
+        res.send(dataRes);
     } catch (error) {
         next(error);
     }

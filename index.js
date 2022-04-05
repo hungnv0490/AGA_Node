@@ -178,7 +178,7 @@ async function init() {
 // })
 http.createServer(app.handle.bind(app)).listen(2707, ()=>{
     var rb = new Ranking("haha", "hihi", "1", 200, 100, 100, 0, false);
-
+    logger.info(JSON.stringify(rb));
     logger.info("start on " + 2707);
     logger.info(rb.GetRankBoard(false).RankingType);
 });

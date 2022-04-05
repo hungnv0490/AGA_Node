@@ -1,0 +1,616 @@
+{
+    "Sheet1": [
+        {
+            "Point": "6900",
+            "Name": "Wilhelm Amano",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "6900",
+            "Name": "Lars Kniffin",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "6900",
+            "Name": "Trenton Barick",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7000",
+            "Name": "Armand Dituri",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7000",
+            "Name": "Maddox Tindal",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7000",
+            "Name": "Newton Cantos",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7000",
+            "Name": "Ferris Zahra",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7000",
+            "Name": "Ezra Grippen",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7000",
+            "Name": "Ursa Albach",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7000",
+            "Name": "Wilhelm Amano",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7000",
+            "Name": "Ezra Grippen",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7000",
+            "Name": "Ursa Albach",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7000",
+            "Name": "Wilhelm Amano",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7100",
+            "Name": "Ezra Grippen",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7100",
+            "Name": "Ursa Albach",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7100",
+            "Name": "Wilhelm Amano",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7100",
+            "Name": "Lars Kniffin",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7100",
+            "Name": "Trenton Barick",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7100",
+            "Name": "Armand Dituri",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7100",
+            "Name": "Maddox Tindal",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7100",
+            "Name": "Newton Cantos",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7100",
+            "Name": "Ferris Zahra",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7200",
+            "Name": "Ezra Grippen",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7200",
+            "Name": "Ursa Albach",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7200",
+            "Name": "Wilhelm Amano",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7200",
+            "Name": "Lars Kniffin",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7200",
+            "Name": "Trenton Barick",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7200",
+            "Name": "Armand Dituri",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7200",
+            "Name": "Maddox Tindal",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7200",
+            "Name": "Newton Cantos",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7200",
+            "Name": "Ferris Zahra",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7200",
+            "Name": "Ezra Grippen",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7300",
+            "Name": "Ursa Albach",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7300",
+            "Name": "Wilhelm Amano",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7300",
+            "Name": "Lars Kniffin",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7300",
+            "Name": "Trenton Barick",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7300",
+            "Name": "Armand Dituri",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7300",
+            "Name": "Maddox Tindal",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7300",
+            "Name": "Newton Cantos",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7300",
+            "Name": "Ferris Zahra",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7300",
+            "Name": "Ezra Grippen",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7400",
+            "Name": "Ursa Albach",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7400",
+            "Name": "Wilhelm Amano",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7400",
+            "Name": "Lars Kniffin",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7400",
+            "Name": "Trenton Barick",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7400",
+            "Name": "Armand Dituri",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7400",
+            "Name": "Maddox Tindal",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7400",
+            "Name": "Newton Cantos",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7400",
+            "Name": "Ferris Zahra",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7400",
+            "Name": "Ezra Grippen",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7400",
+            "Name": "Ursa Albach",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7500",
+            "Name": "Wilhelm Amano",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7500",
+            "Name": "Ezra Grippen",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7500",
+            "Name": "Ursa Albach",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7500",
+            "Name": "Wilhelm Amano",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7500",
+            "Name": "Lars Kniffin",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7500",
+            "Name": "Trenton Barick",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7500",
+            "Name": "Armand Dituri",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7500",
+            "Name": "Maddox Tindal",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7500",
+            "Name": "Newton Cantos",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7500",
+            "Name": "Ferris Zahra",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7600",
+            "Name": "Ezra Grippen",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7600",
+            "Name": "Ursa Albach",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7600",
+            "Name": "Wilhelm Amano",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7600",
+            "Name": "Lars Kniffin",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7600",
+            "Name": "Trenton Barick",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7600",
+            "Name": "Armand Dituri",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7600",
+            "Name": "Maddox Tindal",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7600",
+            "Name": "Newton Cantos",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7600",
+            "Name": "Ferris Zahra",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7600",
+            "Name": "Ezra Grippen",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7700",
+            "Name": "Ursa Albach",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7700",
+            "Name": "Wilhelm Amano",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7700",
+            "Name": "Lars Kniffin",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7700",
+            "Name": "Trenton Barick",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7700",
+            "Name": "Armand Dituri",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7700",
+            "Name": "Maddox Tindal",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7700",
+            "Name": "Newton Cantos",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7700",
+            "Name": "Ferris Zahra",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7700",
+            "Name": "Ezra Grippen",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7700",
+            "Name": "Ursa Albach",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7700",
+            "Name": "Wilhelm Amano",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7800",
+            "Name": "Lars Kniffin",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7800",
+            "Name": "Trenton Barick",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7800",
+            "Name": "Armand Dituri",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7800",
+            "Name": "Maddox Tindal",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7800",
+            "Name": "Newton Cantos",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7800",
+            "Name": "Ferris Zahra",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7800",
+            "Name": "Ezra Grippen",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7800",
+            "Name": "Ursa Albach",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7800",
+            "Name": "Wilhelm Amano",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7800",
+            "Name": "Lars Kniffin",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7900",
+            "Name": "Trenton Barick",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7900",
+            "Name": "Armand Dituri",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7900",
+            "Name": "Maddox Tindal",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7900",
+            "Name": "Newton Cantos",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7900",
+            "Name": "Ferris Zahra",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7900",
+            "Name": "Ezra Grippen",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7900",
+            "Name": "Ursa Albach",
+            "Avatar": "2",
+            "Frame": "2"
+        },
+        {
+            "Point": "7900",
+            "Name": "Wilhelm Amano",
+            "Avatar": "3",
+            "Frame": "3"
+        },
+        {
+            "Point": "7900",
+            "Name": "Lars Kniffin",
+            "Avatar": "1",
+            "Frame": "1"
+        },
+        {
+            "Point": "7900",
+            "Name": "Trenton Barick",
+            "Avatar": "2",
+            "Frame": "2"
+        }
+    ]
+}
