@@ -60,7 +60,16 @@ util.curDateFormat3 = function () {
     var month = 1 + date.getMonth();
     var monthStr = month.toString();
     if(month < 10) monthStr = "0" + month;
-    return `${date.getFullYear().toString().substring(2, 4)}${monthStr}${date.getDate()}`;
+    var h = date.getHours();
+    var hStr = h.toString();
+    if(h < 10) hStr = "0" + h;
+    var min = date.getMinutes();
+    var minStr = min.toString();
+    if(min < 10) minStr = "0" + min;
+    var sec = date.getSeconds();
+    var secStr = sec.toString();
+    if(sec < 10) secStr = "0" + sec;
+    return `${date.getFullYear().toString().substring(2, 4)}${monthStr}${date.getDate()}${hStr}${minStr}${secStr}`;
 }
 
 util.getCharIdFromNftId = function(nftId){

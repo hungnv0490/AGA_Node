@@ -177,10 +177,8 @@ async function init() {
 //     logger.info("start server:" + util.dateFormat(new Date(), "%Y-%m-%d %H:%M:%S", false));
 // })
 http.createServer(app.handle.bind(app)).listen(2707, ()=>{
-    var rb = new Ranking("haha", "hihi", "1", 200, 100, 100, 0, false);
-    logger.info(JSON.stringify(rb));
+    logger.info(util.curDateFormat3());
     logger.info("start on " + 2707);
-    logger.info(rb.GetRankBoard(false).RankingType);
 });
 https.createServer({
 //   ca: fs.readFileSync('./server.ca-bundle'),
