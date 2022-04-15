@@ -114,14 +114,14 @@ setTimeout(initConfig, 1000);
 setTimeout(init, 2000);
 
 async function initConfig() {
-    await myRedis.loadJackpotConfig();
+    // await myRedis.loadJackpotConfig();
     await myRedis.loadRankingConfig();
-    await battleConfig.init();
-    await chestConfig.init();
+    // await battleConfig.init();
+    // await chestConfig.init();
 }
 
 async function init() {
-    jackpotService.init();
+    // jackpotService.init();
     rankingService.init();
     cardService.init();
     // var sql = `Select *, now() nw from users where user_id = ${2}`;
