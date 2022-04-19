@@ -10,6 +10,7 @@ const RankBoard = require('../entities/rankboard.js')
 const verifyTokenBlockchain = require('../middlewares/verifyToken.js');
 const botCasual = require('../config/bot_casual.json');
 const botPro = require('../config/bot_pro.json');
+const bot = require('../config/bot.json');
 
 const rankingService = express.Router();
 const RANKING_SEASON = "ranking-season";
@@ -271,7 +272,7 @@ rankingService.get('/bot/insert-db', async (req, res, next) => {
     try {
         logger.info("insert-db");
         var dataRes = {}
-        var array = botCasual["Sheet1"];
+        var array = bot["Sheet1"];
         var names = {}
         for (let index = 0; index < array.length; index++) {
             const element = array[index];
@@ -284,6 +285,7 @@ rankingService.get('/bot/insert-db', async (req, res, next) => {
             else names[`${element.Name}`] = 1;
             var name = element.Name;
             if(id > 1) name += (id-1);
+
             var sql = `insert ignore into users(user_id, username, nickname, password, type, avatar, frame) value(${100000000+index}, '${name}', '${name}', 'aaa', 1, ${element.Avatar}, ${element.Frame});`;
             mySqlDB.execute(sql, function (err, fiels, result){
 
@@ -293,27 +295,50 @@ rankingService.get('/bot/insert-db', async (req, res, next) => {
             await myRedis.hSet("nname_to_uid", name, index + 100000000);
             await myRedis.hSet("userid_to_nickname", index + 100000000, name);
         }
-        var array = botPro["Sheet1"];
-        for (let index = 0; index < array.length; index++) {
-            const element = array[index];
-            var id = 1;
-            if(names[`${element.Name}`] > 0){
-                id = names[`${element.Name}`];
-                id += 1;
-                names[`${element.Name}`] = id;
-            }
-            else names[`${element.Name}`] = 1;
-            var name = element.Name;
-            if(id > 1) name += (id-1);
-            var sql = `insert ignore into users(user_id, username, nickname, password, type, avatar, frame) value(${200000000+index}, '${name}', '${name}', 'aaa', 1, ${element.Avatar}, ${element.Frame});`;
-            mySqlDB.execute(sql, function (err, fiels, result){
 
-            });        
-            await myRedis.hSet("uname_to_uid", name, index + 200000000);
-            await myRedis.hSet("uid_to_uname", index + 200000000, name);
-            await myRedis.hSet("nname_to_uid", name, index + 200000000);
-            await myRedis.hSet("userid_to_nickname", index + 200000000, name);
-        }
+        // var array = botCasual["Sheet1"];
+        // var names = {}
+        // for (let index = 0; index < array.length; index++) {
+        //     const element = array[index];
+        //     var id = 1;
+        //     if(names[`${element.Name}`] > 0){
+        //         id = names[`${element.Name}`];
+        //         id += 1;
+        //         names[`${element.Name}`] = id;
+        //     }
+        //     else names[`${element.Name}`] = 1;
+        //     var name = element.Name;
+        //     if(id > 1) name += (id-1);
+        //     var sql = `insert ignore into users(user_id, username, nickname, password, type, avatar, frame) value(${100000000+index}, '${name}', '${name}', 'aaa', 1, ${element.Avatar}, ${element.Frame});`;
+        //     mySqlDB.execute(sql, function (err, fiels, result){
+
+        //     });
+        //     await myRedis.hSet("uname_to_uid", name, index + 100000000);
+        //     await myRedis.hSet("uid_to_uname", index + 100000000, name);
+        //     await myRedis.hSet("nname_to_uid", name, index + 100000000);
+        //     await myRedis.hSet("userid_to_nickname", index + 100000000, name);
+        // }
+        // var array = botPro["Sheet1"];
+        // for (let index = 0; index < array.length; index++) {
+        //     const element = array[index];
+        //     var id = 1;
+        //     if(names[`${element.Name}`] > 0){
+        //         id = names[`${element.Name}`];
+        //         id += 1;
+        //         names[`${element.Name}`] = id;
+        //     }
+        //     else names[`${element.Name}`] = 1;
+        //     var name = element.Name;
+        //     if(id > 1) name += (id-1);
+        //     var sql = `insert ignore into users(user_id, username, nickname, password, type, avatar, frame) value(${200000000+index}, '${name}', '${name}', 'aaa', 1, ${element.Avatar}, ${element.Frame});`;
+        //     mySqlDB.execute(sql, function (err, fiels, result){
+
+        //     });        
+        //     await myRedis.hSet("uname_to_uid", name, index + 200000000);
+        //     await myRedis.hSet("uid_to_uname", index + 200000000, name);
+        //     await myRedis.hSet("nname_to_uid", name, index + 200000000);
+        //     await myRedis.hSet("userid_to_nickname", index + 200000000, name);
+        // }
         dataRes.code = 200;
         res.send(dataRes);
     } catch (error) {
@@ -324,6 +349,9 @@ rankingService.get('/bot/insert-db', async (req, res, next) => {
 rankingService.get('/bot/fake-ranking', async (req, res, next) => {
     try {
         var dataRes = {}
+        dataRes.code = 200;
+        res.send(dataRes);
+        return;
         var array = botCasual["Sheet1"];
         logger.info("fake-ranking");
         var names = {}
@@ -371,8 +399,12 @@ rankingService.get('/bot/fake-ranking', async (req, res, next) => {
 
 rankingService.get('/bot/clear-ranking', async (req, res, next) => {
     try {
+        // var dataRes = {}
+        // dataRes.code = 200;
+        // res.send(dataRes);
+        // return;
         var dataRes = {}
-        var array = botCasual["Sheet1"];
+        var array = bot["Sheet1"];
         logger.info("clear-ranking");
         var names = {}
         for (let index = 0; index < array.length; index++) {
@@ -390,25 +422,49 @@ rankingService.get('/bot/clear-ranking', async (req, res, next) => {
             var uid = 100000000 + index;
             await myRedis.zRem("ranking-board-casual", uid);
             await myRedis.hDel("ranking-board-data-casual", uid);
-        }
-        var array = botPro["Sheet1"];
-        for (let index = 0; index < array.length; index++) {
-            const element = array[index];
-            var id = 1;
-            if(names[`${element.Name}`] > 0){
-                id = names[`${element.Name}`];
-                id += 1;
-                names[`${element.Name}`] = id;
-            }
-            else names[`${element.Name}`] = 1;
-            var name = element.Name;
-            if(id > 1) name += (id-1);
-            var p = parseInt(element.Point);
-            var uid = 200000000 + index;
-            // var ranking = new Ranking(name, name, element.Avatar, 1, p, 100, 1, false);           
             await myRedis.zRem("ranking-board-pro", uid);
             await myRedis.hDel("ranking-board-data-pro",uid);
+            await myRedis.hDel("ranking_userid_season", uid);
+            await myRedis.hDel("ranking_userid_season_casual", uid);
         }
+
+        // var array = botCasual["Sheet1"];
+        // logger.info("clear-ranking");
+        // var names = {}
+        // for (let index = 0; index < array.length; index++) {
+        //     const element = array[index];
+        //     var id = 1;
+        //     if(names[`${element.Name}`] > 0){
+        //         id = names[`${element.Name}`];
+        //         id += 1;
+        //         names[`${element.Name}`] = id;
+        //     }
+        //     else names[`${element.Name}`] = 1;
+        //     var name = element.Name;
+        //     if(id > 1) name += (id-1);            
+        //     var p = parseInt(element.Point);
+        //     var uid = 100000000 + index;
+        //     await myRedis.zRem("ranking-board-casual", uid);
+        //     await myRedis.hDel("ranking-board-data-casual", uid);
+        // }
+        // var array = botPro["Sheet1"];
+        // for (let index = 0; index < array.length; index++) {
+        //     const element = array[index];
+        //     var id = 1;
+        //     if(names[`${element.Name}`] > 0){
+        //         id = names[`${element.Name}`];
+        //         id += 1;
+        //         names[`${element.Name}`] = id;
+        //     }
+        //     else names[`${element.Name}`] = 1;
+        //     var name = element.Name;
+        //     if(id > 1) name += (id-1);
+        //     var p = parseInt(element.Point);
+        //     var uid = 200000000 + index;
+        //     // var ranking = new Ranking(name, name, element.Avatar, 1, p, 100, 1, false);           
+        //     await myRedis.zRem("ranking-board-pro", uid);
+        //     await myRedis.hDel("ranking-board-data-pro",uid);
+        // }
         dataRes.code = 200;
         res.send(dataRes);
     } catch (error) {
