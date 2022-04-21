@@ -88,73 +88,73 @@ moneyService.get('/get/:username', async (req, res, next) => {
     }
 });
 
-moneyService.post('/check-withdraw', verifyTokenBlockchain, async (req, res, next) => {
-    try {
-        logger.info("money_service check-withdraw start:" + req.body);
-        var username = mySqlDb.escape(req.body.username);
-        var usernameStr = username.replaceAll("'", "");
-        var key = `${USERNAME_MONEY_LOCK}:${usernameStr}`;
-        var value = await myRedis.get(key);
-        if (value != null && value == "true") {
-            dataRes.code = 201;
-            res.send(dataRes);
-            logger.info("money_service check-withdraw:" + JSON.stringify(dataRes));
-            return;
-        }
-        await myRedis.set(key, true);
-        await myRedis.expire(key, 1);
-        if (isNaN(req.body.diamond) || req.body.diamond <= 0) {
-            dataRes.code = 300;
-            res.send(dataRes);
-            await myRedis.hSet(key, false);
-            logger.info("money_service check-withdraw:" + JSON.stringify(dataRes));
-            return;
-        }
-        var dataRes = {}
-        var today = new Date();
-        var priorDate = new Date(new Date().setDate(today.getDate() - 7));
-        var date = util.dateFormat(priorDate, "%Y-%m-%d", false);
-        var curDate = util.dateFormat(new Date(), "%Y-%m-%d %H:%M:%S", false);
-        var sql = `set @err = 0;
-    Set @userId = 0;
-    call aga.SP_CheckWithDraw(${username}, ${req.body.diamond}, '${date}', '${curDate}', @userId,@err);
-    select @userId,@err;
-    `;
-        mySqlDb.query(sql, async function (err, result, fields) {
-            logger.info("money_service withdraw result:" + JSON.stringify(result));
-            if (result.length != 0) {
-                var err = result[result.length - 1][0]['@err'];
-                var userId = result[result.length - 1][0]['@userId'];
-                dataRes.code = err;
-                // logger.info("money_service check-withdaw withdraw:" + JSON.stringify(dataRes));
-                res.send(dataRes);
-                await myRedis.set(key, false);
+// moneyService.post('/check-withdraw', verifyTokenBlockchain, async (req, res, next) => {
+//     try {
+//         logger.info("money_service check-withdraw start:" + req.body);
+//         var username = mySqlDb.escape(req.body.username);
+//         var usernameStr = username.replaceAll("'", "");
+//         var key = `${USERNAME_MONEY_LOCK}:${usernameStr}`;
+//         var value = await myRedis.get(key);
+//         if (value != null && value == "true") {
+//             dataRes.code = 201;
+//             res.send(dataRes);
+//             logger.info("money_service check-withdraw:" + JSON.stringify(dataRes));
+//             return;
+//         }
+//         await myRedis.set(key, true);
+//         await myRedis.expire(key, 1);
+//         if (isNaN(req.body.diamond) || req.body.diamond <= 0) {
+//             dataRes.code = 300;
+//             res.send(dataRes);
+//             await myRedis.hSet(key, false);
+//             logger.info("money_service check-withdraw:" + JSON.stringify(dataRes));
+//             return;
+//         }
+//         var dataRes = {}
+//         var today = new Date();
+//         var priorDate = new Date(new Date().setDate(today.getDate() - 7));
+//         var date = util.dateFormat(priorDate, "%Y-%m-%d", false);
+//         var curDate = util.dateFormat(new Date(), "%Y-%m-%d %H:%M:%S", false);
+//         var sql = `set @err = 0;
+//     Set @userId = 0;
+//     call aga.SP_CheckWithDraw(${username}, ${req.body.diamond}, '${date}', '${curDate}', @userId,@err);
+//     select @userId,@err;
+//     `;
+//         mySqlDb.query(sql, async function (err, result, fields) {
+//             logger.info("money_service withdraw result:" + JSON.stringify(result));
+//             if (result.length != 0) {
+//                 var err = result[result.length - 1][0]['@err'];
+//                 var userId = result[result.length - 1][0]['@userId'];
+//                 dataRes.code = err;
+//                 // logger.info("money_service check-withdaw withdraw:" + JSON.stringify(dataRes));
+//                 res.send(dataRes);
+//                 await myRedis.set(key, false);
 
-                // var withdrawGroupBot = await myRedis.get("withdrawGroupBot");
-                // if(withdrawGroupBot){
-                //     var groups = withdrawGroupBot.split("|");
-                //     for(var group of groups){
-                //         teleBot.sendMessage(group, `${usernameStr} widthraw ${req.body.diamond} diamond`);
-                //     }
-                // }
+//                 // var withdrawGroupBot = await myRedis.get("withdrawGroupBot");
+//                 // if(withdrawGroupBot){
+//                 //     var groups = withdrawGroupBot.split("|");
+//                 //     for(var group of groups){
+//                 //         teleBot.sendMessage(group, `${usernameStr} widthraw ${req.body.diamond} diamond`);
+//                 //     }
+//                 // }
 
-                // if (err == 200) {
-                //     var UPDATE_MONEY = "update-money";
-                //     await myRedis.publish(UPDATE_MONEY, `${userId}`);
-                // }
-                logger.info("money_service check-withdaw end time:" + util.dateFormat2());
-            }
-            else {
-                dataRes.code = 600;
-                res.send(dataRes);
-                await myRedis.hSet(key, false);
-                logger.info("money_service check-withdraw:" + JSON.stringify(dataRes));
-            }
-        });
-    } catch (error) {
-        next(error);
-    }
-});
+//                 // if (err == 200) {
+//                 //     var UPDATE_MONEY = "update-money";
+//                 //     await myRedis.publish(UPDATE_MONEY, `${userId}`);
+//                 // }
+//                 logger.info("money_service check-withdaw end time:" + util.dateFormat2());
+//             }
+//             else {
+//                 dataRes.code = 600;
+//                 res.send(dataRes);
+//                 await myRedis.hSet(key, false);
+//                 logger.info("money_service check-withdraw:" + JSON.stringify(dataRes));
+//             }
+//         });
+//     } catch (error) {
+//         next(error);
+//     }
+// });
 
 moneyService.withdawCount = 0;
 moneyService.post('/withdraw', verifyTokenBlockchain, async (req, res, next) => {
