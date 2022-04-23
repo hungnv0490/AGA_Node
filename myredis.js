@@ -243,7 +243,29 @@ myredis.rankingStartNewSeason = async function () {
     await myredis.DEL(RankingBoardDataCasual);
     await myredis.DEL(RankingBoardDataPro);
 
-    var start = `${startTimeStr}|${endTimeStr}|${season}`;
+    var start = `${startTimeStr}|${endTimeStr}|${season}|1`;
+    logger.info("myredis rankingStartNewSeason RANKING_START_NEW:" + start);
+    await myredis.publish(RANKING_START_NEW, start);
+}
+
+myredis.rankingUpdateSeason = async function () {
+    logger.info("myredis rankingStartNewSeason RANKING_PAUSE:" + RANKING_PAUSE);
+    // await myredis.publish(RANKING_PAUSE);
+    var endTime = new Date(myredis.rankingTimeConfig.endTime);
+    var endTimeStr = util.dateFormat(endTime, "%Y-%m-%d %H:%M:%S", false);//endTime.toISOString().replace(/T/, ' ').replace(/\..+/, '');
+    var startTime = new Date(myredis.rankingTimeConfig.startTime);
+    var startTimeStr = util.dateFormat(startTime, "%Y-%m-%d %H:%M:%S", false);;//startTime.toISOString().replace(/T/, ' ').replace(/\..+/, '');
+    var season = util.curDateFormat3();
+    await myredis.SET(RANKING_SEASON, season);
+    await myredis.SET(RANKING_START_TIME, startTimeStr);
+    await myredis.SET(RANKING_END_TIME, endTimeStr);
+
+    // await myredis.DEL(RankingBoardPro);
+    // await myredis.DEL(RankingBoardCasual);
+    // await myredis.DEL(RankingBoardDataCasual);
+    // await myredis.DEL(RankingBoardDataPro);
+
+    var start = `${startTimeStr}|${endTimeStr}|${season}|0`;
     logger.info("myredis rankingStartNewSeason RANKING_START_NEW:" + start);
     await myredis.publish(RANKING_START_NEW, start);
 }

@@ -62,6 +62,32 @@ rankingService.post('/season/set', async (req, res, next) => {
     }
 });
 
+rankingService.post('/season/update', async (req, res, next) => {
+    try {
+        console.log(req.body);
+        var startTime = req.body.startTime;
+        var endTime = req.body.endTime;
+        var st = new Date(startTime);
+        var et = new Date(endTime);
+        if (st < et && new Date() < et) {
+            if (myRedis.rankingTimeConfig.startTime != startTime || myRedis.rankingTimeConfig.endTime != endTime) {
+                myRedis.rankingTimeConfig.startTime = startTime;
+                myRedis.rankingTimeConfig.endTime = endTime;
+                await myRedis.setRankingTimeConfig();
+                await rankingService.updateSeason();
+                res.send({ "code": 200 });
+                return;
+            }
+            res.send({ "code": 100 });
+            return;
+        }
+        res.send({ "code": 101 });
+        return;
+    } catch (error) {
+        next(error);
+    }
+});
+
 rankingService.get('/rankboard/get', async (req, res) => {
     var dataRes = {}
     dataRes.code = 200;
@@ -499,6 +525,19 @@ rankingService.startNewSeason = async function () {
             rankingService.task = null;
         }
         await myRedis.rankingStartNewSeason();
+        rankingService.init();
+    }
+}
+
+rankingService.updateSeason = async function () {
+    var endTime = new Date(myRedis.rankingTimeConfig.endTime);
+    var curDate = new Date();
+    if (endTime > curDate) {
+        if (rankingService.task != null) {
+            rankingService.task.stop();
+            rankingService.task = null;
+        }
+        await myRedis.rankingUpdateSeason();
         rankingService.init();
     }
 }
