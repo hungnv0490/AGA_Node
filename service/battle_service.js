@@ -29,7 +29,7 @@ rewardService.post("/reward/set", async (req, res, next)=>{
         }
         await myredis.set("reward-endgame-config", JSON.stringify(req.body));
         var RewardEndGameLoadNewData = "reward-endgame-newdata";
-        await myredis.publish(RewardEndGameLoadNewData);    
+        await myredis.publish(RewardEndGameLoadNewData, "");    
         dataRes.code = 200;
         dataRes.data = req.body;
         res.send(dataRes);

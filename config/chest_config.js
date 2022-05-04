@@ -64,7 +64,7 @@ chestConfig.init = async function () {
             chestConfig.PackIds = ids.slice(0, -1);
             chestConfig.DailyLoginPackIds = dailyLoginPackIds.slice(0, -1);
             await myRedis.set(CHEST_CONFIG, chestConfig.toRedis());
-            await myRedis.publish(CHEST_CONFIG_NEW_DATA);
+            await myRedis.publish(CHEST_CONFIG_NEW_DATA, "");
         }
         else {
             var createTime = util.dateFormat(new Date(), "%Y-%m-%d %H:%M:%S", false);
@@ -103,7 +103,7 @@ chestConfig.init = async function () {
                         chestConfig.PackIds = ids.slice(0, -1);
                         chestConfig.DailyLoginPackIds = dailyLoginPackIds.slice(0, -1);
                         await myRedis.set(CHEST_CONFIG, chestConfig.toRedis());
-                        await myRedis.publish(CHEST_CONFIG_NEW_DATA);
+                        await myRedis.publish(CHEST_CONFIG_NEW_DATA, "");
                     }
                 });
             });
@@ -170,7 +170,7 @@ chestConfig.setConfig = async function () {
                 chestConfig.PackIds = ids.slice(0, -1);
                 chestConfig.DailyLoginPackIds = dailyLoginPackIds.slice(0, -1);
                 await myRedis.set(CHEST_CONFIG, chestConfig.toRedis());
-                await myRedis.publish(CHEST_CONFIG_NEW_DATA);
+                await myRedis.publish(CHEST_CONFIG_NEW_DATA, "");
             }
         });
     });

@@ -107,7 +107,7 @@ myredis.getJackpotUserTickets = async function () {
 }
 
 myredis.jackpotStartNewSeason = async function () {
-    await myredis.publish(JACKPOT_PAUSE);
+    await myredis.publish(JACKPOT_PAUSE, "");
     var endTime = new Date(myredis.jackpotConfig.endTime);
     var endTimeStr = util.dateFormat(endTime, "%Y-%m-%d %H:%M:%S", false);//endTime.toISOString().replace(/T/, ' ').replace(/\..+/, '');
     var startTime = new Date(myredis.jackpotConfig.startTime);
@@ -128,7 +128,7 @@ myredis.jackpotStartNewSeason = async function () {
 }
 
 myredis.jackpotEndSeason = async function (diamond) {
-    await myredis.publish(JACKPOT_PAUSE);
+    await myredis.publish(JACKPOT_PAUSE, "");
     var season = await myredis.get(JACKPOT_SEASON);
     var tk = await myredis.get(JACKPOT_TICKET);
     await myredis.SET(JACKPOT_PREV_SEASON, season);
@@ -188,7 +188,7 @@ myredis.setRankingTimeConfig = async function () {
 
 myredis.setBoardConfig = async function(){
     await myredis.set(RANKING_CONFIG_BOARD, rankBoardConfig.toJson());
-    await myredis.publish(RankingLoadNewData);
+    await myredis.publish(RankingLoadNewData, "");
 }
 
 myredis.boards = async function (isPro, top) {
@@ -228,7 +228,7 @@ myredis.boards = async function (isPro, top) {
 
 myredis.rankingStartNewSeason = async function () {
     logger.info("myredis rankingStartNewSeason RANKING_PAUSE:" + RANKING_PAUSE);
-    await myredis.publish(RANKING_PAUSE);
+    await myredis.publish(RANKING_PAUSE, "");
     var endTime = new Date(myredis.rankingTimeConfig.endTime);
     var endTimeStr = util.dateFormat(endTime, "%Y-%m-%d %H:%M:%S", false);//endTime.toISOString().replace(/T/, ' ').replace(/\..+/, '');
     var startTime = new Date(myredis.rankingTimeConfig.startTime);
@@ -271,7 +271,7 @@ myredis.rankingUpdateSeason = async function () {
 }
 
 myredis.rankingEndSeason = async function () {
-    await myredis.publish(RANKING_PAUSE);
+    await myredis.publish(RANKING_PAUSE, "");
     // var season = await myredis.get(JACKPOT_SEASON);
     // var tk = await myredis.get(JACKPOT_TICKET);
     // await myredis.SET(JACKPOT_PREV_SEASON, season);

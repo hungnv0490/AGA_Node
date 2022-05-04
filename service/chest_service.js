@@ -9,6 +9,8 @@ const verifyToken = require('../middlewares/verifyToken.js');
 const mySqlDb = require('../mysqldb.js');
 const myRedis = require('../myredis.js');
 var Chest = require('../entities/chest.js');
+const CHEST_CONFIG = "chest-config";
+const CHEST_CONFIG_NEW_DATA = "chest-config-new-data";
 
 // chestService.get('/get', async (req, res) => {
 //     var dataRes = {}
@@ -17,43 +19,45 @@ var Chest = require('../entities/chest.js');
 //     res.send(dataRes);
 // });
 
-// chestService.post('/set', async (req, res, next) => {
-//     try {
-//         logger.info(req.body);
-//         var json = req.body;
-//         chestConfig.DailyLoginMaxChestPoint = json.DailyLoginMaxChestPoint;
-//         chestConfig.DailyMissionMaxChestPoint = json.DailyMissionMaxChestPoint;
-//         chestConfig.AchievementMaxChestPoint = json.AchievementMaxChestPoint;
-//         chestConfig.chests = []
-//         chestConfig.dailyLoginPacks = []
+chestService.post('/set', async (req, res, next) => {
+    try {
+        logger.info(req.body);
+        var json = req.body;
+        chestConfig.DailyLoginMaxChestPoint = json.DailyLoginMaxChestPoint;
+        chestConfig.DailyMissionMaxChestPoint = json.DailyMissionMaxChestPoint;
+        chestConfig.AchievementMaxChestPoint = json.AchievementMaxChestPoint;
+        chestConfig.chests = []
+        chestConfig.dailyLoginPacks = []
 
-//         for(var chest of json.chests){
-//             var packCardObs = [];
-//             for(var packCard of chest.packCards){
-//                 var packCardOb = new PackCard(packCard.Common, packCard.UnCommon, packCard.Rare, packCard.Epic, packCard.Legend);
-//                 packCardObs.push(packCardOb);
-//             }
-//             chestConfig.chests.push(new Chest(packCardObs));
-//         }
-//         for(var chest of json.dailyLoginPacks){
-//             var packCardObs = [];
-//             for(var packCard of chest.packCards){
-//                 var packCardOb = new PackCard(packCard.Common, packCard.UnCommon, packCard.Rare, packCard.Epic, packCard.Legend);
-//                 packCardObs.push(packCardOb);
-//             }
-//             chestConfig.dailyLoginPacks.push(new Chest(packCardObs));
-//         }
+        // for(var chest of json.chests){
+        //     var packCardObs = [];
+        //     for(var packCard of chest.packCards){
+        //         var packCardOb = new PackCard(packCard.Common, packCard.UnCommon, packCard.Rare, packCard.Epic, packCard.Legend);
+        //         packCardObs.push(packCardOb);
+        //     }
+        //     chestConfig.chests.push(new Chest(packCardObs));
+        // }
+        // for(var chest of json.dailyLoginPacks){
+        //     var packCardObs = [];
+        //     for(var packCard of chest.packCards){
+        //         var packCardOb = new PackCard(packCard.Common, packCard.UnCommon, packCard.Rare, packCard.Epic, packCard.Legend);
+        //         packCardObs.push(packCardOb);
+        //     }
+        //     chestConfig.dailyLoginPacks.push(new Chest(packCardObs));
+        // }
 
-//         await chestConfig.setConfig();
-//         var dataRes = {}
-//         dataRes.code = 200;
-//         dataRes.data = chestConfig.toApiRes();
-//         res.send(dataRes);
-//         // res.send(chestConfig.toJson(chestObs));
-//     } catch (error) {
-//         next(error);
-//     }
-// });
+        // await chestConfig.setConfig();
+        await myRedis.set(CHEST_CONFIG, chestConfig.toRedis());
+        await myRedis.publish(CHEST_CONFIG_NEW_DATA, "");
+        var dataRes = {}
+        dataRes.code = 200;
+        dataRes.data = chestConfig.toApiRes();
+        res.send(dataRes);
+        // res.send(chestConfig.toJson(chestObs));
+    } catch (error) {
+        next(error);
+    }
+});
 
 // chestService.get('/user/:username', async (req, res, next) => {
 //     try {
