@@ -34,7 +34,8 @@ gameConfigService.post('/set', async (req, res) => {
 
 gameConfigService.post('/delete-data-redis', async (req, res) => {
     var dataRes = {}
-    var allow = myRedis.get("allow_delete");
+    var allow = await myRedis.get("allow_delete");
+    logger.info("delete-data-redis:"+allow);
     if(!allow || allow == "false")
     {
         dataRes.code = 301;
@@ -42,10 +43,14 @@ gameConfigService.post('/delete-data-redis', async (req, res) => {
         res.send(dataRes);
         return;
     }
+    // await myRedis.set("allow_delete", false);
     if (req.body.pass == process.env.tokenSecret) {
-        var sql = `call aga.SP_Delete(1)`;
-        mySqlDb.query(sql, async function (err, result, fields) {
+        var sql = `call SP_Delete(?);`;
+        mySqlDb.query(sql, 1, async function (err, result, fields) {
+            logger.info(err);
             if (!err) {
+                logger.info("gogo");
+
                 await myRedis.DEL("chestpoint-achievement");
                 await myRedis.DEL("chestpoint-daily-login");
                 await myRedis.DEL("chestpoint-daily-mission");
@@ -84,6 +89,34 @@ gameConfigService.post('/delete-data-redis', async (req, res) => {
                         await myRedis.DEL(k);
                     }
                 }
+                keys = await myRedis.KEYS("ranking-board-data-casual:*");
+                if(keys && keys.length > 0){
+                    for (var k of keys) {
+                        await myRedis.DEL(k);
+                    }
+                }
+                keys = await myRedis.KEYS("ranking-board-data-pro:*");
+                if(keys && keys.length > 0){
+                    for (var k of keys) {
+                        await myRedis.DEL(k);
+                    }
+                }
+                await myRedis.DEL("ranking-board-pro");
+                await myRedis.DEL("ranking-board-casual");
+
+                keys = await myRedis.KEYS("ranking_userid_season:*");
+                if(keys && keys.length > 0){
+                    for (var k of keys) {
+                        await myRedis.DEL(k);
+                    }
+                }
+                keys = await myRedis.KEYS("ranking_userid_season_casual:*");
+                if(keys && keys.length > 0){
+                    for (var k of keys) {
+                        await myRedis.DEL(k);
+                    }
+                }
+
                 await myRedis.DEL("uid_to_uname");
                 await myRedis.DEL("uname_to_uid");
                 await myRedis.DEL("userid_to_nickname");

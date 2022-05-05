@@ -312,14 +312,18 @@ rankingService.get('/bot/insert-db', async (req, res, next) => {
             var name = element.Name;
             if(id > 1) name += (id-1);
 
-            var sql = `insert ignore into users(user_id, username, nickname, password, type, avatar, frame) value(${100000000+index}, '${name}', '${name}', 'aaa', 1, ${element.Avatar}, ${element.Frame});`;
-            mySqlDB.execute(sql, function (err, fiels, result){
-
-            });
-            await myRedis.hSet("uname_to_uid", name, index + 100000000);
-            await myRedis.hSet("uid_to_uname", index + 100000000, name);
-            await myRedis.hSet("nname_to_uid", name, index + 100000000);
-            await myRedis.hSet("userid_to_nickname", index + 100000000, name);
+            var sql = `insert ignore into users(username, nickname, password, type, avatar, frame) value('${name}', '${name}', 'aaa', 1, ${element.Avatar}, ${element.Frame});`;
+            mySqlDB.execute(sql, async function (err, result, fields){
+                if (err) {
+                    // handle error
+                  }else{
+                    var userId = result.insertId;
+                    await myRedis.hSet("uname_to_uid", name, userId);
+                    await myRedis.hSet("uid_to_uname", userId, name);
+                    await myRedis.hSet("nname_to_uid", name, userId);
+                    await myRedis.hSet("userid_to_nickname", userId, name);
+                  }
+            });           
         }
 
         // var array = botCasual["Sheet1"];
@@ -444,8 +448,10 @@ rankingService.get('/bot/clear-ranking', async (req, res, next) => {
             else names[`${element.Name}`] = 1;
             var name = element.Name;
             if(id > 1) name += (id-1);            
-            var p = parseInt(element.Point);
-            var uid = 100000000 + index;
+            // var p = parseInt(element.Point);
+            // var uid = 100000000 + index;
+
+            var uid = await myRedis.hGet("uname_to_uid", name);
             await myRedis.zRem("ranking-board-casual", uid);
             await myRedis.hDel("ranking-board-data-casual", uid);
             await myRedis.zRem("ranking-board-pro", uid);
