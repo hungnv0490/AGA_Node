@@ -33,6 +33,7 @@ rankingService.get('/season/get', async (req, res) => {
     var dataRes = {}
     dataRes.code = 200;
     dataRes.data = myRedis.rankingTimeConfig;
+    dataRes.season = await myRedis.GET(RANKING_SEASON);
     res.send(dataRes);
 });
 
@@ -48,7 +49,10 @@ rankingService.post('/season/set', async (req, res, next) => {
                 myRedis.rankingTimeConfig.startTime = startTime;
                 myRedis.rankingTimeConfig.endTime = endTime;
                 await myRedis.setRankingTimeConfig();
-                await rankingService.startNewSeason();
+                await rankingService.startNewSeason(req.body.season, req.body.ignoreBot);
+                if(req.body.ignoreBot == 1){
+                    await rankingService.cleaRankingBot();
+                }
                 res.send({ "code": 200 });
                 return;
             }
@@ -303,27 +307,27 @@ rankingService.get('/bot/insert-db', async (req, res, next) => {
         for (let index = 0; index < array.length; index++) {
             const element = array[index];
             var id = 1;
-            if(names[`${element.Name}`] > 0){
+            if (names[`${element.Name}`] > 0) {
                 id = names[`${element.Name}`];
                 id += 1;
                 names[`${element.Name}`] = id;
             }
             else names[`${element.Name}`] = 1;
             var name = element.Name;
-            if(id > 1) name += (id-1);
+            if (id > 1) name += (id - 1);
 
             var sql = `insert ignore into users(username, nickname, password, type, avatar, frame) value('${name}', '${name}', 'aaa', 1, ${element.Avatar}, ${element.Frame});`;
-            mySqlDB.execute(sql, async function (err, result, fields){
+            mySqlDB.execute(sql, async function (err, result, fields) {
                 if (err) {
                     // handle error
-                  }else{
+                } else {
                     var userId = result.insertId;
                     await myRedis.hSet("uname_to_uid", name, userId);
                     await myRedis.hSet("uid_to_uname", userId, name);
                     await myRedis.hSet("nname_to_uid", name, userId);
                     await myRedis.hSet("userid_to_nickname", userId, name);
-                  }
-            });           
+                }
+            });
         }
 
         // var array = botCasual["Sheet1"];
@@ -388,36 +392,36 @@ rankingService.get('/bot/fake-ranking', async (req, res, next) => {
         for (let index = 0; index < array.length; index++) {
             const element = array[index];
             var id = 1;
-            if(names[`${element.Name}`] > 0){
+            if (names[`${element.Name}`] > 0) {
                 id = names[`${element.Name}`];
                 id += 1;
                 names[`${element.Name}`] = id;
             }
             else names[`${element.Name}`] = 1;
             var name = element.Name;
-            if(id > 1) name += (id-1);
+            if (id > 1) name += (id - 1);
             var ranking = new Ranking(name, name, element.Avatar, 1, parseInt(element.Point), 100, 1, false);
             var p = parseInt(element.Point);
             var uid = 100000000 + index;
-            await myRedis.zAdd("ranking-board-casual", { score: p, value: uid});
+            await myRedis.zAdd("ranking-board-casual", { score: p, value: uid });
             await myRedis.hSet("ranking-board-data-casual", 100000000 + index, JSON.stringify(ranking));
         }
         var array = botPro["Sheet1"];
         for (let index = 0; index < array.length; index++) {
             const element = array[index];
             var id = 1;
-            if(names[`${element.Name}`] > 0){
+            if (names[`${element.Name}`] > 0) {
                 id = names[`${element.Name}`];
                 id += 1;
                 names[`${element.Name}`] = id;
             }
             else names[`${element.Name}`] = 1;
             var name = element.Name;
-            if(id > 1) name += (id-1);
-            var ranking = new Ranking(name, name, element.Avatar, 1,parseInt(element.Point), 100, 1, false);
+            if (id > 1) name += (id - 1);
+            var ranking = new Ranking(name, name, element.Avatar, 1, parseInt(element.Point), 100, 1, false);
             var p = parseInt(element.Point);
             var uid = 200000000 + index;
-            await myRedis.zAdd("ranking-board-pro",  { score: p, value: uid});
+            await myRedis.zAdd("ranking-board-pro", { score: p, value: uid });
             await myRedis.hSet("ranking-board-data-pro", uid, JSON.stringify(ranking));
         }
         dataRes.code = 200;
@@ -440,14 +444,14 @@ rankingService.get('/bot/clear-ranking', async (req, res, next) => {
         for (let index = 0; index < array.length; index++) {
             const element = array[index];
             var id = 1;
-            if(names[`${element.Name}`] > 0){
+            if (names[`${element.Name}`] > 0) {
                 id = names[`${element.Name}`];
                 id += 1;
                 names[`${element.Name}`] = id;
             }
             else names[`${element.Name}`] = 1;
             var name = element.Name;
-            if(id > 1) name += (id-1);            
+            if (id > 1) name += (id - 1);
             // var p = parseInt(element.Point);
             // var uid = 100000000 + index;
 
@@ -455,7 +459,7 @@ rankingService.get('/bot/clear-ranking', async (req, res, next) => {
             await myRedis.zRem("ranking-board-casual", uid);
             await myRedis.hDel("ranking-board-data-casual", uid);
             await myRedis.zRem("ranking-board-pro", uid);
-            await myRedis.hDel("ranking-board-data-pro",uid);
+            await myRedis.hDel("ranking-board-data-pro", uid);
             await myRedis.hDel("ranking_userid_season", uid);
             await myRedis.hDel("ranking_userid_season_casual", uid);
         }
@@ -504,6 +508,34 @@ rankingService.get('/bot/clear-ranking', async (req, res, next) => {
     }
 });
 
+rankingService.cleaRankingBot = async function () {
+    var array = bot["Sheet1"];
+    logger.info("clear-ranking");
+    var names = {}
+    for (let index = 0; index < array.length; index++) {
+        const element = array[index];
+        var id = 1;
+        if (names[`${element.Name}`] > 0) {
+            id = names[`${element.Name}`];
+            id += 1;
+            names[`${element.Name}`] = id;
+        }
+        else names[`${element.Name}`] = 1;
+        var name = element.Name;
+        if (id > 1) name += (id - 1);
+        // var p = parseInt(element.Point);
+        // var uid = 100000000 + index;
+
+        var uid = await myRedis.hGet("uname_to_uid", name);
+        await myRedis.zRem("ranking-board-casual", uid);
+        await myRedis.hDel("ranking-board-data-casual", uid);
+        await myRedis.zRem("ranking-board-pro", uid);
+        await myRedis.hDel("ranking-board-data-pro", uid);
+        await myRedis.hDel("ranking_userid_season", uid);
+        await myRedis.hDel("ranking_userid_season_casual", uid);
+    }
+}
+
 rankingService.init = function () {
     var endTime = new Date(myRedis.rankingTimeConfig.endTime);
     var curDate = new Date();
@@ -522,7 +554,7 @@ rankingService.init = function () {
     }
 }
 
-rankingService.startNewSeason = async function () {
+rankingService.startNewSeason = async function (season, ignoreBot) {
     var endTime = new Date(myRedis.rankingTimeConfig.endTime);
     var curDate = new Date();
     if (endTime > curDate) {
@@ -530,7 +562,7 @@ rankingService.startNewSeason = async function () {
             rankingService.task.stop();
             rankingService.task = null;
         }
-        await myRedis.rankingStartNewSeason();
+        await myRedis.rankingStartNewSeason(season, ignoreBot);
         rankingService.init();
     }
 }
