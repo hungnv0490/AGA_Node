@@ -194,7 +194,7 @@ rankingService.post('/user/claimed', verifyTokenBlockchain, async (req, res, nex
             res.send(dataRes);
             return;
         }
-        var key = ClaimRankingRewardLock + req.body.username;
+        var key = ClaimRankingRewardLock + userId;
         var value = await myRedis.get(key);
         if (value != null && value == "true") {
             dataRes.code = 201;
@@ -624,12 +624,12 @@ rankingService.rewards = async function (isPro) {
                     var rankingReward = "";
                     var rewardAdrKey = "";
                     if (isPro) {
-                        rankingReward = "ranking-reward-pro:" + rankingUser["Username"];
-                        rewardAdrKey = "ranking-reward-adr-pro:" + rankingUser["Username"];
+                        rankingReward = "ranking-reward-pro:" + rankingUser["UserId"];
+                        rewardAdrKey = "ranking-reward-adr-pro:" + rankingUser["UserId"];
                     }
                     else {
-                        rankingReward = "ranking-reward-casual:" + rankingUser["Username"];
-                        rewardAdrKey = "ranking-reward-adr-casual:" + rankingUser["Username"];
+                        rankingReward = "ranking-reward-casual:" + rankingUser["UserId"];
+                        rewardAdrKey = "ranking-reward-adr-casual:" + rankingUser["UserId"];
                     }
                     await myRedis.incrBy(rankingReward, diamond);
                     // await myRedis.incrBy(rewardAdrKey, adr);

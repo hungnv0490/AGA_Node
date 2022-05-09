@@ -210,7 +210,7 @@ myredis.boards = async function (isPro, top) {
                     // logger.info("ranking:" + rankingOb.Rank)
                     var rankingOb = JSON.parse(ranking);
                     rankingOb.Rank = r;
-                    var ranking = new Ranking(rankingOb.Nickname, rankingOb.Username, rankingOb.Avatar, r, rankingOb.Point,
+                    var ranking = new Ranking(rankingOb.Nickname, rankingOb.UserId, rankingOb.Avatar, r, rankingOb.Point,
                         rankingOb.BattleAmount, rankingOb.RankingType, rankingOb.isPro);
                     var rankBoard = ranking.GetRankBoard(isPro);
                     if(rankBoard == null){
