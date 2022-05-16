@@ -170,10 +170,11 @@ mySqlDB.addJackpotHis = function (userId, diamond, season, cb) {
   });
 }
 
-mySqlDB.updateUserRankingEndSeason = function (userId, rankingType, rank, season) {
+mySqlDB.updateUserRankingEndSeason = function (userId, rankingType, rank, season, isCasual, rankPoint, reward) {
   var currentTime = util.dateFormat(new Date(), "%Y-%m-%d %H:%M:%S", false);
-  var sql = `Update ranking rk set update_time='${currentTime}', ranking_type=${rankingType}, rk.rank=${rank}
-                                Where user_id=${userId} and season='${season}';`;
+  var sql = `INSERT INTO ranking(user_id,season,is_casual,rank_point,reward,create_time,update_time) VALUES (${userId},
+            '${season}',${isCasual},${rankPoint},${reward},'${currentTime}','${currentTime}')
+            ON DUPLICATE KEY UPDATE rank_point = ${rankPoint}, reward = ${reward}, update_time='${currentTime}';`;
   logger.info("mysqldb updateUserRankingEndSeason sql:" + sql);
   mySqlDB.execute(sql, function (err, result, fields) {
     // var json = JSON.stringify(result);

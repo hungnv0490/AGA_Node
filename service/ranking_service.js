@@ -11,6 +11,7 @@ const verifyTokenBlockchain = require('../middlewares/verifyToken.js');
 const botCasual = require('../config/bot_casual.json');
 const botPro = require('../config/bot_pro.json');
 const bot = require('../config/bot.json');
+var util = require('../util.js');
 
 const rankingService = express.Router();
 const RANKING_SEASON = "ranking-season";
@@ -33,7 +34,8 @@ rankingService.get('/season/get', async (req, res) => {
     var dataRes = {}
     dataRes.code = 200;
     dataRes.data = myRedis.rankingTimeConfig;
-    dataRes.season = await myRedis.GET(RANKING_SEASON);
+    dataRes.season = await myRedis.GET("prev-ranking-season");
+    dataRes.current = util.dateFormat(new Date(), "%Y-%m-%d %H:%M:%S", false);
     res.send(dataRes);
 });
 
@@ -44,6 +46,8 @@ rankingService.post('/season/set', async (req, res, next) => {
         var endTime = req.body.endTime;
         var st = new Date(startTime);
         var et = new Date(endTime);
+        var dataRes = {};
+        dataRes.current = util.dateFormat(new Date(), "%Y-%m-%d %H:%M:%S", false);
         if (st < et && new Date() < et) {
             if (myRedis.rankingTimeConfig.startTime != startTime || myRedis.rankingTimeConfig.endTime != endTime) {
                 myRedis.rankingTimeConfig.startTime = startTime;
@@ -53,13 +57,16 @@ rankingService.post('/season/set', async (req, res, next) => {
                 if(req.body.ignoreBot == 1){
                     await rankingService.cleaRankingBot();
                 }
-                res.send({ "code": 200 });
+                dataRes.code = 200;
+                res.send(dataRes);
                 return;
             }
-            res.send({ "code": 100 });
+            dataRes.code = 100;
+            res.send(dataRes);
             return;
         }
-        res.send({ "code": 101 });
+        dataRes.code = 101;
+        res.send(dataRes);
         return;
     } catch (error) {
         next(error);
@@ -154,7 +161,7 @@ rankingService.get('/user/:username/:isPro', async (req, res, next) => {
         var reward = await myRedis.get(rankingReward);
         var rewardAdr = await myRedis.get(adrRewardKey);
         if (data == null) {
-            var ranking = new Ranking(req.params.username, req.params.username, "", 0, 0, 0, RankBoard.RankingType.None);
+            var ranking = new Ranking(req.params.username, req.params.username,1, "", 0, 0, 0, RankBoard.RankingType.None);
             dataRes.code = 200;
             dataRes.data = ranking;
             dataRes.reward = (reward == null ? 0 : reward);
@@ -168,6 +175,70 @@ rankingService.get('/user/:username/:isPro', async (req, res, next) => {
             dataRes.rewardAdr = (rewardAdr == null ? 0 : rewardAdr);
             res.send(dataRes);
         }
+    } catch (error) {
+        next(error);
+    }
+});
+
+rankingService.get('/:username', async (req, res, next) => {
+    try {
+        var dataRes = {}
+        var userId = await myRedis.hGet(UNAME_TO_UID, req.params.username);
+        // if (userId == null) {
+        //     dataRes.code = 101;
+        //     res.send(dataRes);
+        //     return;
+        // }
+
+        // var isPro = (req.params.isPro == 1);
+        // if (isPro) {
+            // var rankingReward = "ranking-reward-pro:" + req.params.username;
+            // dataRes.rewardPro = await myRedis.get(rankingReward);
+        //     adrRewardKey = "ranking-reward-adr-pro:" + req.params.username;
+        // }
+        // else {
+            // rankingReward = "ranking-reward-casual:" + req.params.username;
+            // var rewardCasual = await myRedis.get(rankingReward);
+        //     adrRewardKey = "ranking-reward-adr-casual:" + req.params.username;
+        // }
+        var dt = await myRedis.hGet(RankingBoardDataPro, userId);
+        if(dt){
+            var data = JSON.parse(dt);
+            dataRes.pointPro = data.Point;
+            dataRes.topPro = data.Rank; 
+        }             
+        else{
+            dataRes.pointPro = 0;
+            dataRes.topPro = 0;
+        } 
+        dt = await myRedis.hGet(RankingBoardDataCasual, userId);
+        if(dt){
+            var data = JSON.parse(dt);
+            dataRes.pointCasual = data.Point;
+            dataRes.topCasual = data.Rank;
+        }
+        else{
+            dataRes.pointCasual = 0;
+            dataRes.topCasual = 0;
+        } 
+        // var data = await myRedis.hGet(isPro ? RankingBoardDataPro : RankingBoardDataCasual, userId);
+        // var reward = await myRedis.get(rankingReward);
+        // var rewardAdr = await myRedis.get(adrRewardKey);
+        // if (data == null) {
+        //     var ranking = new Ranking(req.params.username, req.params.username,1, "", 0, 0, 0, RankBoard.RankingType.None);
+        //     dataRes.code = 200;
+        //     dataRes.data = ranking;
+        //     dataRes.reward = (reward == null ? 0 : reward);
+        //     dataRes.rewardAdr = (rewardAdr == null ? 0 : rewardAdr);
+        //     res.send(dataRes);
+        // }
+        // else {
+        //     dataRes.code = 200;
+        //     dataRes.data = JSON.parse(data);
+        //     dataRes.reward = (reward == null ? 0 : reward);
+        //     dataRes.rewardAdr = (rewardAdr == null ? 0 : rewardAdr);
+            res.send(dataRes);
+        // }
     } catch (error) {
         next(error);
     }
@@ -400,7 +471,7 @@ rankingService.get('/bot/fake-ranking', async (req, res, next) => {
             else names[`${element.Name}`] = 1;
             var name = element.Name;
             if (id > 1) name += (id - 1);
-            var ranking = new Ranking(name, name, element.Avatar, 1, parseInt(element.Point), 100, 1, false);
+            var ranking = new Ranking(name, name, 1,element.Avatar, 1, parseInt(element.Point), 100, 1, false);
             var p = parseInt(element.Point);
             var uid = 100000000 + index;
             await myRedis.zAdd("ranking-board-casual", { score: p, value: uid });
@@ -418,7 +489,7 @@ rankingService.get('/bot/fake-ranking', async (req, res, next) => {
             else names[`${element.Name}`] = 1;
             var name = element.Name;
             if (id > 1) name += (id - 1);
-            var ranking = new Ranking(name, name, element.Avatar, 1, parseInt(element.Point), 100, 1, false);
+            var ranking = new Ranking(name, name,1, element.Avatar, 1, parseInt(element.Point), 100, 1, false);
             var p = parseInt(element.Point);
             var uid = 200000000 + index;
             await myRedis.zAdd("ranking-board-pro", { score: p, value: uid });
@@ -623,9 +694,11 @@ rankingService.rewards = async function (isPro) {
                 for (var rankingUser of rankingUsers) {
                     var rankingReward = "";
                     var rewardAdrKey = "";
+                    var isCasual = 1;
                     if (isPro) {
-                        rankingReward = "ranking-reward-pro:" + rankingUser["UserId"];
+                        rankingReward = "ranking-reward-pro:" + rankingUser["UserId"];//username day la user id
                         rewardAdrKey = "ranking-reward-adr-pro:" + rankingUser["UserId"];
+                        isCasual = 0;
                     }
                     else {
                         rankingReward = "ranking-reward-casual:" + rankingUser["UserId"];
@@ -633,7 +706,8 @@ rankingService.rewards = async function (isPro) {
                     }
                     await myRedis.incrBy(rankingReward, diamond);
                     // await myRedis.incrBy(rewardAdrKey, adr);
-                    mySqlDB.updateUserRankingEndSeason(rankingUser["UserId"], board.RankingType, rankingUser["Rank"], season);
+                    mySqlDB.updateUserRankingEndSeason(rankingUser["UserId"], board.RankingType, rankingUser["Rank"], season, isCasual ,
+                        rankingUser["Point"],diamond);
                 }
                 // rankingUsers.forEach(element => {
                 // mySqlDB.addMailBox("Ranking reward", `You received reward from ranking with rank ${element["Rank"]}`, -1, element["UserId"], rewards, 0, 0,function(code){

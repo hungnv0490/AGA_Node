@@ -2,9 +2,10 @@ const rankBoardConfig = require('../config/rankboard_config.js');
 var log4js = require("log4js");
 var logger = log4js.getLogger();
 class Ranking {
-    constructor(nickname, username, avatar, rank, point, battleAmount, rankingType, isPro) {
+    constructor(nickname, username, userId, avatar, rank, point, battleAmount, rankingType, isPro) {
       this.Nickname = nickname;
       this.Username = username;
+      this.UserId = userId;
       this.Avatar = avatar;
       this.Rank = rank;
       this.Point = point;
