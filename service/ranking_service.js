@@ -598,12 +598,14 @@ rankingService.cleaRankingBot = async function () {
         // var uid = 100000000 + index;
 
         var uid = await myRedis.hGet("uname_to_uid", name);
-        await myRedis.zRem("ranking-board-casual", uid);
-        await myRedis.hDel("ranking-board-data-casual", uid);
-        await myRedis.zRem("ranking-board-pro", uid);
-        await myRedis.hDel("ranking-board-data-pro", uid);
-        await myRedis.hDel("ranking_userid_season", uid);
-        await myRedis.hDel("ranking_userid_season_casual", uid);
+        if(uid && !isNaN(uid)){
+            await myRedis.zRem("ranking-board-casual", uid);
+            await myRedis.hDel("ranking-board-data-casual", uid);
+            await myRedis.zRem("ranking-board-pro", uid);
+            await myRedis.hDel("ranking-board-data-pro", uid);
+            await myRedis.hDel("ranking_userid_season", uid);
+            await myRedis.hDel("ranking_userid_season_casual", uid);
+        }
     }
 }
 
